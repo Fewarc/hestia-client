@@ -1,0 +1,25 @@
+@import '../../utility/variables';
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  background-color: white;
+}
+
+.navbar-container {
+
+  display: flex;
+
+  .navbar-logo {
+    font: $pacifico-bold-header;
+    color: $primary;
+  }
+
+  .navbar-buttons {
+    background-color: yellowgreen;
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: flex-end;
+  }
+}
