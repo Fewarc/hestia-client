@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../../components/Container/Container";
+import HestiaLogo from "../../components/HestiaLogo/HestiaLogo";
 import './LandingPage.scss';
 
 const LandingPage: React.FC = () => {
@@ -13,7 +14,7 @@ const LandingPage: React.FC = () => {
           <div className="left-section">{t("XD")}</div>
           <div className="right-section">
             <div className="first-section-logo">
-
+              <HestiaLogo size="150" large/>
             </div>
             <div className="first-section-content">
               <span>
