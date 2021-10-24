@@ -1,6 +1,25 @@
 @import '../../utility/variables';
 
-.container {
+.container-sm {
+  max-width: $sm;
+  margin: auto;
+}
+.container-md {
+  max-width: $md;
+  margin: auto;
+}
+
+.contianer-lg {
+  max-width: $lg;
+  margin: auto;
+}
+
+.container-xl {
   max-width: $xl;
+  margin: auto;
+}
+
+.container-xxl {
+  max-width: $xxl;
   margin: auto;
 }

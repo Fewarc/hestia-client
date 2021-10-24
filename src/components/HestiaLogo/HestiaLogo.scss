@@ -1,0 +1,18 @@
+@import '../../utility/variables';
+
+.logo-container {
+  display: flex;
+
+  h1 {
+    font: $pacifico-bold-header;
+    font-size: 40px;
+  }
+}
+
+.logo {
+  position: relative;
+
+  & > * {
+    margin-top: 6px;
+  }
+}

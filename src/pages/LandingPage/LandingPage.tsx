@@ -8,7 +8,7 @@ const LandingPage: React.FC = () => {
   
   return (
     <div className="landing-page">
-      <Container>
+      <Container size="xxl">
         <div className="first-section-container">
           <div className="left-section">{t("XD")}</div>
           <div className="right-section">

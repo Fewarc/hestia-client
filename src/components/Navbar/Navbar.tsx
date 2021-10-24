@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import Config from '../../constants/Config';
 import Button from '../Button/Button';
 import Container from '../Container/Container';
+import HestiaLogo from '../HestiaLogo/HestiaLogo';
 import './Navbar.scss';
 
 const Navbar: React.FC = () => {
@@ -15,7 +16,7 @@ const Navbar: React.FC = () => {
       <Container>
         <div className="navbar-container">
           <div className="navbar-logo">
-            {Config.hestia}
+            <HestiaLogo />
           </div>
           <div className="navbar-buttons">
             <Button
