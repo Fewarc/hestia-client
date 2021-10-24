@@ -9,6 +9,7 @@
 .navbar-container {
 
   display: flex;
+  padding: 10px 5px;
 
   .navbar-logo {
     font: $pacifico-bold-header;
@@ -16,10 +17,15 @@
   }
 
   .navbar-buttons {
-    background-color: yellowgreen;
+    // background-color: yellowgreen;
     flex-grow: 1;
 
     display: flex;
     justify-content: flex-end;
+
+    .navbar-button {
+      margin-right: 100px;
+    }
+
   }
 }

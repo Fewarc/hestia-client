@@ -1,0 +1,16 @@
+.landing-page {
+
+  .first-section-container {
+    display: flex;
+    height: 100vh;
+    padding-top: 70px;
+
+    background-color: yellowgreen;
+
+    .section {
+      flex-grow: 1;
+    }
+
+  }
+
+}

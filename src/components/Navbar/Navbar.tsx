@@ -20,7 +20,31 @@ const Navbar: React.FC = () => {
           <div className="navbar-buttons">
             <Button
               className="navbar-button"
-              onClick={() => history.push('/login')}
+              type='transparent'
+              onClick={() => history.push('/')}
+              children={<div>{t('blog')}</div>}
+            />
+            <Button
+              className="navbar-button"
+              type='transparent'
+              onClick={() => history.push('/')}
+              children={<div>{t('agencies')}</div>}
+            />         
+            <Button
+              className="navbar-button"
+              type='transparent'
+              onClick={() => history.push('/')}
+              children={<div>{t('oferts')}</div>}
+            />
+            <Button
+              className="navbar-button"
+              type='transparent'
+              onClick={() => history.push('/')}
+              children={<div>{t('log_in')}</div>}
+            />
+            <Button
+              type='outlined'
+              onClick={() => history.push('/')}
               children={<div>{t('sign_up')}</div>}
             />  
           </div>
