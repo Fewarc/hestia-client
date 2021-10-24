@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   size = 'large',
   children,
-  className,
+  className = 'button',
   onClick
 }) => {
   

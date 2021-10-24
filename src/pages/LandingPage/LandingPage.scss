@@ -1,16 +1,44 @@
-.landing-page {
+@import '../../utility/variables';
 
+.landing-page {
+  color: $dark-gray;
   .first-section-container {
-    display: flex;
     height: 100vh;
-    padding-top: 70px;
 
     background-color: yellowgreen;
 
-    .section {
-      flex-grow: 1;
+    .left-section {
+      width: 40%;
+      padding-top: 70px;
+      display: inline-block;
+
     }
 
-  }
+    .right-section {
+      width: 60%;
+      padding-top: 70px;
+      display: inline-block;
 
+      .first-section-content {
+        .first-section-logo {
+
+        }
+
+        h1 {
+          font-size: 65px;
+          font-weight: 900;
+
+          .main-everyone {
+            color: $primary;
+            width: auto;
+          }
+        }
+
+        p {
+          font-size: 40px;
+        }
+
+      }
+    }
+  }
 }
