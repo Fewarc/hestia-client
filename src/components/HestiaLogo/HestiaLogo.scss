@@ -19,12 +19,12 @@
   .large-hestia {
     font-size: 110px;
   }
-}
 
-.logo {
-  position: relative;
+  .logo {
+    flex-grow: 1 1;
 
-  & > * {
-    margin-top: 6px;
+    & > * {
+      margin-top: 6px;
+    }
   }
 }
