@@ -19,7 +19,12 @@ const Navbar: React.FC = () => {
   return (
     <div className="fixed w-full">
       <div className="flex max-w-7xl mx-auto py-4">
-        <HestiaLogo size="60"/>
+        <Button 
+          type="link"
+          size="md"
+          onClick={() => history.push('/')}
+          children={<HestiaLogo size="60"/>}
+        />
         <div className="flex-grow flex justify-end">
           {buttons.map(button => (
             <div className="flex mr-24">

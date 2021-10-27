@@ -11,7 +11,7 @@ const HestiaLogo: React.FC<hestiaLogoTypes> = ({
 }) => {
   return (
     <div className="flex">
-      <div>
+      <div className="-mt-0.5">
         <Logo size={size}/>
       </div>
       <div className="flex items-center font-pacifico text-4xl text-primary">

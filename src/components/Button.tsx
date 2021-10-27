@@ -13,7 +13,8 @@ interface buttonTypes {
 const buttonStyles = {
   primary: 'border-2 border-primary rounded-xl px-4 py-2 font-medium text-primary hover:bg-primary hover:text-white transition duration-300',
   transparent: 'hover:opacity-50 transition duration-300',
-  floating: ''
+  floating: '',
+  link: ''
 }
 
 const getButtonStyles = (
