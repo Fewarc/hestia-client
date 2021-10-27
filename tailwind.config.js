@@ -2,7 +2,18 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "primary": "#0F85FA",
+        "secondary": "#BDDEFF",
+        "dark-gray": "#333333",
+        "light-gray": "#FAFAFA"
+      },
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+        "pacifico": ['Pacifico', 'sans-serif']
+      }
+    },
   },
   variants: {
     extend: {},
