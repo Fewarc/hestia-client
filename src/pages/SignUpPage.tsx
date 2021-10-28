@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useLocation, useParams, useRouteMatch } from "react-router";
+import { useHistory, useRouteMatch } from "react-router";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { normalizePath } from "../utility/PathUtils";
 import { ChevronRightIcon } from '@heroicons/react/solid';
+import Input from "../components/Input";
 
 const cardClass = classNames(
   'border-2 border-primary lg:border-opacity-20 hover:border-opacity-100',
@@ -74,26 +75,39 @@ const SignUpCard: React.FC<{
   );
 }
 
+const SignUpForm: React.FC<{
+  account: string
+}> = () => {
+  return (
+    <div>
+      <Input 
+        type="text"
+        value="text value"
+        label="label"
+        error
+        errorMessage="error message"
+      />
+    </div>
+  );
+}
+
 // same as in translations !!!
 const accounts = ['user', 'agent', 'agency'];
 
 const SignUpPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const match = useRouteMatch({
-    path: "/sign-up"
+  const match: any = useRouteMatch({
+    path: "/sign-up/:account",
+    exact: true
   });
-
-
-
-  console.log(useParams());
-  console.log(match?.params && Object.keys(match?.params!).includes('account'));
-
 
   return (
     <Container>
       <div className="min-h-full flex pt-24">
-        {}
+        {match && Object.keys(match.params).includes('account') ? (
+          <SignUpForm account={match.params.account}/>
+        ) : (
         <div className='flex flex-col flex-grow'>
           <div className="text-center py-14">
             <div className="text-5xl font-extrabold mb-6">
@@ -125,6 +139,7 @@ const SignUpPage: React.FC = () => {
             ))}
           </div>
         </div>
+        )}
       </div>
     </Container>
   );
