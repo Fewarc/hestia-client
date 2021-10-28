@@ -1,5 +1,6 @@
 const Config = {
-  hestia: 'hestia'
+  hestia: 'hestia',
+  
 }
 
 export default Config;

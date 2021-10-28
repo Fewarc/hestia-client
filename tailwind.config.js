@@ -12,11 +12,16 @@ module.exports = {
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
         "pacifico": ['Pacifico', 'sans-serif']
-      }
+      },
+    },
+    minWidth: {
+      "400": "400px" 
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      borderStyle: ['hover']
+    },
   },
   plugins: [],
 }
