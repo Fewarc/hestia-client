@@ -25,17 +25,20 @@ const translations = {
         user: {
           title: 'user',
           content: 'For people that want to browse through the oferts more effectively or ask some questions on the blog.',
-          button_text: 'register new user'
+          button_text: 'register new user',
+          pros: 'browse oferts;contact with agents;use chat;send documents'
         },
         agent: {
           title: 'agent',
           content: 'For real estate agents who already have a job ...or are currently looking for new agency to employ them.',
-          button_text: 'register new agent'
+          button_text: 'register new agent',
+          pros: 'add oferts;work with agency;generate documents;answer blog questions'
         },
         agency: {
           title: 'agency',
           content: 'For agency owners, managers or simply administration workers looking for nice and effective CRM tool.',
-          button_text: 'register new agency'
+          button_text: 'register new agency',
+          pros: 'run your agency;monitor agents work;generate raports;manage agency'
         }
       }
     }

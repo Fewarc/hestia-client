@@ -1,32 +1,55 @@
 import classNames from "classnames";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router";
+import { useHistory, useLocation, useParams, useRouteMatch } from "react-router";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { normalizePath } from "../utility/PathUtils";
+import { ChevronRightIcon } from '@heroicons/react/solid';
 
 const cardClass = classNames(
-  'border-2 border-primary border-solid lg:border-dashed hover:border-solid',
-  'opacity-100 lg:opacity-50 hover:opacity-100',
+  'border-2 border-primary lg:border-opacity-20 hover:border-opacity-100',
   'transition duration-300',
   'p-8',
   'w-11/12 md:w-80 lg:w-96',
-  'lg:h-96',
+  'h-96',
   'rounded-md',
   'flex',
   'flex-col'
 );
 
-const Card: React.FC<{
+const iconClass = classNames(
+  'w-4',
+  'h-4'
+);
+
+const ProsList: React.FC<{
+  pros: string[], 
+}> = ({
+  pros,
+}) => (
+  <div>
+    {pros.map((pro: string) => 
+      <div className="flex items-center">
+        <ChevronRightIcon className={iconClass}/>
+        <div>{pro}</div>
+      </div>
+    )} 
+  </div>
+);
+
+
+const SignUpCard: React.FC<{
   title: string,
   content: string,
   buttonText: string,
+  pros: string[],
   redirect: () => void
 }> = ({
   title,
   content,
   buttonText,
+  pros,
   redirect
 }) => {
   return (
@@ -34,8 +57,11 @@ const Card: React.FC<{
       <div className="text-3xl font-extrabold mb-4">
         {title}
       </div>
-      <div className="flex-grow mb-8">
+      <div className="flex-grow">
         {content}
+      </div>
+      <div className="flex-grow">
+        <ProsList pros={pros}/>
       </div>
       <Button 
         type='filled'
@@ -54,10 +80,20 @@ const accounts = ['user', 'agent', 'agency'];
 const SignUpPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const match = useRouteMatch({
+    path: "/sign-up"
+  });
+
+
+
+  console.log(useParams());
+  console.log(match?.params && Object.keys(match?.params!).includes('account'));
+
 
   return (
     <Container>
       <div className="min-h-full flex pt-24">
+        {}
         <div className='flex flex-col flex-grow'>
           <div className="text-center py-14">
             <div className="text-5xl font-extrabold mb-6">
@@ -79,11 +115,12 @@ const SignUpPage: React.FC = () => {
           </div>
           <div className='flex flex-wrap items-center justify-center flex-grow gap-5'>
             {accounts.map(account => (
-              <Card 
+              <SignUpCard 
                 title={t(`sign_up_page.${account}.title`)}
                 content={t(`sign_up_page.${account}.content`)}
                 buttonText={t(`sign_up_page.${account}.button_text`)}
-                redirect={() => history.push(normalizePath(account))}
+                pros={t(`sign_up_page.${account}.pros`).split(';')}
+                redirect={() => history.push(normalizePath(`/sign-up/${account}`))}
               />
             ))}
           </div>

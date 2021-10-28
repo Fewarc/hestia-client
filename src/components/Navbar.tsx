@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
           <Button 
             type="primary"
             size="md"
-            onClick={() => history.push('sign-up')}
+            onClick={() => history.push('/sign-up')}
             children={t("navbar.sign_up")}
           />
         </div>
