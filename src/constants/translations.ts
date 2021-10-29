@@ -22,6 +22,7 @@ const translations = {
         title_up: 'Up',
         subtitle: '...or if you already have an account ',
         log_in: 'log in',
+        sign_up_form_title: 'Sign up as ',
         user: {
           title: 'user',
           content: 'For people that want to browse through the oferts more effectively or ask some questions on the blog.',

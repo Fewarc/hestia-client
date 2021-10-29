@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 interface inputTypes {
@@ -7,8 +8,32 @@ interface inputTypes {
   label?: string | undefined,
   error?: boolean | undefined,
   errorMessage?: string | undefined,
-  disabled?: string | undefined
+  disabled?: string | undefined,
+  placeholder?: string | undefined
 }
+
+const inputClass = classNames(
+  'outline-none',
+  'border-2 border-primary border-opacity-20',
+  'rounded-md',
+  'px-2 py-1',
+  'focus:border-opacity-100 focus:border-primary',
+  'transition duration-300',
+  'w-full'
+);
+
+const labelClass = classNames(
+  'text-sm',
+  'mb-1',
+  'ml-0.5'
+);
+
+const errorClass = classNames(
+  'text-sm',
+  'mt-1',
+  'ml-0.5',
+  'text-error'
+);
 
 const Input: React.FC<inputTypes> = ({
   type,
@@ -17,17 +42,25 @@ const Input: React.FC<inputTypes> = ({
   label,
   error,
   errorMessage,
-  disabled
+  disabled,
+  placeholder
 }) => {
+  const disabledClass = classNames(
+    'opacity-50',
+    'pointer-events-none'
+  );
+
   return (
-    <div>
-      <div>{label}</div>
+    <div className="w-full">
+      <div className={labelClass}>{label}</div>
       <input 
         type={type}
         value={value}
-        className={className}
+        className={`${inputClass} ${className} ${disabled && disabledClass}`}
+        spellCheck={false}
+        placeholder={placeholder}
       />
-      <div className={error ? '' : 'hidden'}>{errorMessage}</div>
+      <div className={`${error ? '' : 'hidden'} ${errorClass}`}>{errorMessage}</div>
     </div>
   );
 }

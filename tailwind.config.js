@@ -7,7 +7,9 @@ module.exports = {
         "primary": "#0F85FA",
         "secondary": "#BDDEFF",
         "dark-gray": "#333333",
-        "light-gray": "#FAFAFA"
+        "light-gray": "#FAFAFA",
+
+        "error": "#FF1100"
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],

@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import { normalizePath } from "../utility/PathUtils";
 import { ChevronRightIcon } from '@heroicons/react/solid';
-import Input from "../components/Input";
+import SignUpForm from "../components/SignUpForm";
 
 const cardClass = classNames(
   'border-2 border-primary lg:border-opacity-20 hover:border-opacity-100',
@@ -75,22 +75,6 @@ const SignUpCard: React.FC<{
   );
 }
 
-const SignUpForm: React.FC<{
-  account: string
-}> = () => {
-  return (
-    <div>
-      <Input 
-        type="text"
-        value="text value"
-        label="label"
-        error
-        errorMessage="error message"
-      />
-    </div>
-  );
-}
-
 // same as in translations !!!
 const accounts = ['user', 'agent', 'agency'];
 
@@ -104,7 +88,7 @@ const SignUpPage: React.FC = () => {
 
   return (
     <Container>
-      <div className="min-h-full flex pt-24">
+      <div className="min-h-full flex pt-24 w-full">
         {match && Object.keys(match.params).includes('account') ? (
           <SignUpForm account={match.params.account}/>
         ) : (
