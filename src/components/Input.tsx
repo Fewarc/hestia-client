@@ -41,7 +41,7 @@ const Input: React.FC<inputTypes> = ({
   className,
   label,
   error,
-  errorMessage,
+  errorMessage = "error",
   disabled,
   placeholder
 }) => {
@@ -60,7 +60,7 @@ const Input: React.FC<inputTypes> = ({
         spellCheck={false}
         placeholder={placeholder}
       />
-      <div className={`${error ? '' : 'hidden'} ${errorClass}`}>{errorMessage}</div>
+      <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage}</div>
     </div>
   );
 }
