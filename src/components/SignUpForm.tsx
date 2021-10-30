@@ -17,6 +17,12 @@ const SignUpForm: React.FC<{
   });
   const { t } = useTranslation();
 
+  const onInput = (event: React.FormEvent<HTMLInputElement>, key: keyof typeof userData): void => {
+    setUserData({ ...userData, key: event.currentTarget.value });
+    console.log(userData);
+    
+  }
+
   return (
     <div className="mx-auto">
       <div className="text-center text-5xl font-extrabold mb-12">
@@ -29,6 +35,7 @@ const SignUpForm: React.FC<{
             type={key.includes('password') ? 'password' : 'text'}
             value={userData[key]}
             label={inputLabels[index]}
+            onChange={() => onInput(event, key)}
           />)}
       </div>
     </div>

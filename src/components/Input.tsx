@@ -4,6 +4,7 @@ import React from "react";
 interface inputTypes {
   type: string,
   value: string,
+  onChange: any,
   className?: string | undefined,
   label?: string | undefined,
   error?: boolean | undefined,
@@ -38,6 +39,7 @@ const errorClass = classNames(
 const Input: React.FC<inputTypes> = ({
   type,
   value,
+  onChange,
   className,
   label,
   error,
@@ -59,6 +61,7 @@ const Input: React.FC<inputTypes> = ({
         className={`${inputClass} ${className} ${disabled && disabledClass}`}
         spellCheck={false}
         placeholder={placeholder}
+        onChange={() => onChange()}
       />
       <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage}</div>
     </div>
