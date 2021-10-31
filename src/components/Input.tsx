@@ -2,9 +2,10 @@ import classNames from "classnames";
 import React from "react";
 
 interface inputTypes {
+  id?: string | undefined,
   type: string,
   value: string,
-  onChange: any,
+  onChange: (e: any) => void, // pass the event object -> may switch to type later !! ?  !? ? !
   className?: string | undefined,
   label?: string | undefined,
   error?: boolean | undefined,
@@ -37,6 +38,7 @@ const errorClass = classNames(
 );
 
 const Input: React.FC<inputTypes> = ({
+  id,
   type,
   value,
   onChange,
@@ -56,12 +58,13 @@ const Input: React.FC<inputTypes> = ({
     <div className="w-full">
       <div className={labelClass}>{label}</div>
       <input 
+        id={id}
         type={type}
         value={value}
         className={`${inputClass} ${className} ${disabled && disabledClass}`}
         spellCheck={false}
         placeholder={placeholder}
-        onChange={() => onChange()}
+        onChange={(e: any) => onChange(e)}
       />
       <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage}</div>
     </div>

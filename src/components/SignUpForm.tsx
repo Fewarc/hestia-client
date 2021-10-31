@@ -17,9 +17,9 @@ const SignUpForm: React.FC<{
   });
   const { t } = useTranslation();
 
-  const onInput = (event: React.FormEvent<HTMLInputElement>, key: keyof typeof userData): void => {
-    setUserData({ ...userData, key: event.currentTarget.value });
-    console.log(userData);
+  const onInput = (e: any): void => {
+    setUserData({ ...userData, [e.target.id]: e.target.value });
+    console.log(e.target.id);
     
   }
 
@@ -32,10 +32,11 @@ const SignUpForm: React.FC<{
       <div>
         {Object.keys(userData).map((key, index) => 
           <Input 
+            id={key}
             type={key.includes('password') ? 'password' : 'text'}
             value={userData[key]}
             label={inputLabels[index]}
-            onChange={() => onInput(event, key)}
+            onChange={onInput}
           />)}
       </div>
     </div>
