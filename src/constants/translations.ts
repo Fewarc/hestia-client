@@ -40,6 +40,18 @@ const translations = {
           content: 'For agency owners, managers or simply administration workers looking for nice and effective CRM tool.',
           button_text: 'register new agency',
           pros: 'run your agency;monitor agents work;generate raports;manage agency'
+        },
+        form: {
+          button: 'Submit',
+          label: {
+            username: 'username',
+            e_mail: 'e-mail',
+            password: 'password',
+            repeat_password: 'repeat password'
+          },
+          error_message: {
+
+          }
         }
       }
     }
