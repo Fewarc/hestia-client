@@ -25,6 +25,10 @@ const getButtonStyles = (
   className?: string
 ) => classNames(
   "cursor-pointer",
+  {
+    "opacity-20": disabled,
+    "pointer-events-none": disabled
+  },
   className,
   buttonStyles[type]
 );

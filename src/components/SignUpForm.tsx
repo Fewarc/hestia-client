@@ -24,7 +24,6 @@ const SignUpForm: React.FC<{
   });
   const { t } = useTranslation();
 
-  console.log('start:', userData, errors);
   
 
   const inputLabels = [
@@ -57,14 +56,15 @@ const SignUpForm: React.FC<{
     if(userData.password.toLowerCase() === userData.password) {
       errorMessages.password = t('sign_up_page.form.error_message.password.uppercase');
     }
+    
+    if(userData.password.length < 8) {
+      errorMessages.password = t('sign_up_page.form.error_message.password.too_short');
+    }
 
     if(userData.password !== userData.passwordRepeat) {
-      console.log(userData.password, userData.passwordRepeat);
-      
       errorMessages.passwordRepeat = t('sign_up_page.form.error_message.password.repeated');
     }
 
-    // add password lenght check
 
     if(Object.values(errorMessages).some(value => value !== null)) {
       setErrors(errorMessages);
