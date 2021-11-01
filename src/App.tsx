@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
@@ -12,6 +13,9 @@ import BlogPage from './pages/BlogPage';
 const App: React.FC = () => {
   return (
     <Router>
+      <Helmet>
+        <title>Hestia</title>
+      </Helmet>
       <Navbar />
       <Switch>
         <Route path="/" exact component={LandingPage}/>

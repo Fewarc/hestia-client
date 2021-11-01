@@ -50,7 +50,18 @@ const translations = {
             repeat_password: 'repeat password'
           },
           error_message: {
-
+            username: {
+              too_short: 'username should have at least 6 characters',
+              already_taken: 'username already taken'
+            },
+            email: {
+              e_mail_invalid: 'email is invalid',
+              alredy_exists: 'account with that email already exists'
+            },
+            password: {
+              too_short: 'passwrod should have at least 8 characters',
+              uppercase: 'passwrod should have at least one uppercase character'
+            }
           }
         }
       }

@@ -29,13 +29,23 @@ const SignUpForm: React.FC<{
     t('sign_up_page.form.label.repeat_password'),
   ];
 
-  const checkRestrains = (): void => {
+  const checkAviability = (): boolean => {
+    return false; // request here
+  }
 
+  const checkRestrains = (): boolean => {
+    return false;
   }
 
   const submitForm = (): void => {
-    checkRestrains();
-    console.log('form submitted');
+    
+
+    if(checkRestrains()) {
+      console.log('no errors');
+
+    } else {
+      console.log('errors');
+    }
   }
 
   return (
