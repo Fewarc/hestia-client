@@ -55,12 +55,13 @@ const translations = {
               already_taken: 'username already taken'
             },
             email: {
-              e_mail_invalid: 'email is invalid',
+              email_invalid: 'email is invalid',
               alredy_exists: 'account with that email already exists'
             },
             password: {
-              too_short: 'passwrod should have at least 8 characters',
-              uppercase: 'passwrod should have at least one uppercase character'
+              too_short: 'password should have at least 8 characters',
+              uppercase: 'password should have at least one uppercase character',
+              repeated: 'repeated password should be the same as password'
             }
           }
         }
@@ -69,7 +70,7 @@ const translations = {
   },
   pl: {
     translation: {
-      // ...polish tranaltions here
+      // ...polish translations here
     }
   }
 };

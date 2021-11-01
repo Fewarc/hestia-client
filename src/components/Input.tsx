@@ -34,7 +34,8 @@ const errorClass = classNames(
   'text-sm',
   'mt-1',
   'ml-0.5',
-  'text-error'
+  'text-error',
+  'mb-5'
 );
 
 const Input: React.FC<inputTypes> = ({
@@ -45,7 +46,7 @@ const Input: React.FC<inputTypes> = ({
   className,
   label,
   error,
-  errorMessage = "error",
+  errorMessage,
   disabled,
   placeholder
 }) => {
@@ -66,7 +67,7 @@ const Input: React.FC<inputTypes> = ({
         placeholder={placeholder}
         onChange={(e: any) => onChange(e)}
       />
-      <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage}</div>
+      <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || 'error'}</div>
     </div>
   );
 }
