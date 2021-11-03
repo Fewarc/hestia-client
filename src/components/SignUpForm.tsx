@@ -23,7 +23,7 @@ const SignUpForm: React.FC<{
     passwordRepeat: null
   });
   const { t } = useTranslation();
-  const [ insertUser, { data, loading, error }] = useMutation(INSERT_USER);
+  const [ insertUser, { data, loading, error }] = useMutation(INSERT_USER, { errorPolicy: 'all' });
 
   useEffect(() => {
     console.log(loading, data);
@@ -39,14 +39,18 @@ const SignUpForm: React.FC<{
 
   const signUp = (): void => {
     console.log('sign up:', userData); // request here
-    insertUser({
-      variables: {
-        login: userData.username,
-        email: userData.email,
-        password: userData.password,
-        role: account
-      }
-    })
+    try {
+      insertUser({
+        variables: {
+          login: userData.username,
+          email: userData.email,
+          password: userData.password,
+          role: account
+        }
+      })
+    } catch (error) {
+      console.error(error);      
+    }
   }
 
   const isFormValid = (): boolean => {
