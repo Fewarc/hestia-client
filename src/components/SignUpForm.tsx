@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import INSERT_USER from "../graphql/mutations/insertUser";
 import Button from "./Button";
 import Input from "./Input";
 
 const SignUpForm: React.FC<{
-  match: any,
   account: string
 }> = ({
-  match,
   account
 }) => {
   const [userData, setUserData] = useState<any>({
@@ -23,8 +23,12 @@ const SignUpForm: React.FC<{
     passwordRepeat: null
   });
   const { t } = useTranslation();
+  const [ insertUser, { data, loading, error }] = useMutation(INSERT_USER);
 
-  
+  useEffect(() => {
+    console.log(loading, data);
+    if(error) console.log(JSON.stringify(error, null, 2));
+   }, [data, loading, error]);
 
   const inputLabels = [
     t('sign_up_page.form.label.username'),
@@ -34,7 +38,15 @@ const SignUpForm: React.FC<{
   ];
 
   const signUp = (): void => {
-    console.log('sign up'); // request here
+    console.log('sign up:', userData); // request here
+    insertUser({
+      variables: {
+        login: userData.username,
+        email: userData.email,
+        password: userData.password,
+        role: account
+      }
+    })
   }
 
   const isFormValid = (): boolean => {
@@ -80,16 +92,10 @@ const SignUpForm: React.FC<{
     }
   }
 
-  const submitForm = (): void | null => {
+  const submitForm = (): void => {
     if(isFormValid()) {
-      console.log('form valid');
-      
-    } else {
-      console.log('form not valid');
-      return null;
+      signUp(); 
     }
-
-    signUp();
   }
 
   return (

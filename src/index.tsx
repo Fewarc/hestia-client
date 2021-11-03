@@ -19,7 +19,9 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  name: 'Hestia',
+  version: '0.1'
 });
 
 ReactDOM.render(

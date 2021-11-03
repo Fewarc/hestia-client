@@ -90,7 +90,7 @@ const SignUpPage: React.FC = () => {
     <Container>
       <div className="min-h-full flex pt-24 w-full">
         {match && Object.keys(match.params).includes('account') ? (
-          <SignUpForm match={match} account={match.params.account}/>
+          <SignUpForm account={match.params.account}/>
         ) : (
         <div className='flex flex-col flex-grow'>
           <div className="text-center py-14">
