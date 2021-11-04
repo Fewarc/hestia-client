@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import INSERT_USER from "../graphql/mutations/insertUser";
 import Button from "./Button";
 import Input from "./Input";
+import Spinner from "./Spinner";
 
 interface userDataTypes {
   username: string,
@@ -63,7 +64,7 @@ const SignUpForm: React.FC<{
       }
     })
     .then(res => {
-      if(res?.data?.insertUser) history.push('/login');
+      if(res?.data?.insertUser) history.push('/log-in');
     });
   }
 
@@ -117,31 +118,34 @@ const SignUpForm: React.FC<{
   }
 
   return (
-    <div className="mx-auto">
-      <div className="text-center text-5xl font-extrabold mb-12">
-        <span>{t('sign_up_page.sign_up_form_title')}</span>
-        <span>{t(`sign_up_page.${account}.title`)}</span>
-      </div>
-      <div className="max-w-md px-4 mx-auto">
-        {Object.keys(userData).map((key, index) => 
-          <Input 
-            id={key}
-            type={key.includes('password') ? 'password' : 'text'}
-            value={userData[key as keyof userDataTypes]}
-            label={inputLabels[index]}
-            error={errors[key as keyof errorTypes] !== null}
-            errorMessage={errors[key as keyof errorTypes]}
-            onChange={e => setUserData({ ...userData, [e.target.id]: e.target.value.replaceAll(' ', '') })}
-            className={classNames({'border-opacity-100': userData[key as keyof userDataTypes].length})}
-          />)}
-      </div>
-      <div className="w-full mt-6 flex justify-center">
-        <Button 
-          type='primary'
-          onClick={() => submitForm()}
-          children={t('sign_up_page.form.button')}
-          disabled={Object.values(userData).some(value => value === '')}
-        />
+    <div className="mx-auto relative">
+      {loading && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"/>}
+      <div className={`transition duration-500 ${loading && 'opacity-20 pointer-events-none'}`}>
+        <div className="text-center text-5xl font-extrabold mb-12">
+          <span>{t('sign_up_page.sign_up_form_title')}</span>
+          <span>{t(`sign_up_page.${account}.title`)}</span>
+        </div>
+        <div className="max-w-md px-4 mx-auto">
+          {Object.keys(userData).map((key, index) => 
+            <Input 
+              id={key}
+              type={key.includes('password') ? 'password' : 'text'}
+              value={userData[key as keyof userDataTypes]}
+              label={inputLabels[index]}
+              error={errors[key as keyof errorTypes] !== null}
+              errorMessage={errors[key as keyof errorTypes]}
+              onChange={e => setUserData({ ...userData, [e.target.id]: e.target.value.replaceAll(' ', '') })}
+              className={classNames({'border-opacity-100': userData[key as keyof userDataTypes].length})}
+            />)}
+        </div>
+        <div className="w-full mt-6 flex justify-center">
+          <Button 
+            type='primary'
+            onClick={() => submitForm()}
+            children={t('sign_up_page.form.button')}
+            disabled={Object.values(userData).some(value => value === '')}
+          />
+        </div>
       </div>
     </div>
   );
