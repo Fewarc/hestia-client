@@ -9,7 +9,7 @@ interface inputTypes {
   className?: string | undefined,
   label?: string | undefined,
   error?: boolean | undefined,
-  errorMessage?: string | undefined,
+  errorMessage?: string | null | undefined,
   disabled?: string | undefined,
   placeholder?: string | undefined
 }

@@ -47,7 +47,7 @@ const translations = {
             username: 'username',
             e_mail: 'e-mail',
             password: 'password',
-            repeat_password: 'repeat password'
+            confirm_password: 'confirm password'
           },
           error_message: {
             username: {
@@ -61,7 +61,7 @@ const translations = {
             password: {
               too_short: 'password should have at least 8 characters',
               uppercase: 'password should have at least one uppercase character',
-              repeated: 'repeated password should be the same as password'
+              confirmed: 'confirmed password should be the same as password'
             }
           }
         }

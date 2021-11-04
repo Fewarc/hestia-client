@@ -88,12 +88,12 @@ const SignUpPage: React.FC = () => {
 
   return (
     <Container>
-      <div className="min-h-full flex pt-24 w-full">
+      <div className="h-screen flex w-full items-center">
         {match && Object.keys(match.params).includes('account') ? (
           <SignUpForm account={match.params.account}/>
         ) : (
         <div className='flex flex-col flex-grow'>
-          <div className="text-center py-14">
+          <div className="text-center pb-14">
             <div className="text-5xl font-extrabold mb-6">
               <span>{t('sign_up_page.title_sign')}</span>
               <span className="text-primary">{t('sign_up_page.title_up')}</span>!
