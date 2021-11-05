@@ -3,18 +3,16 @@ import { AlertsTypes } from "../interfaces/Alerts";
 
 export const AlertsState: AlertsTypes[] = [];
 
-const initialState: AlertsTypes[] = []
-
 type AlertAction = 
 { type: typeof ActionTypes.PUSH_ALERT, payload: AlertsTypes } |
 { type: typeof ActionTypes.REMOVE_ALERT, payload: AlertsTypes } |
 { type: typeof ActionTypes.CLEAR_ALL_ALERTS, payload: null }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (alerts: AlertsTypes[] = initialState, action: AlertAction) => {
+export default (alerts: AlertsTypes[] = AlertsState, action: AlertAction) => {
   switch (action.type) {
     case ActionTypes.PUSH_ALERT: {
-if(alerts.some(alert => alert.message === action.payload?.message)) return [ ...alerts ]
+      if(alerts.some(alert => alert.message === action.payload?.message)) return [ ...alerts ]
       else return [ ...alerts, action.payload ];
     }
 

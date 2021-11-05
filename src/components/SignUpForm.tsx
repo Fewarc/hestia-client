@@ -44,14 +44,14 @@ const SignUpForm: React.FC<{
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [ insertUser, { data, loading, error }] = useMutation(INSERT_USER, { errorPolicy: 'all' });
+  const [ insertUser, { data, loading, error } ] = useMutation(INSERT_USER, { errorPolicy: 'all' });
 
   useEffect(() => {
     if(error) {
       dispatch(pushAlert({
         type: 'error',
         message: new ApolloError(error).message
-      }))
+      }));
     }
    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);

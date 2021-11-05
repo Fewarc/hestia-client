@@ -65,6 +65,16 @@ const translations = {
             }
           }
         }
+      },
+      log_in_page: {
+        log_in_form_title: 'Log In',
+        form: {
+          button: 'Submit',
+          label: {
+            username: 'username',
+            password: 'password',
+          },
+        }
       }
     }
   },
