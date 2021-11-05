@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider as ReduxProvider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   ApolloClient,
   InMemoryCache,
@@ -18,7 +19,7 @@ import reducers from './reducers';
 import './i18n';
 import './index.css';
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql"
@@ -43,11 +44,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReduxProvider store={store}>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
         <App />
-      </ApolloProvider>
-    </ReduxProvider>
+      </Provider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

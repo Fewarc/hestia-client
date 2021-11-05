@@ -9,6 +9,7 @@ import LogInPage from './pages/LoginPage';
 import OfertsPage from './pages/OfertsPage';
 import AgenciesPage from './pages/AgenciesPage';
 import BlogPage from './pages/BlogPage';
+import Alerts from './components/Alerts';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <title>Hestia</title>
       </Helmet>
       <Navbar />
+      <Alerts />
       <Switch>
         <Route path="/" exact component={LandingPage}/>
         <Route path="/sign-up" component={SignUpPage}/>
