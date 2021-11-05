@@ -9,7 +9,9 @@ module.exports = {
         "dark-gray": "#333333",
         "light-gray": "#FAFAFA",
 
-        "error": "#FF1100"
+        "error": "#FF1100",
+        "info": "#008cff",
+        "warning": "#ffb300"
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],

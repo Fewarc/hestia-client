@@ -2,11 +2,10 @@ import { ApolloError, useMutation } from "@apollo/client";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { pushAlert } from "../actions/AlertsActions";
 import INSERT_USER from "../graphql/mutations/insertUser";
-import { AlertsState } from "../reducers/AlertsReducer";
 import Button from "./Button";
 import Input from "./Input";
 import Spinner from "./Spinner";
@@ -49,7 +48,6 @@ const SignUpForm: React.FC<{
 
   useEffect(() => {
     if(error) {
-      console.log(new ApolloError(error).message);
       dispatch(pushAlert({
         type: 'error',
         message: new ApolloError(error).message

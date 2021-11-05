@@ -1,34 +1,47 @@
+import classNames from "classnames";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeAlert } from "../actions/AlertsActions";
 import { AlertsTypes } from "../interfaces/Alerts";
 import { getAlerts } from "../selectors/AlertsSelector";
+import { XIcon } from "@heroicons/react/solid";
 import Button from "./Button";
 
 const alertTypes = {
-  error: '',
-  warnign: '',
-  info: ''
+  error: 'bg-error bg-opacity-30 border border-error text-error ',
+  warnign: 'bg-warning bg-opacity-30 border border-warning text-warning ',
+  info: 'bg-info bg-opacity-30 border border-info text-info '
 }
 
+const alertClass = classNames(
+  'relative',
+  'py-4',
+);
+
+const iconClass = classNames(
+  'w-8',
+  'h-8',
+);
+
 const Alerts: React.FC = () => {
+  const dispatch = useDispatch();
   const alerts = useSelector<AlertsTypes[], AlertsTypes[]>(state => getAlerts(state));
 
-  console.log(alerts);
-
   return (
-    <div>
+    <div className="fixed w-full text-center mt-20">
       {alerts && alerts.map((alert: AlertsTypes) => 
-        <div className={alertTypes[alert.type as keyof typeof alertTypes]}>
+        <div className={alertTypes[alert.type as keyof typeof alertTypes] + alertClass}>
           <div>
             {alert.message}
           </div>
           <Button 
             type='floating'
-            onClick={() => console.log('alert button clicked')}
+            onClick={() => dispatch(removeAlert(alert))}
+            children={<XIcon className={iconClass}/>}
+            className='absolute right-4 top-1/2 transform -translate-y-1/2'
           />
         </div>
       )}
-      
     </div>
   );
 }

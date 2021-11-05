@@ -14,7 +14,8 @@ type AlertAction =
 export default (alerts: AlertsTypes[] = initialState, action: AlertAction) => {
   switch (action.type) {
     case ActionTypes.PUSH_ALERT: {
-      return [ ...alerts, action.payload ];
+if(alerts.some(alert => alert.message === action.payload?.message)) return [ ...alerts ]
+      else return [ ...alerts, action.payload ];
     }
 
     case ActionTypes.REMOVE_ALERT: {
