@@ -2,7 +2,9 @@ import { ApolloError, useLazyQuery } from "@apollo/client";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
+import { userLogIn } from "../actions/UserActions";
 import LOG_IN_USER from "../graphql/queries/logInUser";
 import Button from "./Button";
 import Input from "./Input";
@@ -19,6 +21,7 @@ const LogInForm: React.FC = () => {
     password: ''
   });
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [ logInUser, { loading, error, data } ] = useLazyQuery(LOG_IN_USER, { errorPolicy: 'all' });
 
   useEffect(() => {
@@ -32,8 +35,10 @@ const LogInForm: React.FC = () => {
   }, [ loading, error]);
 
   useEffect(() => {
-    if(data?.login === userData.username) {
-      console.log(data);
+    if(data?.logInUser?.login === userData.username) {
+      dispatch(userLogIn(data?.logInUser));
+      console.log(data.logInUser);
+      
     }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,9 +55,7 @@ const LogInForm: React.FC = () => {
         login: userData.username,
         password: userData.password
       }
-    })
-    
-    console.log('log in', loading, data, error);
+    });
   }
 
   return (
@@ -87,7 +90,3 @@ const LogInForm: React.FC = () => {
 }
 
 export default LogInForm;
-
-function dispatch(arg0: { type: string; payload: import("../interfaces/Alerts").AlertsTypes; } | undefined) {
-  throw new Error("Function not implemented.");
-}
