@@ -69,7 +69,7 @@ const translations = {
       log_in_page: {
         log_in_form_title: 'Log In',
         form: {
-          button: 'Submit',
+          button: 'Log in',
           label: {
             username: 'username',
             password: 'password',

@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import Config from "../constants/Config";
 
 interface inputTypes {
   id?: string | undefined,
@@ -40,7 +41,7 @@ const errorClass = classNames(
 
 const Input: React.FC<inputTypes> = ({
   id,
-  type,
+  type = Config.ERROR_ALERT,
   value,
   onChange,
   className,
@@ -67,7 +68,7 @@ const Input: React.FC<inputTypes> = ({
         placeholder={placeholder}
         onChange={(e: any) => onChange(e)}
       />
-      <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || 'error'}</div>
+      <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || Config.ERROR_ALERT}</div>
     </div>
   );
 }

@@ -24,3 +24,27 @@ export const clearAllAlerts = () => {
     console.error(error);
   }
 }
+
+export const clearErrorAlerts = () => {
+  try {
+    return { type: ActionTypes.CLEAR_ALL_ERRORS, payload: null }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const clearWarningAlerts = () => {
+  try {
+    return { type: ActionTypes.CLEAR_ALL_WARNINGS, payload: null }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const clearInfoAlerts = () => {
+  try {
+    return { type: ActionTypes.CLEAR_ALL_INFOS, payload: null }
+  } catch (error) {
+    console.error(error);
+  }
+}

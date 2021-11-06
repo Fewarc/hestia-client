@@ -1,4 +1,5 @@
 import ActionTypes from "../constants/ActionTypes";
+import Config from "../constants/Config";
 import { AlertsTypes } from "../interfaces/Alerts";
 
 export const AlertsState: AlertsTypes[] = [];
@@ -22,6 +23,18 @@ export default (alerts: AlertsTypes[] = AlertsState, action: AlertAction) => {
 
     case ActionTypes.CLEAR_ALL_ALERTS: {
       return [];
+    }
+
+    case ActionTypes.CLEAR_ALL_ERRORS: {
+      return [ ...alerts.filter(alert => alert.type !== Config.ERROR_ALERT) ]
+    }
+
+    case ActionTypes.CLEAR_ALL_WARNINGS: {
+      return [ ...alerts.filter(alert => alert.type !== Config.WARNING_ALERT) ]
+    }
+
+    case ActionTypes.CLEAR_ALL_INFOS: {
+      return [ ...alerts.filter(alert => alert.type !== Config.INFO_ALERT) ]
     }
 
     default:

@@ -3,8 +3,10 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { pushAlert } from "../actions/AlertsActions";
+import { useHistory } from "react-router";
+import { clearErrorAlerts, pushAlert } from "../actions/AlertsActions";
 import { userLogIn } from "../actions/UserActions";
+import Config from "../constants/Config";
 import LOG_IN_USER from "../graphql/queries/logInUser";
 import Button from "./Button";
 import Input from "./Input";
@@ -21,13 +23,14 @@ const LogInForm: React.FC = () => {
     password: ''
   });
   const { t } = useTranslation();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [ logInUser, { loading, error, data } ] = useLazyQuery(LOG_IN_USER, { errorPolicy: 'all' });
 
   useEffect(() => {
     if(error) {
       dispatch(pushAlert({
-        type: 'error',
+        type: Config.ERROR_ALERT,
         message: new ApolloError(error).message
       }));
     }
@@ -37,8 +40,8 @@ const LogInForm: React.FC = () => {
   useEffect(() => {
     if(data?.logInUser?.login === userData.username) {
       dispatch(userLogIn(data?.logInUser));
-      console.log(data.logInUser);
-      
+      dispatch(clearErrorAlerts());
+      history.push('/');
     }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

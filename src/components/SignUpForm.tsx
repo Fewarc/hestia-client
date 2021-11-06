@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { pushAlert } from "../actions/AlertsActions";
+import Config from "../constants/Config";
 import INSERT_USER from "../graphql/mutations/insertUser";
 import Button from "./Button";
 import Input from "./Input";
@@ -49,7 +50,7 @@ const SignUpForm: React.FC<{
   useEffect(() => {
     if(error) {
       dispatch(pushAlert({
-        type: 'error',
+        type: Config.ERROR_ALERT,
         message: new ApolloError(error).message
       }));
     }
