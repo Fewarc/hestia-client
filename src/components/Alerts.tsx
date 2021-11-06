@@ -7,7 +7,7 @@ import { getAlerts } from "../selectors/AlertsSelector";
 import { XIcon } from "@heroicons/react/solid";
 import Button from "./Button";
 
-const alertTypes = {
+const typesOfAlerts = {
   error: 'bg-error bg-opacity-30 border border-error text-error ',
   warnign: 'bg-warning bg-opacity-30 border border-warning text-warning ',
   info: 'bg-info bg-opacity-30 border border-info text-info '
@@ -30,7 +30,7 @@ const Alerts: React.FC = () => {
   return (
     <div className="fixed w-full text-center mt-20">
       {alerts && alerts.map((alert: AlertsTypes) => 
-        <div className={alertTypes[alert.type as keyof typeof alertTypes] + alertClass}>
+        <div className={typesOfAlerts[alert.type as keyof typeof typesOfAlerts] + alertClass}>
           <div>
             {alert.message}
           </div>
