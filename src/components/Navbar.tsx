@@ -8,6 +8,7 @@ import { UserIcon } from "@heroicons/react/outline";
 import Button from './Button';
 import HestiaLogo from "./HestiaLogo";
 import classNames from "classnames";
+import Notifications from "./Notifications";
 
 const buttons = [
   'blog',
@@ -27,9 +28,6 @@ const Navbar: React.FC = () => {
   const history = useHistory();
   const isLoggedIn = useSelector<boolean, boolean>(state => isUserLoggedIn(state));
   const username = useSelector<string, string>(state => getUsername(state));
-
-  console.log(isLoggedIn);
-  
 
   return (
     <div className="fixed w-full">
@@ -52,16 +50,19 @@ const Navbar: React.FC = () => {
             </div>
           ))}
           {isLoggedIn ? 
-          (<Button 
-            type="transparent"
-            onClick={() => {}}
-            children={
-              <div className="text-primary font-bold flex items-center">
-                {username}
-                <UserIcon className={iconClass}/>
-              </div>
-            }
-          />) : 
+          (<div className="flex items-center">
+            <Notifications />
+            <Button 
+              type="transparent"
+              onClick={() => history.push('/account')}
+              children={
+                <div className="text-primary font-semibold ml-8">
+                  {username}
+                  <UserIcon className={iconClass}/>
+                </div>
+              }
+            />
+          </div>) : 
           (<div>
             <Button 
               type="transparent"

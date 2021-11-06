@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeAlert } from "../actions/AlertsActions";
-import { AlertsTypes } from "../interfaces/Alerts";
+import { AlertsTypes } from "../interfaces/AlertsInterface";
 import { getAlerts } from "../selectors/AlertsSelector";
 import { XIcon } from "@heroicons/react/solid";
 import Button from "./Button";

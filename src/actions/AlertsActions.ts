@@ -1,5 +1,5 @@
 import ActionTypes from "../constants/ActionTypes";
-import { AlertsTypes } from "../interfaces/Alerts";
+import { AlertsTypes } from "../interfaces/AlertsInterface";
 
 export const pushAlert = (alert: AlertsTypes) => {
   try {

@@ -10,6 +10,7 @@ import OfertsPage from './pages/OfertsPage';
 import AgenciesPage from './pages/AgenciesPage';
 import BlogPage from './pages/BlogPage';
 import Alerts from './components/Alerts';
+import AccountPage from './pages/AccountPage';
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
         <Route path="/oferts" component={OfertsPage}/>
         <Route path="/agencies" component={AgenciesPage}/>
         <Route path="/blog" component={BlogPage}/>
+        <Route path="/account" component={AccountPage}/>
       </Switch>
     </Router>
   );

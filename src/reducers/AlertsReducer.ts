@@ -1,6 +1,6 @@
 import ActionTypes from "../constants/ActionTypes";
 import Config from "../constants/Config";
-import { AlertsTypes } from "../interfaces/Alerts";
+import { AlertsTypes } from "../interfaces/AlertsInterface";
 
 export const AlertsState: AlertsTypes[] = [];
 

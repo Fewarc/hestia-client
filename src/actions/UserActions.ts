@@ -1,5 +1,5 @@
 import ActionTypes from "../constants/ActionTypes";
-import { UserType } from "../interfaces/User";
+import { UserType } from "../interfaces/UserInterface";
 
 export const userLogIn = (user: UserType) => {
   try {
