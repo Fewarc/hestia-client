@@ -4,6 +4,8 @@ import { CalendarIcon, BellIcon, ChatAlt2Icon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import Notification from "./Notification";
 import { NotificationType } from "../interfaces/NotificationInterface";
+import { useSubscription } from "@apollo/client";
+import NEW_NOTIFICATION from "../graphql/subscriptions/newNotification";
 
 const typesOfNotifications = [
   Config.NOTIFICATION_EVENT,
@@ -23,12 +25,15 @@ const notificationIcons = {
   [Config.NOTIFICATION_NOTIFICATION]: <BellIcon className={iconClass}/>
 }
 
-const Notifications: React.FC = () => {
+const Notifications: React.FC<{ userId: number }> = ({
+  userId
+}) => {
   const [notificationsOpen, setNotificationsOpen] = useState({
     notification: false,
     message: false,
     event: false
   });
+  const { loading, data, error } = useSubscription(NEW_NOTIFICATION, { variables: { userId } });
 
   const notifications: NotificationType[] = [];
 

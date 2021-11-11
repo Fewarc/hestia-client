@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { getUsername, isUserLoggedIn } from "../selectors/UserSelector";
+import { getUserNavbarData, isUserLoggedIn } from "../selectors/UserSelector";
 import { normalizePath } from "../utility/PathUtils";
 import { UserIcon } from "@heroicons/react/outline";
 import Button from './Button';
@@ -23,11 +23,17 @@ const iconClass = classNames(
   'ml-2'
 );
 
+interface UserData {
+  userId: number,
+  username: string
+}
+
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const isLoggedIn = useSelector<boolean, boolean>(state => isUserLoggedIn(state));
-  const username = useSelector<string, string>(state => getUsername(state));
+  // const username = useSelector<string, string>(state => getUsername(state));
+  const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
 
   return (
     <div className="fixed w-full">
@@ -51,7 +57,7 @@ const Navbar: React.FC = () => {
           ))}
           {isLoggedIn ? 
           (<div className="flex items-center">
-            <Notifications />
+            <Notifications userId={userId}/>
             <Button 
               type="transparent"
               onClick={() => history.push('/account')}
