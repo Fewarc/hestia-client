@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import Config from "../constants/Config";
+import React, { useEffect, useState } from "react";
 import { CalendarIcon, BellIcon, ChatAlt2Icon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import Notification from "./Notification";
-import { NotificationType } from "../interfaces/NotificationInterface";
-import { useSubscription } from "@apollo/client";
+import { useLazyQuery, useSubscription } from "@apollo/client";
 import NEW_NOTIFICATION from "../graphql/subscriptions/newNotification";
-
-const typesOfNotifications = [
-  Config.NOTIFICATION_EVENT,
-  Config.NOTIFICATION_MESSAGE,
-  Config.NOTIFICATION_NOTIFICATION
-];
+import { useDispatch, useSelector } from "react-redux";
+import { updateNotifications } from "../actions/NotificationsActions";
+import { getNotifications } from "../selectors/NotificationsSelector";
+import { NotificationType, typeOfNotification } from "../interfaces/NotificationInterface";
+import GET_USER_NOTIFICATIONS from "../graphql/queries/getUserNotifications";
 
 const iconClass = classNames(
   'w-8',
@@ -19,13 +16,13 @@ const iconClass = classNames(
   'text-primary'
 );
 
-const notificationIcons = {
-  [Config.NOTIFICATION_EVENT]: <CalendarIcon className={iconClass}/>,
-  [Config.NOTIFICATION_MESSAGE]: <ChatAlt2Icon className={iconClass}/>,
-  [Config.NOTIFICATION_NOTIFICATION]: <BellIcon className={iconClass}/>
+interface notificationsObject {
+  notifications: NotificationType[],
+  messages: NotificationType[],
+  events: NotificationType[]
 }
 
-const Notifications: React.FC<{ userId: number }> = ({
+const Notifications: React.FC<{ userId: string }> = ({
   userId
 }) => {
   const [notificationsOpen, setNotificationsOpen] = useState({
@@ -33,9 +30,21 @@ const Notifications: React.FC<{ userId: number }> = ({
     message: false,
     event: false
   });
-  const { loading, data, error } = useSubscription(NEW_NOTIFICATION, { variables: { userId } });
+  const dispatch = useDispatch();
+  const [ getUserNotifications, { data: userNotifications } ] = useLazyQuery(GET_USER_NOTIFICATIONS, { errorPolicy: 'all' });
+  const { data } = useSubscription(NEW_NOTIFICATION, { variables: { userId: parseInt(userId) } });
+  const { notifications, messages, events } = useSelector<notificationsObject, notificationsObject>(state => getNotifications(state));
 
-  const notifications: NotificationType[] = [];
+  useEffect(() => {
+    getUserNotifications({ variables: { userId: parseInt(userId) } });
+    if(userNotifications) dispatch(updateNotifications(userNotifications.getUserNotifications));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userNotifications]);
+
+  useEffect(() => {
+    if(data) dispatch(updateNotifications(data.newNotification));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const closeAllNotifications = (): void => {
     setNotificationsOpen({
@@ -52,15 +61,27 @@ const Notifications: React.FC<{ userId: number }> = ({
 
   return (
     <div className='flex gap-x-3'>
-      {typesOfNotifications.map((type, index) =>
-        <Notification
-          notifications={notifications}
-          icon={notificationIcons[type]} 
-          quantity={index}
-          onClick={() => openNotifications(type as keyof typeof notificationsOpen)}
-          open={notificationsOpen[type as keyof typeof notificationsOpen]}
-        />
-      )}
+      <Notification
+        notifications={events}
+        icon={<CalendarIcon className={iconClass}/>} 
+        quantity={events.length}
+        onClick={() => openNotifications(typeOfNotification.EVENT)}
+        open={notificationsOpen.event}
+      />
+      <Notification
+        notifications={messages}
+        icon={<ChatAlt2Icon className={iconClass}/>} 
+        quantity={messages.length}
+        onClick={() => openNotifications(typeOfNotification.MESSAGE)}
+        open={notificationsOpen.message}
+      />
+      <Notification
+        notifications={notifications}
+        icon={<BellIcon className={iconClass}/>} 
+        quantity={notifications.length}
+        onClick={() => openNotifications(typeOfNotification.NOTIFICATION)}
+        open={notificationsOpen.notification}
+      />
     </div>
   );
 }

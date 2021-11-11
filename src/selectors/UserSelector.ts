@@ -20,6 +20,6 @@ export const isUserLoggedIn = createSelector(
 export const getUserNavbarData = createSelector(
   [getUser],
   (user) => {
-    return { userId: user.id, username: user.log }
+    return { userId: user?.id, username: user?.login }
   }
 );

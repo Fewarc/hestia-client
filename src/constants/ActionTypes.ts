@@ -8,7 +8,10 @@ const ActionTypes = {
   CLEAR_ALL_INFOS: 'CLEAR_ALL_INFOS',
 
   //user actions
-  LOG_IN_USER: 'LOG_IN_USER'
+  LOG_IN_USER: 'LOG_IN_USER',
+
+  // notification actions
+  UPDATE_NOTIFICATIONS: 'UPDATE_NOTIFICATIONS',
 }
 
 export default ActionTypes;

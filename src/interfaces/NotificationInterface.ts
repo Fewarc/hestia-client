@@ -7,5 +7,7 @@ export enum typeOfNotification {
 export interface NotificationType {
   type: typeOfNotification,
   content: string,
-  link?: string
+  link?: string,
+  id?: number,
+  userId?: number
 }

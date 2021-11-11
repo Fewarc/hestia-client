@@ -18,33 +18,17 @@ export const removeAlert = (alert: AlertsTypes) => {
 }
 
 export const clearAllAlerts = () => {
-  try {
-    return { type: ActionTypes.CLEAR_ALL_ALERTS, payload: null };
-  } catch (error) {
-    console.error(error);
-  }
+  return { type: ActionTypes.CLEAR_ALL_ALERTS, payload: null };
 }
 
 export const clearErrorAlerts = () => {
-  try {
-    return { type: ActionTypes.CLEAR_ALL_ERRORS, payload: null }
-  } catch (error) {
-    console.error(error);
-  }
+  return { type: ActionTypes.CLEAR_ALL_ERRORS, payload: null }
 }
 
 export const clearWarningAlerts = () => {
-  try {
-    return { type: ActionTypes.CLEAR_ALL_WARNINGS, payload: null }
-  } catch (error) {
-    console.error(error);
-  }
+  return { type: ActionTypes.CLEAR_ALL_WARNINGS, payload: null }
 }
 
 export const clearInfoAlerts = () => {
-  try {
-    return { type: ActionTypes.CLEAR_ALL_INFOS, payload: null }
-  } catch (error) {
-    console.error(error);
-  }
+  return { type: ActionTypes.CLEAR_ALL_INFOS, payload: null }
 }

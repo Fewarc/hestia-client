@@ -24,8 +24,8 @@ const iconClass = classNames(
 );
 
 interface UserData {
-  userId: number,
-  username: string
+  userId: string | undefined,
+  username: string | undefined
 }
 
 const Navbar: React.FC = () => {
@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
               />
             </div>
           ))}
-          {isLoggedIn ? 
+          {isLoggedIn && username && userId ? 
           (<div className="flex items-center">
             <Notifications userId={userId}/>
             <Button 
