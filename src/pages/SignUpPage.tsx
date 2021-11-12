@@ -7,6 +7,7 @@ import Container from "../components/Container";
 import { normalizePath } from "../utility/PathUtils";
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import SignUpForm from "../components/SignUpForm";
+import Config from "../constants/Config";
 
 const cardClass = classNames(
   'border-2 border-primary lg:border-opacity-20 hover:border-opacity-100',
@@ -76,7 +77,11 @@ const SignUpCard: React.FC<{
 }
 
 // same as in translations !!!
-const accounts = ['user', 'agent', 'agency'];
+const accounts = [
+  Config.ACCOUNT_NAME_USER,
+  Config.ACCOUNT_NAME_AGENT,
+  Config.ACCOUNT_NAME_AGENCY
+];
 
 const SignUpPage: React.FC = () => {
   const { t } = useTranslation();

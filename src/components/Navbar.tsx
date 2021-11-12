@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
   const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
 
   return (
-    <div className="fixed w-full">
+    <div className="fixed w-full bg-white z-50">
       <div className="flex max-w-7xl mx-auto py-4">
         <Button 
           type="link"
