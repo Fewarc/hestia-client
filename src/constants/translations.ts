@@ -1,10 +1,12 @@
+import Config from "./Config";
+
 const translations = {
   en: {
     translation: {
       navbar: {
         "sign_up": "Sign Up",
         "log_in": "log in",
-        "oferts": "oferts",
+        "offers": "offers",
         "agencies": "agencies",
         "blog": "blog",
       },
@@ -24,19 +26,19 @@ const translations = {
         log_in: 'log in',
         sign_up_form_title: 'Sign up as ',
         user: {
-          title: 'user',
-          content: 'For people that want to browse through the oferts more effectively or ask some questions on the blog.',
+          title: Config.ACCOUNT_NAME_USER,
+          content: 'For people that want to browse through the offers more effectively or ask some questions on the blog.',
           button_text: 'register new user',
-          pros: 'browse oferts;contact with agents;use chat;send documents'
+          pros: 'browse offers;contact with agents;use chat;send documents'
         },
         agent: {
-          title: 'agent',
+          title: Config.ACCOUNT_NAME_AGENT,
           content: 'For real estate agents who already have a job ...or are currently looking for new agency to employ them.',
           button_text: 'register new agent',
-          pros: 'add oferts;work with agency;generate documents;answer blog questions'
+          pros: 'add offers;work with agency;generate documents;answer blog questions'
         },
         agency: {
-          title: 'agency',
+          title: Config.ACCOUNT_NAME_AGENCY,
           content: 'For agency owners, managers or simply administration workers looking for nice and effective CRM tool.',
           button_text: 'register new agency',
           pros: 'run your agency;monitor agents work;generate raports;manage agency'
@@ -78,8 +80,20 @@ const translations = {
         }
       },
 
-      oferts_page: {
-        add_new_ofert: 'Add an ofert'
+      offers_page: {
+        add_new_offer: 'Add an offer',
+      },
+
+      offer_creation_page: {
+        create_new_offer: 'Create new offer',
+        offer_categories: {
+          agricultural: 'agricultural',
+          residental: 'residental',
+          commercial: 'commercial',
+          industrial: 'industrial',
+          raw_land: 'raw land',
+          special_use: 'special use'
+        }
       }
     }
   },

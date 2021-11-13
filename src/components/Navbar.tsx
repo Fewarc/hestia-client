@@ -13,7 +13,7 @@ import Notifications from "./Notifications";
 const buttons = [
   'blog',
   'agencies',
-  'oferts',
+  'offers',
 ]
 
 const iconClass = classNames(

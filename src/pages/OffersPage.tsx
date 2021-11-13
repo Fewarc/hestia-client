@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import Container from "../components/Container";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import Button from "../components/Button";
-import OfertsFilterMenu from "../components/OfertsFilterMenu";
 import { useTranslation } from "react-i18next";
 import { PlusIcon } from "@heroicons/react/outline";
 import { usePixelBreakpoint } from "../utility/Hooks";
+import { useHistory } from "react-router";
 
 const iconClass = classNames(
   'w-10',
@@ -26,8 +25,9 @@ const addOfertClass = classNames(
   'flex-grow'
 );
 
-const OfertsPage: React.FC = () => {
+const OffersPage: React.FC = () => {
   const [mapOpen, setMapOpen] = useState(false);
+  const history = useHistory();
   const { t } = useTranslation();
   const addMargin = usePixelBreakpoint(1400);
 
@@ -38,10 +38,10 @@ const OfertsPage: React.FC = () => {
 
           <div>CATEGORY</div>{/** MENU HERE */}
 
-          <div className={addOfertClass}>
-            <div className='flex-grow flex items-center justify-center border-primary border-2 border-dashed rounded-xl p-4'>
+          <div className={addOfertClass} onClick={() => history.push('/new-offer')}>
+            <div className='flex-grow flex items-center justify-center hover:border-solid border-primary border-2 border-dashed rounded-xl p-4'>
               <div className='text-2xl font-bold text-primary mr-4'>
-                {t('oferts_page.add_new_ofert')}
+                {t('offers_page.add_new_offer')}
               </div>
               <PlusIcon className={iconClass}/>
             </div>
@@ -62,4 +62,4 @@ const OfertsPage: React.FC = () => {
   );
 }
 
-export default OfertsPage;
+export default OffersPage;

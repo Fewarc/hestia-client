@@ -1,9 +1,8 @@
 import React from "react";
-import Dropdown from "./Dropdown";
 
 
 
-const OfertsFilterMenu: React.FC = () => {
+const OffersFilterMenu: React.FC = () => {
   return (
     <div>
       {/* <Dropdown 
@@ -13,4 +12,4 @@ const OfertsFilterMenu: React.FC = () => {
   );
 }
 
-export default OfertsFilterMenu;
+export default OffersFilterMenu;

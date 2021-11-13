@@ -76,7 +76,6 @@ const SignUpCard: React.FC<{
   );
 }
 
-// same as in translations !!!
 const accounts = [
   Config.ACCOUNT_NAME_USER,
   Config.ACCOUNT_NAME_AGENT,
