@@ -66,6 +66,7 @@ const translations = {
           }
         }
       },
+
       log_in_page: {
         log_in_form_title: 'Log In',
         form: {
@@ -75,6 +76,10 @@ const translations = {
             password: 'password',
           },
         }
+      },
+
+      oferts_page: {
+        add_new_ofert: 'Add an ofert'
       }
     }
   },
