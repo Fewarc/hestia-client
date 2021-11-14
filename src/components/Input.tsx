@@ -63,8 +63,8 @@ const Input: React.FC<inputTypes> = ({
   }
 
   return (
-    <div className="w-full flex items-center">
-      <div className={labelClass}>{label}</div>
+    <div className="w-full">
+      {label && <div className={labelClass}>{label}</div>}
       <input 
         id={id}
         type={type}

@@ -17,7 +17,7 @@ interface offerData {
   furnished: boolean,
   area: string,
   floor: string,
-  numberOfFloors: string,
+  numberOfRooms: string,
   price: string,
   currency: string,
   negotiable: boolean,
@@ -34,7 +34,7 @@ const OffersCreationPage: React.FC = () => {
     furnished: false,
     area: '',
     floor: '0',
-    numberOfFloors: '0',
+    numberOfRooms: '0',
     price: '',
     currency: getCurrencies()[0],
     negotiable: false,
@@ -123,16 +123,16 @@ const OffersCreationPage: React.FC = () => {
           <div className='flex items-center'>
             <Button 
               type='transparent'
-              onClick={() => setOfferData({ ...offerData, numberOfFloors: offerData.numberOfFloors === Config.NOT_APPLICABLE ? '0' : Config.NOT_APPLICABLE })}
-              children={<div className='mr-4'>{t('offer_creation_page.levels')}</div>}
+              onClick={() => setOfferData({ ...offerData, numberOfRooms: offerData.numberOfRooms === Config.NOT_APPLICABLE ? '0' : Config.NOT_APPLICABLE })}
+              children={<div className='mr-4'>{t('offer_creation_page.rooms')}</div>}
             />
             <SpinnerInput 
-              value={offerData.numberOfFloors}
-              onChange={e => setOfferData({ ...offerData, numberOfFloors: e.target.value })}
-              onIncrement={() => setOfferData({ ...offerData, numberOfFloors: (parseInt(offerData.floor) + 1).toString() })}
-              onDecrement={() => setOfferData({ ...offerData, numberOfFloors: (parseInt(offerData.floor) - 1).toString() })}
+              value={offerData.numberOfRooms}
+              onChange={e => setOfferData({ ...offerData, numberOfRooms: e.target.value })}
+              onIncrement={() => setOfferData({ ...offerData, numberOfRooms: (parseInt(offerData.floor) + 1).toString() })}
+              onDecrement={() => setOfferData({ ...offerData, numberOfRooms: (parseInt(offerData.floor) - 1).toString() })}
               willDisplayError={false}
-              disabled={offerData.numberOfFloors === Config.NOT_APPLICABLE}
+              disabled={offerData.numberOfRooms === Config.NOT_APPLICABLE}
               className='border-opacity-100'
             />
           </div>

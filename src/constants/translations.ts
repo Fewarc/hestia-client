@@ -92,7 +92,7 @@ const translations = {
         furnished: 'furnished',
         area: 'area',
         floor: 'floor',
-        levels: 'levels',
+        rooms: 'rooms',
         offer_type: 'offer type',
         price: 'price',
         negotiable: 'negotiable',
