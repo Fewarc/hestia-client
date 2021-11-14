@@ -9,7 +9,8 @@ interface dropdownTypes {
   className?: string | undefined,
   value?: string | undefined,
   onFieldClick: (field: string) => void,
-  label?: string | undefined
+  label?: string | undefined,
+  width?: string
 }
 
 const iconClass = classNames(
@@ -28,9 +29,38 @@ const Dropdown: React.FC<dropdownTypes> = ({
   className,
   value,
   onFieldClick,
+  width = 'w-56'
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const node = useRef<HTMLHeadingElement>(null);
+
+  const dropdownButtonClass = classNames(
+    'realative',
+    'text-xl',
+    'border-2 border-primary',
+    'rounded-md',
+    'px-3 py-1',
+    {
+      'border-b-0': open,
+      'rounded-b-none': open,
+      'mb-0.5': open
+    }
+  );
+
+  const dropdownMenuClass = classNames(
+    'border-2',
+    'rounded-b-md',
+    'border-t-0',
+    'bg-white',
+    'z-50',
+    'px-3',
+    'border-primary',
+    '-ml-3.5',
+    {
+      'hidden': !open,
+      'absolute': open
+    }
+  );
 
   const handleClick = (e: any) => {
     if(!node.current) return;
@@ -51,7 +81,7 @@ const Dropdown: React.FC<dropdownTypes> = ({
   }, [value]);
 
   return (
-    <div className={`relative text-xl border-2 w-56 rounded-md px-3 py-0.5 border-primary ${disabled && 'opacity-20 pointer-events-none'} ${className}`} ref={node}>
+    <div className={`${dropdownButtonClass} ${width} ${disabled && 'opacity-20 pointer-events-none'} ${className}`} ref={node}>
       <Button 
         type='link'
         onClick={() => setOpen(!open)}
@@ -63,7 +93,7 @@ const Dropdown: React.FC<dropdownTypes> = ({
           </div>
         }
       />
-      <div className={open ? 'block' : 'hidden'}>
+      <div className={`${dropdownMenuClass} ${width}`}>
         <div className='flex flex-col items-start'>
           {fields.map(field => (
             <Button 

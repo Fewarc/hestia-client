@@ -1,17 +1,20 @@
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React from "react";
 import Config from "../constants/Config";
 
 interface inputTypes {
   id?: string,
-  type: string,
+  type?: string,
   value: string,
   onChange: (e: any) => void, // pass the event object -> may switch to type later !! ?  !? ? !
+  onIncrement: () => void,
+  onDecrement: () => void,
   className?: string,
   label?: string,
   error?: boolean,
   errorMessage?: string | null,
-  disabled?: string,
+  disabled?: boolean,
   placeholder?: string,
   willDisplayError?: boolean,
 }
@@ -45,11 +48,13 @@ const disabledClass = classNames(
   'pointer-events-none'
 );
 
-const Input: React.FC<inputTypes> = ({
+const SpinnerInput: React.FC<inputTypes> = ({
   id,
   type,
   value,
   onChange,
+  onIncrement,
+  onDecrement,
   className,
   label,
   error,
@@ -58,25 +63,27 @@ const Input: React.FC<inputTypes> = ({
   placeholder,
   willDisplayError = true
 }) => {
-  if(type === Config.INPUT_TYPE_NUMBER) {
-    value = value.replace(/[^\d.-]/g, '');
-  }
+  if(!disabled) value = value.replace(/[^\d.-]/g, '');
 
   return (
-    <div className="w-full flex items-center">
-      <div className={labelClass}>{label}</div>
+    <div className={`w-full flex ${inputClass} ${className} ${disabled && disabledClass}`}>
+      {label && <div className={labelClass}>{label}</div>}
       <input 
         id={id}
         type={type}
         value={value}
-        className={`${inputClass} ${className} ${disabled && disabledClass}`}
+        className='outline-none w-40'
         spellCheck={false}
         placeholder={placeholder}
         onChange={(e: any) => onChange(e)}
       />
+      <div className='flex flex-col gap-y-1 justify-evenly ml-1 text-primary relative w-4'>
+        <ChevronUpIcon className='w-4 h-4 cursor-pointer absolute top-0' onClick={onIncrement}/>
+        <ChevronDownIcon className='w-4 h-4 cursor-pointer absolute bottom-0' onClick={onDecrement}/>
+      </div>
       {willDisplayError && <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || Config.ERROR_ALERT}</div>}
     </div>
   );
 }
 
-export default Input;
+export default SpinnerInput;

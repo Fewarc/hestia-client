@@ -86,6 +86,16 @@ const translations = {
 
       offer_creation_page: {
         create_new_offer: 'Create new offer',
+        real_estate_category: 'category',
+        title: 'title',
+        description: 'description',
+        furnished: 'furnished',
+        area: 'area',
+        floor: 'floor',
+        levels: 'levels',
+        offer_type: 'offer type',
+        price: 'price',
+        negotiable: 'negotiable',
         offer_categories: {
           agricultural: 'agricultural',
           residental: 'residental',
@@ -93,7 +103,12 @@ const translations = {
           industrial: 'industrial',
           raw_land: 'raw land',
           special_use: 'special use'
-        }
+        },
+        offer_types: {
+          disposal: 'disposal',
+          rent: 'rent'
+        },
+        per_month: '/month'
       }
     }
   },

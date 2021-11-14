@@ -15,7 +15,11 @@ const Config = {
 
   NOTIFICATION_NOTIFICATION: 'notification',
   NOTIFICATION_MESSAGE: 'message',
-  NOTIFICATION_EVENT: 'event'
+  NOTIFICATION_EVENT: 'event',
+
+  INPUT_TYPE_NUMBER: 'numberInput',
+
+  NOT_APPLICABLE: 'not applicable'
 }
 
 export default Config;
