@@ -108,7 +108,8 @@ const translations = {
           disposal: 'disposal',
           rent: 'rent'
         },
-        per_month: '/month'
+        per_month: '/month',
+        address: 'address'
       }
     }
   },

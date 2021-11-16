@@ -36,6 +36,7 @@ const Map: React.FC<mapProps> = ({
   googleMapsApiKey: apiKey,
   libraries
   });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onMapCLick = useCallback((event) => onClick(event), []);
 
   const mapRef = useRef();
@@ -44,7 +45,6 @@ const Map: React.FC<mapProps> = ({
   }, [])
 
   if(loadError) return <div>Load error</div>;
-console.log(markers);
 
   return (
     <div className={`relative ${className}`}>
@@ -59,7 +59,6 @@ console.log(markers);
         >
           {markers?.map((marker, index) => {
             if(!marker?.lat && !marker?.lng) return null; 
-            console.log('returned marker:', marker);
             
             return (
               <Marker 

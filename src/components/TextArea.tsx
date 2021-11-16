@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import React from "react";
+import TextareaAutosize from 'react-textarea-autosize';
 
 interface textAreaTypes {
   placeholder?: string,
-  value?: string,
+  value: string,
   disabled?: boolean,
   label?: string,
   onChange: (e: any) => void,
@@ -18,6 +19,8 @@ const textAreaClass = classNames(
   'focus:border-opacity-100 focus:border-primary',
   'transition duration-300',
   'text-xl',
+  'resize-none',
+  'w-full'
 );
 
 const TextArea: React.FC<textAreaTypes> = ({
@@ -31,11 +34,9 @@ const TextArea: React.FC<textAreaTypes> = ({
   return (
     <div className={`w-full ${className}`}>
       <div>{label}</div>
-      <div 
-        contentEditable={true}
-        spellCheck={false}
-        placeholder={placeholder}
+      <TextareaAutosize  
         onChange={onChange}
+        value={value}
         className={textAreaClass}
       />
     </div>
