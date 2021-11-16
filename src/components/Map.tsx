@@ -64,6 +64,10 @@ const Map: React.FC<mapProps> = ({
               <Marker 
                 key={index + ''}
                 position={{ lat: marker.lat, lng: marker.lng }}
+                icon={{
+                  url: '/pin.svg',
+                  scaledSize: new window.google.maps.Size(40, 40)
+                }}
               />
             );
           })}

@@ -96,7 +96,6 @@ const OffersCreationPage: React.FC = () => {
               onClick={() => setOfferData({ ...offerData, furnished: !offerData.furnished })}
             />
           </div>
-
         </div>
 
         <div className='flex gap-8 mb-8'>
@@ -170,7 +169,7 @@ const OffersCreationPage: React.FC = () => {
             {offerData.offerType === t('offer_creation_page.offer_types.rent') && t('offer_creation_page.per_month')}
           </div>
 
-          <div className='flex items-center mb-8'>
+          <div className='flex items-center'>
             <div className='mr-4 ml-8'>{t('offer_creation_page.negotiable')}</div>
             <Checkbox 
               value={offerData.negotiable}
@@ -179,18 +178,15 @@ const OffersCreationPage: React.FC = () => {
           </div>
         </div>
 
-
-      <div className='flex flex-col mb-8 w-11/12'>
+      <div className='flex flex-col mb-2 mt-4 w-11/12'>
         <div className='mb-2'>{t('offer_creation_page.address')}</div>
-        <PlaceSearch 
-          className=''
-        />
+        <PlaceSearch />
       </div>
       
       <Map 
         markers={mapMarker}
         onClick={(event) => setMapMarker([{ lat: event.latLng.lat(), lng: event.latLng.lng() }])}
-        className='h-map w-full mt-8 mb-16'
+        className='h-map w-full mb-16'
       />
 
       </div>

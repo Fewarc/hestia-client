@@ -8,6 +8,7 @@ interface textAreaTypes {
   disabled?: boolean,
   label?: string,
   onChange: (e: any) => void,
+  onFocus?: () => void,
   className?: string
 }
 
@@ -29,6 +30,7 @@ const TextArea: React.FC<textAreaTypes> = ({
   disabled,
   label,
   onChange,
+  onFocus,
   className
 }) => {
   return (
@@ -37,7 +39,9 @@ const TextArea: React.FC<textAreaTypes> = ({
       <TextareaAutosize  
         onChange={onChange}
         value={value}
+        spellCheck={false}
         className={textAreaClass}
+        onFocus={onFocus}
       />
     </div>
   );
