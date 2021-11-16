@@ -5,6 +5,7 @@ import Checkbox from "../components/Checkbox";
 import Container from "../components/Container";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
+import Map from "../components/Map";
 import SpinnerInput from "../components/SpinnerInput";
 import TextArea from "../components/TextArea";
 import Config from "../constants/Config";
@@ -39,6 +40,17 @@ const OffersCreationPage: React.FC = () => {
     currency: getCurrencies()[0],
     negotiable: false,
   }); 
+  const [mapMarker, setMapMarker] = useState<[{
+    lat: number | null,
+    lng: number | null
+  }]>([{
+    lat: null,
+    lng: null
+  }]);
+
+
+  console.log(mapMarker);
+  
 
   return (
     <Container>
@@ -169,6 +181,12 @@ const OffersCreationPage: React.FC = () => {
             />
           </div>
         </div>
+
+      <Map 
+        markers={mapMarker}
+        onClick={(event) => setMapMarker([{ lat: event.latLng.lat(), lng: event.latLng.lng() }])}
+        className='h-map w-full mt-16 mb-16'
+      />
 
       </div>
     </Container>

@@ -17,6 +17,9 @@ module.exports = {
         sans: ['Montserrat', 'sans-serif'],
         "pacifico": ['Pacifico', 'sans-serif']
       },
+      height: {
+        "map": "40rem",
+      }
     },
     minWidth: {
       "400": "400px" 
