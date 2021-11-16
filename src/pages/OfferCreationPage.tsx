@@ -23,7 +23,12 @@ interface offerData {
   price: string,
   currency: string,
   negotiable: boolean,
-  offerType: string
+  offerType: string,
+  coordinates: {
+    lat: number | null,
+    lng: number | null
+  },
+  address: string
 }
 
 const OffersCreationPage: React.FC = () => {
@@ -40,14 +45,12 @@ const OffersCreationPage: React.FC = () => {
     price: '',
     currency: getCurrencies()[0],
     negotiable: false,
+    coordinates: {
+      lat: null,
+      lng: null
+    },
+    address: ''
   }); 
-  const [mapMarker, setMapMarker] = useState<[{
-    lat: number | null,
-    lng: number | null
-  }]>([{
-    lat: null,
-    lng: null
-  }]);
 
   return (
     <Container>
@@ -180,12 +183,17 @@ const OffersCreationPage: React.FC = () => {
 
       <div className='flex flex-col mb-2 mt-4 w-11/12'>
         <div className='mb-2'>{t('offer_creation_page.address')}</div>
-        <PlaceSearch />
+        <PlaceSearch 
+          onSelect={({ lat, lng, address }) => setOfferData({ ...offerData, coordinates: { lat, lng }, address })}
+          onChange={e => setOfferData({ ...offerData, address: e.target.value }) }
+          onFocus={() => {}}
+        />
       </div>
       
       <Map 
-        markers={mapMarker}
-        onClick={(event) => setMapMarker([{ lat: event.latLng.lat(), lng: event.latLng.lng() }])}
+        markers={[offerData.coordinates]}
+        onClick={e => setOfferData({ ...offerData, coordinates: { lat: e.latLng.lat(), lng: e.latLng.lng() }})}
+        zoom={18}
         className='h-map w-full mb-16'
       />
 

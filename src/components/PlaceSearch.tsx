@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
-import usePlacesAutocomplete from "use-places-autocomplete";
+import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import Button from "./Button";
 import TextArea from "./TextArea";
 
 interface placeSearchProps {
-  onChange?: () => void,
-  onFocus?: () => void,
-  onSelect?: (description: string) => void,
+  onChange: (e: any) => void,
+  onFocus: () => void,
+  onSelect: (addressObj: {
+    lat: number,
+    lng: number,
+    address: string
+  }) => void,
   className?: string
 }
 
@@ -60,6 +64,16 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
     'border-t-0'
   );
 
+  const addressSelected = async (address: string) => {
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      onSelect({ lat, lng, address });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className={`relative ${className} ${!ready && 'opacity-20 pointer-events-none'}`}>
       <TextArea 
@@ -67,11 +81,11 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
         onChange={e => {
           setValue(e.target.value); 
           setOpen(true); 
-          onChange && onChange();
+          onChange(e);
         }}
         onFocus={() => {
           setOpen(true); 
-          onFocus && onFocus();
+          onFocus();
         }}
         className={`${open && 'border-b-0'}`}
       />
@@ -83,9 +97,9 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
               key={id}
               type='transparent'
               onClick={() => {
-                setValue(description); 
+                setValue(description);
                 setOpen(false);
-                onSelect && onSelect(description);
+                addressSelected(description);
               }}
               children={description}
               className='mt-2 block text-left'

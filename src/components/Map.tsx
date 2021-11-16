@@ -24,12 +24,14 @@ const options: google.maps.MapOptions = {
 interface mapProps {
   markers?: any[],
   onClick: (event: any) => void,
+  zoom?: number,
   className?: string
 }
 
 const Map: React.FC<mapProps> = ({
   markers,
   onClick,
+  zoom,
   className
 }) => {
   const { isLoaded, loadError } = useLoadScript({
@@ -39,10 +41,15 @@ const Map: React.FC<mapProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onMapCLick = useCallback((event) => onClick(event), []);
 
-  const mapRef = useRef();
+  const mapRef = useRef<google.maps.Map>();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, [])
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef?.current?.panTo({ lat, lng });
+    mapRef?.current?.setZoom(18);
+  }, []);
 
   if(loadError) return <div>Load error</div>;
 
@@ -51,7 +58,7 @@ const Map: React.FC<mapProps> = ({
       {isLoaded ? 
         <GoogleMap 
           mapContainerStyle={mapContainerStyle}
-          zoom={4}
+          zoom={zoom}
           center={mapCenter}
           options={options}
           onClick={onMapCLick}
