@@ -80,12 +80,12 @@ const MapWithSearch: React.FC<mapProps> = ({
   return (
     <div className={`relative ${containerClassName}`}>
       <PlaceSearch 
-          onSelect={onSelect}
-          panTo={panTo}
-          onChange={onChange}
-          onFocus={onFocus}
-          className={searchBarClassName}
-        />
+        onSelect={onSelect}
+        panTo={panTo}
+        onChange={onChange}
+        onFocus={onFocus}
+        className={searchBarClassName}
+      />
       {isLoaded ? 
         <GoogleMap 
           mapContainerStyle={mapContainerStyle}
