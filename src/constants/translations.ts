@@ -109,7 +109,8 @@ const translations = {
           rent: 'rent'
         },
         per_month: '/month',
-        address: 'address'
+        address: 'address',
+        publish_offer: 'publish offer'
       }
     }
   },

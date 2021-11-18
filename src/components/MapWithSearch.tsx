@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import mapStyle from "../constants/googleMapStyle";
 import PlaceSearch from "./PlaceSearch";
 import Spinner from "./Spinner";
@@ -14,8 +14,8 @@ const mapContainerStyle: React.CSSProperties = {
   height: '100%',
 }
 const mapCenter: google.maps.LatLngLiteral= {
-  lat: 0,
-  lng: 0
+  lat: 52.2297,
+  lng: 21.0122
 };
 const options: google.maps.MapOptions = {
   styles: mapStyle,
@@ -61,7 +61,18 @@ const MapWithSearch: React.FC<mapProps> = ({
 
   const panTo = useCallback(({ lat, lng }) => {
     mapRef?.current?.panTo({ lat, lng });
-    mapRef?.current?.setZoom(18);
+    mapRef?.current?.setZoom(16);
+  }, []);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      panTo({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      });
+    }, 
+    () => null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if(loadError) return <div>Load error</div>;

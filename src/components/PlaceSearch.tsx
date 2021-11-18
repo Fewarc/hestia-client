@@ -20,6 +20,18 @@ interface placeSearchProps {
   className?: string
 }
 
+const comboBoxClass = classNames(
+  'absolute',
+  'z-50',
+  'px-2',
+  '-mt-3',
+  'bg-white',
+  'w-full',
+  'border-2 border-primary',
+  'rounded-b-md',
+  'border-t-0'
+);
+
 const PlaceSearch: React.FC<placeSearchProps> = ({
   onChange,
   onFocus,
@@ -56,18 +68,6 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const comboBoxClass = classNames(
-    'absolute',
-    'z-50',
-    'px-2',
-    '-mt-3',
-    'bg-white',
-    'w-full',
-    'border-2 border-primary',
-    'rounded-b-md',
-    'border-t-0'
-  );
 
   const addressSelected = async (address: string) => {
     try {

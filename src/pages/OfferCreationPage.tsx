@@ -6,7 +6,6 @@ import Container from "../components/Container";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
 import MapWithSearch from "../components/MapWithSearch";
-import PlaceSearch from "../components/PlaceSearch";
 import SpinnerInput from "../components/SpinnerInput";
 import TextArea from "../components/TextArea";
 import Config from "../constants/Config";
@@ -181,20 +180,28 @@ const OffersCreationPage: React.FC = () => {
           </div>
         </div>
 
-      <div className='flex flex-col mb-2 mt-4 w-11/12'>
-        <div className=''>{t('offer_creation_page.address')}</div>
-      </div>
-      
-      <MapWithSearch 
-        markers={[offerData.coordinates]}
-        onClick={e => setOfferData({ ...offerData, coordinates: { lat: e.latLng.lat(), lng: e.latLng.lng() }})}
-        zoom={18}
-        onSelect={({ lat, lng, address }) => setOfferData({ ...offerData, coordinates: { lat, lng }, address })}
-        onChange={e => setOfferData({ ...offerData, address: e.target.value }) }
-        onFocus={() => {}}
-        containerClassName='h-map w-full mb-16'
-        searchBarClassName='w-11/12 mx-auto mb-2'
-      />
+        <div className='flex flex-col mb-2 mt-4 w-11/12'>
+          <div className=''>{t('offer_creation_page.address')}</div>
+        </div>
+        
+        <MapWithSearch 
+          markers={[offerData.coordinates]}
+          onClick={e => setOfferData({ ...offerData, coordinates: { lat: e.latLng.lat(), lng: e.latLng.lng() }})}
+          zoom={4}
+          onSelect={({ lat, lng, address }) => setOfferData({ ...offerData, coordinates: { lat, lng }, address })}
+          onChange={e => setOfferData({ ...offerData, address: e.target.value }) }
+          onFocus={() => null}
+          containerClassName='h-map w-full mb-16'
+          searchBarClassName='w-11/12 mx-auto mb-2'
+        />
+
+        <div className='flex flex-col mb-2 mt-8 w-auto'>
+          <Button
+            type='primary'
+            onClick={() => null}
+            children={t('offer_creation_page.publish_offer')}
+          />
+        </div>
 
       </div>
     </Container>
