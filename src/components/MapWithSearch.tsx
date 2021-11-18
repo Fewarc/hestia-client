@@ -2,6 +2,7 @@
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import React, { useCallback, useRef } from "react";
 import mapStyle from "../constants/googleMapStyle";
+import PlaceSearch from "./PlaceSearch";
 import Spinner from "./Spinner";
 
 type Libraries = ("drawing" | "geometry" | "localContext" | "places" | "visualization")[];
@@ -25,14 +26,26 @@ interface mapProps {
   markers?: any[],
   onClick: (event: any) => void,
   zoom?: number,
-  className?: string
+  containerClassName?: string,
+  searchBarClassName?: string,
+  onChange: (e: any) => void,
+  onFocus: () => void,
+  onSelect: (addressObj: {
+    lat: number,
+    lng: number,
+    address: string
+  }) => void,
 }
 
-const Map: React.FC<mapProps> = ({
+const MapWithSearch: React.FC<mapProps> = ({
   markers,
   onClick,
   zoom,
-  className
+  containerClassName,
+  searchBarClassName,
+  onChange,
+  onFocus,
+  onSelect
 }) => {
   const { isLoaded, loadError } = useLoadScript({
   googleMapsApiKey: apiKey,
@@ -54,7 +67,14 @@ const Map: React.FC<mapProps> = ({
   if(loadError) return <div>Load error</div>;
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${containerClassName}`}>
+      <PlaceSearch 
+          onSelect={onSelect}
+          panTo={panTo}
+          onChange={onChange}
+          onFocus={onFocus}
+          className={searchBarClassName}
+        />
       {isLoaded ? 
         <GoogleMap 
           mapContainerStyle={mapContainerStyle}
@@ -85,4 +105,4 @@ const Map: React.FC<mapProps> = ({
   );
 }
 
-export default Map;
+export default MapWithSearch;

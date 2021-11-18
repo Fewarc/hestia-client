@@ -13,6 +13,10 @@ interface placeSearchProps {
     lng: number,
     address: string
   }) => void,
+  panTo: (latLngObj: {
+    lat: number,
+    lng: number
+  }) => void
   className?: string
 }
 
@@ -20,6 +24,7 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
   onChange,
   onFocus,
   onSelect,
+  panTo,
   className
 }) => {
   const location = ({ lat: () => 0, lng: () => 0 } as google.maps.LatLng);
@@ -69,6 +74,7 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
       onSelect({ lat, lng, address });
+      panTo({ lat, lng });
     } catch (error) {
       console.error(error);
     }

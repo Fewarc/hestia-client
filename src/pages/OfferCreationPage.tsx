@@ -5,7 +5,7 @@ import Checkbox from "../components/Checkbox";
 import Container from "../components/Container";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
-import Map from "../components/Map";
+import MapWithSearch from "../components/MapWithSearch";
 import PlaceSearch from "../components/PlaceSearch";
 import SpinnerInput from "../components/SpinnerInput";
 import TextArea from "../components/TextArea";
@@ -182,19 +182,18 @@ const OffersCreationPage: React.FC = () => {
         </div>
 
       <div className='flex flex-col mb-2 mt-4 w-11/12'>
-        <div className='mb-2'>{t('offer_creation_page.address')}</div>
-        <PlaceSearch 
-          onSelect={({ lat, lng, address }) => setOfferData({ ...offerData, coordinates: { lat, lng }, address })}
-          onChange={e => setOfferData({ ...offerData, address: e.target.value }) }
-          onFocus={() => {}}
-        />
+        <div className=''>{t('offer_creation_page.address')}</div>
       </div>
       
-      <Map 
+      <MapWithSearch 
         markers={[offerData.coordinates]}
         onClick={e => setOfferData({ ...offerData, coordinates: { lat: e.latLng.lat(), lng: e.latLng.lng() }})}
         zoom={18}
-        className='h-map w-full mb-16'
+        onSelect={({ lat, lng, address }) => setOfferData({ ...offerData, coordinates: { lat, lng }, address })}
+        onChange={e => setOfferData({ ...offerData, address: e.target.value }) }
+        onFocus={() => {}}
+        containerClassName='h-map w-full mb-16'
+        searchBarClassName='w-11/12 mx-auto mb-2'
       />
 
       </div>
