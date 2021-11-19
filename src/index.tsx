@@ -10,6 +10,7 @@ import {
   ApolloProvider,
   HttpLink,
   split,
+  from,
 } from "@apollo/client";
 import { WebSocketLink } from '@apollo/client/link/ws';
 
@@ -19,6 +20,7 @@ import reducers from './reducers';
 import './i18n';
 import './index.css';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { createUploadLink } from 'apollo-upload-client';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -33,6 +35,10 @@ const wsLink = new WebSocketLink({
   }
 });
 
+const uploadLink = createUploadLink({
+  uri: process.env.REACT_APP_GRAPHQL_URL as string
+});
+
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
@@ -42,11 +48,15 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink
+  httpLink,
 );
 
+const links = from([
+  splitLink, uploadLink
+]);
+
 const client = new ApolloClient({
-  link: splitLink,
+  link: links,
   cache: new InMemoryCache()
 });
 
