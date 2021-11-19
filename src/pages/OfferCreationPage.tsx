@@ -33,6 +33,9 @@ const OffersCreationPage: React.FC = () => {
     address: ''
   }); 
 
+console.log(offerData.numberOfRooms);
+
+
   const publishOffer = (): void => {
     console.log(isOfferDataValid(offerData));
   }
@@ -125,8 +128,8 @@ const OffersCreationPage: React.FC = () => {
             <SpinnerInput 
               value={offerData.numberOfRooms}
               onChange={e => setOfferData({ ...offerData, numberOfRooms: e.target.value })}
-              onIncrement={() => setOfferData({ ...offerData, numberOfRooms: (parseInt(offerData.floor) + 1).toString() })}
-              onDecrement={() => setOfferData({ ...offerData, numberOfRooms: (parseInt(offerData.floor) - 1).toString() })}
+              onIncrement={() => setOfferData({ ...offerData, numberOfRooms: (parseInt(offerData.numberOfRooms) + 1).toString() })}
+              onDecrement={() => setOfferData({ ...offerData, numberOfRooms: (parseInt(offerData.numberOfRooms) - 1).toString() })}
               willDisplayError={false}
               disabled={offerData.numberOfRooms === Config.NOT_APPLICABLE}
               className='border-opacity-100'
