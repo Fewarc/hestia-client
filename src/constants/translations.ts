@@ -110,7 +110,8 @@ const translations = {
         },
         per_month: '/month',
         address: 'address',
-        publish_offer: 'publish offer'
+        publish_offer: 'publish offer',
+        images: 'images'
       }
     }
   },

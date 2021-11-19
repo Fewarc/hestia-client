@@ -75,7 +75,7 @@ const MapWithSearch: React.FC<mapProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if(loadError) return <div>Load error</div>;
+  if(loadError) return <div>Load error</div>; // remove string
 
   return (
     <div className={`relative ${containerClassName}`}>

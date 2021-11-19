@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
@@ -11,6 +11,8 @@ import TextArea from "../components/TextArea";
 import Config from "../constants/Config";
 import { getCurrencies, getOfferCategories, getOfferTypes, isOfferDataValid } from "../utility/NewOfferUtils";
 import { offerData } from "../interfaces/OfferData";
+import { useDropzone } from "react-dropzone";
+import { XIcon } from "@heroicons/react/outline";
 
 const OffersCreationPage: React.FC = () => {
   const { t } = useTranslation();
@@ -32,13 +34,25 @@ const OffersCreationPage: React.FC = () => {
     },
     address: ''
   }); 
+  const [images, setImages] = useState<any[]>([]);
 
-console.log(offerData.numberOfRooms);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onFileChange = (file: any) => setImages([ ...images, file ]);
+  const onDrop = useCallback(
+    ([file]) => {
+      onFileChange(file);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onFileChange]
+  );
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
   const publishOffer = (): void => {
     console.log(isOfferDataValid(offerData));
   }
+
+  console.log(images);
+  
 
   return (
     <Container>
@@ -183,6 +197,39 @@ console.log(offerData.numberOfRooms);
           containerClassName='h-map w-full mb-16'
           searchBarClassName='w-11/12 mx-auto mb-2'
         />
+
+        <div className='flex flex-col mb-2 mt-8 w-11/12'>
+          <div className=''>{t('offer_creation_page.images')}</div>
+        </div>
+        {/* MIGHT MOVE IMAGE UPLOAD TO A SEPARATE COMPONENT */}
+        <div className={`mt-2 border-2 p-2 cursor-pointer border-primary rounded-md w-full relative text-opacity-50 ${!images.length && 'h-32'}`} {...getRootProps()}>
+          <input {...getInputProps()} />
+          <div className='w-full h-full grid grid-cols-5 gap-2'>
+            {images.map((image, index) => (
+              <div className='flex flex-col'>
+                <div className='px-6 py-12 border border-primary text-primary rounded-md relative'>
+                  <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                    {index + 1}
+                  </div>
+                  <Button 
+                    type='transparent'
+                    onClick={() => setImages([ ...images.filter(curImage => curImage.path !== image.path) ])}
+                    children={<XIcon className='w-3 h-3'/>}
+                    className='absolute right-3 top-3'
+                  />
+                </div>
+                <div className='break-all text-xs text-center mt-1'>{image.path}</div>
+              </div>
+            ))}
+          </div>
+          <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+            {
+              !images.length && (isDragActive ?
+                <p className='opacity-20'>Drop the files here ...</p> :
+                <p className='opacity-20'>Drag 'n' drop some files here, or click to select files</p>)
+            }
+          </div>
+        </div>
 
         <div className='flex flex-col mb-8 mt-8 w-auto'>
           <Button
