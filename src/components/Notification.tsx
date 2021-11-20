@@ -3,6 +3,8 @@ import { TrashIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { deleteCachedNotification } from "../actions/NotificationsActions";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import { NotificationType } from "../interfaces/NotificationInterface";
 import Button from "./Button";
@@ -35,13 +37,14 @@ const Notification: React.FC<notificationType> = ({
   icon,
   quantity,
 }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
   const node = useRef<HTMLHeadingElement>(null);
   const [ deleteNotification, { loading, error, data } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
 
   useEffect(() => {
-    if(error) console.log(new ApolloError(error));
+    if(error) console.log(JSON.stringify(error, null, 2));
   }, [error]);
 
   const handleClick = (e: any) => {
@@ -53,13 +56,23 @@ const Notification: React.FC<notificationType> = ({
     document.addEventListener('mousedown', handleClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener('mousedown', handleClick);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const removeNotification = (notification: NotificationType): void => {
+    deleteNotification({
+      variables: {
+        deleteNotificationId: parseInt(notification.id.toString()), // TODO: check why
+        content: notification.content
+      }
+    });
+    dispatch(deleteCachedNotification(notification));
+  }
+
   return (
-    <div className={`${!quantity && 'opacity-20'}`}>
+    <div>
       <Button 
         type='link'
         onClick={() => setOpen(true)}
@@ -81,20 +94,17 @@ const Notification: React.FC<notificationType> = ({
               className='text-primary'
             />
           </div>
+          {!quantity && <div className='flex-grow text-center p-6 opacity-20'>{t(`notifications.no_${title}`)}</div>}
           {notifications.map((notification, index) => (
-            <div className={`flex items-center py-2 text-xs ${!!index && 'border-t border-gray-500 border-opacity-5'}`}>
+            <div className={`group flex items-center py-2 text-xs ${!!index && 'border-t border-gray-500 border-opacity-5'}`}>
               <div className='flex-grow'>
                 {notification.content}
               </div>
               <Button 
                 type='transparent'              
-                onClick={() => deleteNotification({
-                  variables: {
-                    id: notification.id,
-                    content: notification.content
-                  }
-                })}
+                onClick={() => removeNotification(notification)}
                 children={<TrashIcon className='w-4 h-4 text-primary'/>}
+                className='invisible group-hover:visible'
               />
             </div>
           ))}

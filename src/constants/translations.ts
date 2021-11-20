@@ -15,7 +15,10 @@ const translations = {
         notifications: 'notifications',
         messages: 'messages',
         events: 'events',
-        clear_all: 'clear all'
+        clear_all: 'clear all',
+        no_events: 'You have got no upcoming events',
+        no_messages: 'You have got no messages',
+        no_notifications: 'You have got no notifications'
       },
 
       landing_page: {

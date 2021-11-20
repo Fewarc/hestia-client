@@ -12,6 +12,7 @@ const ActionTypes = {
 
   // notification actions
   UPDATE_NOTIFICATIONS: 'UPDATE_NOTIFICATIONS',
+  DELETE_NOTIFICATION: 'DELETE_NOTIFICATION'
 }
 
 export default ActionTypes;

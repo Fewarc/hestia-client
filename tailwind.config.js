@@ -22,7 +22,7 @@ module.exports = {
       },
       spacing: {
         "76": "19rem"
-      }
+      },
     },
     minWidth: {
       "400": "400px" 
@@ -30,7 +30,9 @@ module.exports = {
   },
   variants: {
     extend: {
-      borderStyle: ['hover']
+      borderStyle: ['hover'],
+      textColor: ['group-hover'],
+      visibility: ['group-hover']
     },
   },
   plugins: [],
