@@ -7,6 +7,7 @@ const GET_USER_NOTIFICATIONS = gql`
       userId
       content
       type
+      seen
     }
   }
 `

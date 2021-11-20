@@ -11,6 +11,13 @@ const translations = {
         "blog": "blog",
       },
 
+      notifications: {
+        notifications: 'notifications',
+        messages: 'messages',
+        events: 'events',
+        clear_all: 'clear all'
+      },
+
       landing_page: {
         first_section: {
           "main_header_text": "... for agents, for clients, for ",

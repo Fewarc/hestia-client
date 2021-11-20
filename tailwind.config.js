@@ -19,6 +19,9 @@ module.exports = {
       },
       height: {
         "map": "40rem",
+      },
+      spacing: {
+        "76": "19rem"
       }
     },
     minWidth: {

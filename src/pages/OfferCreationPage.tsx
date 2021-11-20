@@ -8,6 +8,7 @@ import Input from "../components/Input";
 import MapWithSearch from "../components/MapWithSearch";
 import SpinnerInput from "../components/SpinnerInput";
 import TextArea from "../components/TextArea";
+import Image from "../components/Image";
 import Config from "../constants/Config";
 import { getCurrencies, getOfferCategories, getOfferTypes, isOfferDataValid } from "../utility/NewOfferUtils";
 import { offerData } from "../interfaces/OfferData";
@@ -50,9 +51,6 @@ const OffersCreationPage: React.FC = () => {
   const publishOffer = (): void => {
     console.log(isOfferDataValid(offerData));
   }
-
-  console.log(images);
-  
 
   return (
     <Container>
@@ -205,22 +203,7 @@ const OffersCreationPage: React.FC = () => {
         <div className={`mt-2 border-2 p-2 cursor-pointer border-primary rounded-md w-full relative text-opacity-50 ${!images.length && 'h-32'}`} {...getRootProps()}>
           <input {...getInputProps()} />
           <div className='w-full h-full grid grid-cols-5 gap-2'>
-            {images.map((image, index) => (
-              <div className='flex flex-col'>
-                <div className='px-6 py-12 border border-primary text-primary rounded-md relative'>
-                  <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                    {index + 1}
-                  </div>
-                  <Button 
-                    type='transparent'
-                    onClick={() => setImages([ ...images.filter(curImage => curImage.path !== image.path) ])}
-                    children={<XIcon className='w-3 h-3'/>}
-                    className='absolute right-3 top-3'
-                  />
-                </div>
-                <div className='break-all text-xs text-center mt-1'>{image.path}</div>
-              </div>
-            ))}
+            {images.map(image => <Image file={image}/>)}
           </div>
           <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
             {
@@ -229,6 +212,19 @@ const OffersCreationPage: React.FC = () => {
                 <p className='opacity-20'>Drag 'n' drop some files here, or click to select files</p>)
             }
           </div>
+        </div>
+
+        <div className='flex flex-wrap mb-4 w-full py-1 gap-x-4 gap-y-1 text-xs'>
+          {images.map(image => (
+            <div className='flex items-center border border-primary rounded-md pl-2 pr-1 py-0.5'>
+              {image.path}
+              <Button 
+                type='transparent'              
+                onClick={() => setImages([ ...images.filter(curImage => curImage.path !== image.path) ])}
+                children={<XIcon className='h-3 w-3 ml-2 text-primary'/>}
+              />
+            </div>
+          ))}
         </div>
 
         <div className='flex flex-col mb-8 mt-8 w-auto'>

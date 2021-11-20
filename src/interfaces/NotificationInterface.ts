@@ -8,6 +8,6 @@ export interface NotificationType {
   type: typeOfNotification,
   content: string,
   link?: string,
-  id?: number,
+  id: number,
   userId?: number
 }

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
-const Image: React.FC<{file: any}> = ({
-  file
+const Image: React.FC<{
+  file: any,
+  className?: string
+}> = ({
+  file,
+  className
 }) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>();
   const reader = new FileReader();
@@ -11,7 +15,7 @@ const Image: React.FC<{file: any}> = ({
   }
 
   return (
-    <div>
+    <div className={className}>
       <img src={image as string} />
     </div>
   );
