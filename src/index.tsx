@@ -8,9 +8,7 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  HttpLink,
   split,
-  from,
 } from "@apollo/client";
 import { WebSocketLink } from '@apollo/client/link/ws';
 
@@ -23,10 +21,6 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createUploadLink } from 'apollo-upload-client';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
-
-const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql"
-});
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:4000/graphql',
@@ -48,15 +42,11 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink,
+  uploadLink,
 );
 
-const links = from([
-  splitLink, uploadLink
-]);
-
 const client = new ApolloClient({
-  link: links,
+  link: splitLink,
   cache: new InMemoryCache()
 });
 

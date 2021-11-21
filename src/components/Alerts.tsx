@@ -28,7 +28,7 @@ const Alerts: React.FC = () => {
   const alerts = useSelector<AlertsTypes[], AlertsTypes[]>(state => getAlerts(state));
 
   return (
-    <div className="fixed w-full text-center mt-20">
+    <div className="fixed w-full text-center mt-20 z-50">
       {alerts && alerts.map((alert: AlertsTypes) => 
         <div className={typesOfAlerts[alert.type as keyof typeof typesOfAlerts] + alertClass}>
           <div>

@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
-import { deleteAllNotifications, deleteSingleNotification, updateNotifications } from "../actions/NotificationsActions";
+import { updateNotifications } from "../actions/NotificationsActions";
 import Config from "../constants/Config";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import DELETE_NOTIFICATIONS_OF_TYPE from "../graphql/mutations/deleteNotificationsOfType";
@@ -75,11 +75,13 @@ const Notification: React.FC<notificationType> = ({
       type: Config.ERROR_ALERT,
       message: new ApolloError(allError).message
     }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleError, allError]);
 
   useEffect(() => {
-    if(singleData) dispatch(updateNotifications(singleData.deleteNotification))
-    if(allData) dispatch(updateNotifications(allData.deleteAllNotifications))
+    if(singleData) dispatch(updateNotifications(singleData.deleteNotification));
+    if(allData) dispatch(updateNotifications(allData.deleteAllNotifications));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData, allData]);
 
   const handleClick = (e: any) => {
@@ -88,7 +90,7 @@ const Notification: React.FC<notificationType> = ({
   }
 
   useEffect(() => {
-    console.log(dropNode.current);
+    console.log('notification node:', dropNode.current);
   }, [dropNode]);
 
   useEffect(() => {

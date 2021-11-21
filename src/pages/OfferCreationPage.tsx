@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
@@ -14,6 +14,10 @@ import { getCurrencies, getOfferCategories, getOfferTypes, isOfferDataValid } fr
 import { offerData } from "../interfaces/OfferData";
 import { useDropzone } from "react-dropzone";
 import { XIcon } from "@heroicons/react/outline";
+import { ApolloError, useMutation } from "@apollo/client";
+import IMAGE_UPLOAD from "../graphql/mutations/imageUpload";
+import { useDispatch } from "react-redux";
+import { pushAlert } from "../actions/AlertsActions";
 
 const OffersCreationPage: React.FC = () => {
   const { t } = useTranslation();
@@ -36,6 +40,8 @@ const OffersCreationPage: React.FC = () => {
     address: ''
   }); 
   const [images, setImages] = useState<any[]>([]);
+  const [uploadImages, { error }] = useMutation(IMAGE_UPLOAD, { errorPolicy: 'all' });
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onFileChange = (file: any) => setImages([ ...images, file ]);
@@ -48,8 +54,27 @@ const OffersCreationPage: React.FC = () => {
   );
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
+    useEffect(() => {
+      if(error) {
+        dispatch(pushAlert({
+        type: Config.ERROR_ALERT,
+        message: new ApolloError(error).message
+      }));
+      console.log(JSON.stringify(error, null, 2));
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [error]);
+
   const publishOffer = (): void => {
     console.log(isOfferDataValid(offerData));
+    if(!!images.length) {
+      console.log('uploaded images:', images);
+      uploadImages({
+        variables: {
+          file: images
+        }
+      });
+    }
   }
 
   return (
