@@ -12,3 +12,7 @@ export const deleteSingleNotification = (notification: NotificationType) => {
 export const deleteAllNotifications = (notificationType: typeOfNotification) => {
   return { type: ActionTypes.DELETE_ALL_NOTIFICATIONS, payload: notificationType }
 }
+
+export const markAsSeen = (notificationType: typeOfNotification) => {
+  return { type: ActionTypes.MARK_AS_SEEN, payload: notificationType }
+}

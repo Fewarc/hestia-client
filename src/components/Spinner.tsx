@@ -1,11 +1,15 @@
 import React from "react";
 
-const Spinner: React.FC<{className?: string | undefined}> = ({
-  className
+const Spinner: React.FC<{
+  className?: string,
+  dimensionsClass?: string
+}> = ({
+  className,
+  dimensionsClass = 'w-20 h-20'
 }) => {
   return (
     <div className={className}>
-      <div style={{borderTopColor: 'transparent'}} className="w-20 h-20 border-8 border-primary border-solid rounded-full animate-spin"></div>
+      <div style={{borderTopColor: 'transparent'}} className={`border-8 border-primary border-solid rounded-full animate-spin ${dimensionsClass}`}></div>
     </div>
   );
 }

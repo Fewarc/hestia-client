@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CalendarIcon, BellIcon, ChatAlt2Icon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import Notification from "./Notification";
@@ -7,7 +7,7 @@ import NEW_NOTIFICATION from "../graphql/subscriptions/newNotification";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNotifications } from "../actions/NotificationsActions";
 import { getNotifications } from "../selectors/NotificationsSelector";
-import { NotificationType, typeOfNotification } from "../interfaces/NotificationInterface";
+import { NotificationType } from "../interfaces/NotificationInterface";
 import GET_USER_NOTIFICATIONS from "../graphql/queries/getUserNotifications";
 import { useTranslation } from "react-i18next";
 
@@ -50,18 +50,21 @@ const Notifications: React.FC<{ userId: string }> = ({
         notifications={events}
         icon={<CalendarIcon className={iconClass}/>} 
         quantity={events.length}
+        userId={parseInt(userId)}
       />
       <Notification
         title={t('notifications.messages')}
         notifications={messages}
         icon={<ChatAlt2Icon className={iconClass}/>} 
         quantity={messages.length}
+        userId={parseInt(userId)}
       />
       <Notification
         title={t('notifications.notifications')}
         notifications={notifications}
         icon={<BellIcon className={iconClass}/>} 
         quantity={notifications.length}
+        userId={parseInt(userId)}
       />
     </div>
   );
