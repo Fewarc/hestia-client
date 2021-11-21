@@ -4,11 +4,10 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { deleteCachedNotification } from "../actions/NotificationsActions";
+import { deleteSingleNotification } from "../actions/NotificationsActions";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import { NotificationType } from "../interfaces/NotificationInterface";
 import Button from "./Button";
-import Divider from "./Divider";
 
 interface notificationType {
   title: string,
@@ -68,7 +67,7 @@ const Notification: React.FC<notificationType> = ({
         content: notification.content
       }
     });
-    dispatch(deleteCachedNotification(notification));
+    dispatch(deleteSingleNotification(notification));
   }
 
   return (
