@@ -108,7 +108,7 @@ const translations = {
         negotiable: 'negotiable',
         offer_categories: {
           agricultural: 'agricultural',
-          residental: 'residental',
+          residential: 'residential',
           commercial: 'commercial',
           industrial: 'industrial',
           raw_land: 'raw land',

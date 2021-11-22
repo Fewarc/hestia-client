@@ -4,7 +4,7 @@ import { offerData } from "../interfaces/OfferData";
 export const getOfferCategories = (t: TFunction<"translation">): string[] => {
   return [
     t('offer_creation_page.offer_categories.agricultural'),
-    t('offer_creation_page.offer_categories.residental'),
+    t('offer_creation_page.offer_categories.residential'),
     t('offer_creation_page.offer_categories.commercial'),
     t('offer_creation_page.offer_categories.industrial'),
     t('offer_creation_page.offer_categories.raw_land'),

@@ -15,7 +15,7 @@ import { offerData } from "../interfaces/OfferData";
 import { useDropzone } from "react-dropzone";
 import { XIcon } from "@heroicons/react/outline";
 import { ApolloError, useMutation } from "@apollo/client";
-import IMAGE_UPLOAD from "../graphql/mutations/imageUpload";
+import CREATE_NEW_OFFER from "../graphql/mutations/createNewOffer";
 import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 
@@ -40,7 +40,7 @@ const OffersCreationPage: React.FC = () => {
     address: ''
   }); 
   const [images, setImages] = useState<any[]>([]);
-  const [uploadImages, { error }] = useMutation(IMAGE_UPLOAD, { errorPolicy: 'all' });
+  const [createNewOffer, { error }] = useMutation(CREATE_NEW_OFFER, { errorPolicy: 'all' });
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,13 +67,24 @@ const OffersCreationPage: React.FC = () => {
 
   const publishOffer = (): void => {
     console.log(isOfferDataValid(offerData));
-    if(!!images.length) {
-      console.log('uploaded images:', images);
-      uploadImages({
-        variables: {
-          file: images
-        }
-      });
+    if(isOfferDataValid(offerData)) {
+      createNewOffer({variables: {
+        title: offerData.title,
+        description: offerData.description,
+        offerType: offerData.offerType,
+        category: offerData.category,
+        furnished: offerData.furnished,
+        area: parseFloat(offerData.area),
+        floor: offerData.floor === Config.NOT_APPLICABLE ? null : parseInt(offerData.floor),
+        numberOfRooms: offerData.numberOfRooms === Config.NOT_APPLICABLE ? null : parseInt(offerData.numberOfRooms),
+        price: parseFloat(offerData.price),
+        currency: offerData.currency,
+        negotiable: offerData.negotiable,
+        address: offerData.address,
+        lat: offerData.coordinates.lat,
+        lng: offerData.coordinates.lng,
+        files: images 
+      }})
     }
   }
 
