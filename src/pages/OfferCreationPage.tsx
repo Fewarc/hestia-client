@@ -18,9 +18,12 @@ import { ApolloError, useMutation } from "@apollo/client";
 import CREATE_NEW_OFFER from "../graphql/mutations/createNewOffer";
 import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
+import Spinner from "../components/Spinner";
+import { useHistory } from "react-router";
 
 const OffersCreationPage: React.FC = () => {
   const { t } = useTranslation();
+  const history = useHistory();
   const [offerData, setOfferData] = useState<offerData>({
     title: '',
     description: '',
@@ -40,7 +43,7 @@ const OffersCreationPage: React.FC = () => {
     address: ''
   }); 
   const [images, setImages] = useState<any[]>([]);
-  const [createNewOffer, { error }] = useMutation(CREATE_NEW_OFFER, { errorPolicy: 'all' });
+  const [createNewOffer, { error, loading, data }] = useMutation(CREATE_NEW_OFFER, { errorPolicy: 'all' });
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,19 +57,32 @@ const OffersCreationPage: React.FC = () => {
   );
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
-    useEffect(() => {
-      if(error) {
-        dispatch(pushAlert({
-        type: Config.ERROR_ALERT,
-        message: new ApolloError(error).message
+  useEffect(() => {
+    if(error) {
+      dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(error).message
       }));
-      console.log(JSON.stringify(error, null, 2));
-      }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
+  useEffect(() => {
+    if(data) {
+      dispatch(pushAlert({
+        type: Config.INFO_ALERT,
+        message: t('offer_creation_page.offer_success')
+      }));
+      dispatch(pushAlert({
+        type: Config.INFO_ALERT,
+        message: `${t('offer_creation_page.success_uploads')} ${data.createNewOffer.uploads}`
+      }));
+      history.push('/offers');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const publishOffer = (): void => {
-    console.log(isOfferDataValid(offerData));
     if(isOfferDataValid(offerData)) {
       createNewOffer({variables: {
         title: offerData.title,
@@ -85,12 +101,17 @@ const OffersCreationPage: React.FC = () => {
         lng: offerData.coordinates.lng,
         files: images
       }})
+    }else {
+      dispatch(pushAlert({
+        type: Config.ERROR_ALERT,
+        message: t('offer_creation_page.invalid_data')
+      }));
     }
   }
-
+  
   return (
     <Container>
-      <div className='min-h-screen flex flex-col items-center w-full pt-32 text-xl'>
+      <div className={`min-h-screen flex flex-col items-center w-full pt-32 text-xl ${loading && 'animate-pulse'}`}>
         <div className='text-5xl font-extrabold text-center w-full mb-8'>{t('offer_creation_page.create_new_offer')}</div>
         
         <div className='flex flex-col mb-8 w-11/12'>
@@ -267,7 +288,13 @@ const OffersCreationPage: React.FC = () => {
           <Button
             type='primary'
             onClick={() => publishOffer()}
-            children={t('offer_creation_page.publish_offer')}
+            disabled={!isOfferDataValid(offerData)}
+            children={
+              <div className='group flex items-center gap-x-4'>
+                {t('offer_creation_page.publish_offer')}
+                {loading && <Spinner dimensionsClass='w-5 h-5 group-hover:w-20' borderColor='group-hover:border-white'/>}
+              </div>
+            }
           />
         </div>
 

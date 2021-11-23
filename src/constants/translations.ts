@@ -95,6 +95,9 @@ const translations = {
       },
 
       offer_creation_page: {
+        offer_success: 'An offer has been successfully published!',
+        success_uploads: 'Successfully uploaded files:',
+        invalid_data: 'Offer data is invalid',
         create_new_offer: 'Create new offer',
         real_estate_category: 'category',
         title: 'title',

@@ -37,3 +37,7 @@ export const isOfferDataValid = (offerData: offerData): boolean => {
     (offerData.coordinates.lat !== null) &&
     (offerData.coordinates.lng !== null));
 }
+
+export const normalizeOfferTitle = (title: string, suffix?: string): string => {
+  return title.trim().toLowerCase().replaceAll(' ', '_') + (suffix || '');
+}

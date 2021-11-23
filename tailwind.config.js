@@ -32,7 +32,8 @@ module.exports = {
     extend: {
       borderStyle: ['hover'],
       textColor: ['group-hover'],
-      visibility: ['group-hover']
+      visibility: ['group-hover'],
+      borderColor: ['group-hover']
     },
   },
   plugins: [],

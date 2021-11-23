@@ -18,6 +18,7 @@ const CRAETE_NEW_OFFER = gql`
       address
       lat
       lng
+      uploads
       createdAt
       updatedAt
     }
