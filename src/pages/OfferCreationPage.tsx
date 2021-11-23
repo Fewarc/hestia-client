@@ -83,7 +83,7 @@ const OffersCreationPage: React.FC = () => {
         address: offerData.address,
         lat: offerData.coordinates.lat,
         lng: offerData.coordinates.lng,
-        files: images 
+        files: images
       }})
     }
   }
