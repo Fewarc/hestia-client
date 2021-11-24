@@ -16,16 +16,23 @@ import { useDropzone } from "react-dropzone";
 import { XIcon } from "@heroicons/react/outline";
 import { ApolloError, useMutation } from "@apollo/client";
 import CREATE_NEW_OFFER from "../graphql/mutations/createNewOffer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 import Spinner from "../components/Spinner";
 import { useHistory } from "react-router";
+import { getUserNavbarData } from "../selectors/UserSelector";
+
+interface UserData {
+  userId: string,
+  username: string | undefined
+}
 
 const OffersCreationPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [offerData, setOfferData] = useState<offerData>({
     title: '',
+    userId: useSelector<UserData, UserData>(state => getUserNavbarData(state)).userId,
     description: '',
     offerType: getOfferTypes(t)[0],
     category: getOfferCategories(t)[0],
@@ -63,6 +70,7 @@ const OffersCreationPage: React.FC = () => {
       type: Config.ERROR_ALERT,
       message: new ApolloError(error).message
       }));
+      console.log(JSON.stringify(error, null, 2));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
@@ -86,6 +94,7 @@ const OffersCreationPage: React.FC = () => {
     if(isOfferDataValid(offerData)) {
       createNewOffer({variables: {
         title: offerData.title,
+        ownerId: parseInt(offerData.userId),
         description: offerData.description,
         offerType: offerData.offerType,
         category: offerData.category,

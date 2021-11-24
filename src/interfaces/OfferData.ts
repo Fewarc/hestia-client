@@ -1,5 +1,6 @@
 export interface offerData {
   title: string,
+  userId: string,
   description: string,
   category: string,
   furnished: boolean,
