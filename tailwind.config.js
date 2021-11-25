@@ -23,6 +23,9 @@ module.exports = {
       spacing: {
         "76": "19rem"
       },
+      maxWidth: {
+        "xxs": "14rem"
+      }
     },
     minWidth: {
       "400": "400px" 

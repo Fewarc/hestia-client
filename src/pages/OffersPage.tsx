@@ -13,6 +13,7 @@ import GET_OFFERS from "../graphql/queries/getOffers";
 import { pushAlert } from "../actions/AlertsActions";
 import Config from "../constants/Config";
 import OfferCard from "../components/OfferCard";
+import GET_THUMBNAILS from "../graphql/queries/getThumbnails";
 
 const iconClass = classNames(
   'w-10',
@@ -25,10 +26,15 @@ const iconClass = classNames(
 
 const addOfertClass = classNames(
   'w-full',
-  'ml-16',
   'transition duration-500',
   'opacity-20 hover:opacity-100',
   'cursor-pointer',
+);
+
+const offerContainer = classNames(
+  'w-full',
+  'ml-16',
+  'transition duration-500',
   'flex-grow'
 );
 
@@ -39,20 +45,46 @@ const OffersPage: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const addMargin = usePixelBreakpoint(1400);
-  const {data, loading, error} = useQuery(GET_OFFERS, { errorPolicy: 'all' });
+  const { 
+    data: offerData, 
+    loading: offersLoading, 
+    error: offerError, 
+    refetch: refetchOffers 
+  } = useQuery(GET_OFFERS, { errorPolicy: 'all' });
+  const { 
+    data: thumbnailData, 
+    loading: thumbnailLoading, 
+    error: thumbnailError, 
+    refetch: refetchThumbnails 
+  } = useQuery(GET_THUMBNAILS, { errorPolicy: 'all' });
 
-  console.log(data);
+  console.log(offerData, thumbnailData);
 
   useEffect(() => {
-    if(error) {
+    (async () => {
+      await refetchOffers();
+      await refetchThumbnails();
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if(offerError) {
       dispatch(pushAlert({
       type: Config.ERROR_ALERT,
-      message: new ApolloError(error).message
+      message: new ApolloError(offerError).message
       }));
-      console.log(JSON.stringify(error, null, 2));
+      console.log(JSON.stringify(offerError, null, 2));
+    }
+    if(thumbnailError) {
+      dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(thumbnailError).message
+      }));
+      console.log(JSON.stringify(thumbnailError, null, 2));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [offerError, thumbnailError]);
 
   return (
     <div className='w-full h-screen flex'>
@@ -61,18 +93,27 @@ const OffersPage: React.FC = () => {
 
           <div>CATEGORY</div>{/** MENU HERE */}
 
-          {isLoggedIn && 
-            <div className={addOfertClass} onClick={() => history.push('/new-offer')}>
-              <div className='flex-grow flex items-center justify-center hover:border-solid border-primary border-2 border-dashed rounded-xl p-4'>
-                <div className='text-2xl font-bold text-primary mr-4'>
-                  {t('offers_page.add_new_offer')}
+          <div className={offerContainer}>
+            {isLoggedIn && 
+              <div className={addOfertClass} onClick={() => history.push('/new-offer')}>
+                <div className='flex-grow flex items-center justify-center hover:border-solid border-primary border-2 border-dashed rounded-xl p-4'>
+                  <div className='text-2xl font-bold text-primary mr-4'>
+                    {t('offers_page.add_new_offer')}
+                  </div>
+                  <PlusIcon className={iconClass}/>
                 </div>
-                <PlusIcon className={iconClass}/>
               </div>
-            </div>
-          }
+            }
 
-          {data.getOffers && data.getOffers.map((offer: any) => <OfferCard offer={offer}/>)}
+            <div>
+              {offerData?.getOffers?.map((offer: any) => 
+                <OfferCard 
+                  offer={offer} 
+                  imageLink={thumbnailData?.getThumbnails?.find((thumbnail: any) => parseInt(offer.id) === thumbnail.offerId)?.imageLink}
+                />)
+              }
+            </div>
+          </div>
 
         </div>
       </div>
