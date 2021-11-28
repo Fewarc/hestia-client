@@ -3,10 +3,10 @@ import React from "react";
 
 interface buttonTypes {
   type: keyof typeof buttonStyles,
-  size?: string | undefined,
-  disabled?: boolean | undefined,
-  className?: string | undefined,
-  children?: JSX.Element | JSX.Element[] | string | undefined,
+  size?: string,
+  disabled?: boolean,
+  className?: string,
+  children?: JSX.Element | JSX.Element[] | string,
   onClick: () => void
 }
 

@@ -4,11 +4,13 @@ const translations = {
   en: {
     translation: {
       navbar: {
-        "sign_up": "Sign Up",
-        "log_in": "log in",
-        "offers": "offers",
-        "agencies": "agencies",
-        "blog": "blog",
+        sign_up: "Sign Up",
+        log_in: "log in",
+        offers: "offers",
+        agencies: "agencies",
+        blog: "blog",
+        my_account: "my accout",
+        log_out: "log out"
       },
 
       notifications: {
@@ -125,6 +127,16 @@ const translations = {
         address: 'address',
         publish_offer: 'publish offer',
         images: 'images'
+      },
+
+      account: {
+        menu: {
+          calendar: "calendar"
+        }
+      },
+
+      calendar: {
+        your: "YOUR CALENDAR"
       }
     }
   },

@@ -39,6 +39,7 @@ const OfferCard: React.FC<OfferCardTypes> = ({
   offer,
   imageLink
 }) => {
+  if(offer.price === 1200) return null;
   return (
     <div className={className}>
       <div className={cardClass}>

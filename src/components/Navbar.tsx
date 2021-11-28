@@ -9,6 +9,7 @@ import Button from './Button';
 import HestiaLogo from "./HestiaLogo";
 import classNames from "classnames";
 import Notifications from "./Notifications";
+import DropdownMenu from "./DropdownMenu";
 
 const buttons = [
   'blog',
@@ -58,13 +59,25 @@ const Navbar: React.FC = () => {
           {isLoggedIn && username && userId ? 
           (<div className="flex items-center">
             <Notifications userId={userId}/>
-            <Button 
-              type="transparent"
-              onClick={() => history.push('/account')}
-              children={
+            <DropdownMenu 
+              buttonChildren={
                 <div className="text-primary font-semibold ml-8">
                   {username}
                   <UserIcon className={iconClass}/>
+                </div>
+              }
+              dropdownChidren={
+                <div className='flex flex-col bg-white shadow-md px-3 py-1 items-start gap-y-2'>
+                  <Button 
+                    type='transparent'
+                    onClick={() => history.push('/account')}
+                    children={t('navbar.my_account')}
+                  />
+                  <Button 
+                    type='transparent'
+                    onClick={() => null}
+                    children={t('navbar.log_out')}
+                  />
                 </div>
               }
             />
