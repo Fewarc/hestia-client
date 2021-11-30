@@ -31,7 +31,5 @@ export const getDayNames = (t: TFunction<"translation">): string[] => {
 
 export const getEmptyDays = (month: number, year: number): any[]=> {
   const empty= new Date(year, month).getDay() - 1;
-  console.log(empty);
-  
   return [ ...Array(empty < 0 ? 6 : empty) ];
 }

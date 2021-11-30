@@ -4,6 +4,7 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import GET_USER_CALENDAR from "../graphql/queries/getUserCalendar";
+import { Event } from "../types/EventType";
 import { getDayNames, getEmptyDays } from "../utility/CalendarUtils";
 import Button from "./Button";
 import CalendarDayTile from "./CalendarDayTile";
@@ -25,9 +26,6 @@ const AccountClendar: React.FC<ClaendarInterface> = ({
   const [month, setMonth] = useState<number>(new Date().getMonth());
   const [ getCalendar, { data, loading, error } ] = useLazyQuery(GET_USER_CALENDAR, { errorPolicy: 'all' });
 
-console.log(data);
-
-
   useEffect(() => { 
     if (!data) {
       getCalendar({
@@ -43,19 +41,17 @@ console.log(data);
   const handleMonthChange = (increment: number): void => {
     if (month + increment > 11) {
       setMonth(0);
+      setYear(year - 1);
     } else {
       if (month + increment < 0) {
-        setMonth(12)
+        setMonth(12);
+        setYear(year - 1);
       } else {
         setMonth(month + increment);
       }
     } 
   } 
 
-
-  console.log(month);
-  console.log(getEmptyDays(month, year));
-  
   return (
     <div className='w-full h-full pt-20 flex flex-col'>
       <div className='flex flex-grow'>
@@ -72,7 +68,7 @@ console.log(data);
                 onClick={() => setYear(year - 1)}
                 children={<ChevronLeftIcon className={iconClass} />}
               />
-              <div>{year}</div>
+              <div>{year} / {month + 1}</div>
               <Button 
                 type='transparent'
                 onClick={() => setYear(year + 1)}
@@ -83,9 +79,19 @@ console.log(data);
           <div className='grid grid-cols-7 text-3xl text-gray-600 text-opacity-10 text-center font-black mt-8 mb-2'>
             {getDayNames(t).map(dayName => <div>{dayName}</div>)}
           </div>
-          <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2'>
+          <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
             {getEmptyDays(month, year).map(_empty => <div></div>)}
-            {data?.getUserCalendar?.calendar[month].map((day: number) => <CalendarDayTile day={day} />)}
+            {data?.getUserCalendar?.calendar[month].map((day: number) => 
+              <CalendarDayTile 
+                day={day} 
+                event={data.getUserCalendar.events.find((event: Event) => {console.log(event);
+                 return (
+                  event.year === year && 
+                  event.month === month && 
+                  event.day === day
+                )})}
+              />
+            )}
           </div>
         </div>
         <Button 

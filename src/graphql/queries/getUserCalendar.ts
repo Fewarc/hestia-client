@@ -1,15 +1,18 @@
 import { gql } from "@apollo/client";
 
 const GET_USER_CALENDAR = gql`
-  query GetUserCalendar($userId: Float!, $year: Float!) {
-    getUserCalendar(userId: $userId, year: $year) {
+  query GetUserCalendar($year: Float!, $userId: Float!) {
+    getUserCalendar(year: $year, userId: $userId) {
       calendar
       events {
         id
         ownerId
         eventName
         eventDescription
-        eventOccurance
+        eventOccuranceDate
+        year
+        month
+        day
         createdAt
       }
     }
