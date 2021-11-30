@@ -24,8 +24,10 @@ module.exports = {
         "76": "19rem"
       },
       maxWidth: {
-        "xxs": "14rem"
-      }
+        "xxs": "14rem",
+        "8xl": "88rem",
+        "9xl": "96rem"
+      },
     },
     minWidth: {
       "400": "400px" 
