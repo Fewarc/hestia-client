@@ -1,16 +1,20 @@
 import React from "react";
-import logo from '../assets/hestia-logo-primary.svg';
+import logoPrimary from '../assets/hestia-logo-primary.svg';
+import logoWhite from '../assets/hestia-logo-white.svg';
 
 interface logoTypes {
-  size: string
+  size: string,
+  color: "primary" | "white"
 }
 
 const Logo: React.FC<logoTypes> = ({
-  size
+  size,
+  color
 }) => {
   return (
     <div>
-      <img src={logo} alt="logo-primary" height={size} width={size}/>
+      {color === "primary" && <img src={logoPrimary} alt="logo-primary" height={size} width={size}/>}
+      {color === "white" && <img src={logoWhite} alt="logo-white" height={size} width={size}/>}
     </div>
   );
 }

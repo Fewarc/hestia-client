@@ -3,6 +3,14 @@ import Config from "./Config";
 const translations = {
   en: {
     translation: {
+      footer: {
+        agencies: "agencies",
+        blog: "blog",
+        offers: "offers",
+        terms: "terms",
+        conditions: "conditions"
+      },
+
       navbar: {
         sign_up: "Sign Up",
         log_in: "log in",

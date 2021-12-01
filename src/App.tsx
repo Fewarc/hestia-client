@@ -12,6 +12,7 @@ import BlogPage from './pages/BlogPage';
 import Alerts from './components/Alerts';
 import AccountPage from './pages/AccountPage';
 import OffersCreationPage from './pages/OfferCreationPage';
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
   return (
@@ -31,6 +32,7 @@ const App: React.FC = () => {
         <Route path="/account" component={AccountPage}/>
         <Route path="/new-offer" component={OffersCreationPage}/>
       </Switch>
+      <Footer />
     </Router>
   );
 }

@@ -35,7 +35,6 @@ const offerContainer = classNames(
   'w-full',
   'ml-16',
   'transition duration-500',
-  'flex-grow'
 );
 
 const OffersPage: React.FC = () => {
@@ -87,7 +86,7 @@ const OffersPage: React.FC = () => {
   }, [offerError, thumbnailError]);
 
   return (
-    <div className='w-full h-screen flex'>
+    <div className='w-full min-h-screen flex'>
       <div className={`flex-grow mt-20 ${addMargin && '-mr-28'}`}>
         <div className='max-w-7xl flex mx-auto'>
 
@@ -105,7 +104,7 @@ const OffersPage: React.FC = () => {
               </div>
             }
 
-            <div>
+            <div className='max-h-screen overflow-y-auto scrollbar-none'>
               {offerData?.getOffers?.map((offer: any) => 
                 <OfferCard 
                   offer={offer} 
