@@ -301,7 +301,7 @@ const OffersCreationPage: React.FC = () => {
             children={
               <div className='group flex items-center gap-x-4'>
                 {t('offer_creation_page.publish_offer')}
-                {loading && <Spinner dimensionsClass='w-5 h-5 group-hover:w-20' borderColor='group-hover:border-white'/>}
+                {loading && <Spinner dimensionsClass='w-5 h-5 group-hover:w-20' borderClass='group-hover:border-white'/>}
               </div>
             }
           />

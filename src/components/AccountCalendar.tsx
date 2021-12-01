@@ -12,7 +12,7 @@ import { getDayNames, getEmptyDays } from "../utility/CalendarUtils";
 import Button from "./Button";
 import CalendarDayTile from "./CalendarDayTile";
 
-interface ClaendarInterface {
+interface CalendarInterface {
   userId: number
 }
 
@@ -21,7 +21,7 @@ const iconClass = classNames(
   'text-primary'
 );
 
-const AccountClendar: React.FC<ClaendarInterface> = ({
+const AccountClendar: React.FC<CalendarInterface> = ({
   userId
 }) => {
   const { t } = useTranslation();

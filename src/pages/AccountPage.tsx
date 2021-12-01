@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Switch, useHistory } from "react-router";
 import { Route } from "react-router-dom";
 import AccountClendar from "../components/AccountCalendar";
+import AccountContacts from "../components/AccountsContacts";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { getUserNavbarData } from "../selectors/UserSelector";
@@ -23,7 +24,7 @@ const menuIconClass = classNames(
 const AccountPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
+  const { userId } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
 
   return (
     <div className='w-full h-full flex'>
@@ -72,6 +73,7 @@ const AccountPage: React.FC = () => {
       <Container className='flex-grow max-w-9xl'>
           <Switch>
             <Route path='/account/calendar' render={() => <AccountClendar userId={parseInt(userId as string)}/>}/>
+            <Route path='/account/contacts' render={() => <AccountContacts userId={parseInt(userId as string)}/>}/>
           </Switch>
       </Container>
     </div>

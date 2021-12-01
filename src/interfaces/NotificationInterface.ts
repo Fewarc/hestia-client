@@ -1,7 +1,8 @@
 export enum typeOfNotification {
   NOTIFICATION = 'notification',
   MESSAGE = 'message',
-  EVENT = 'event'
+  EVENT = 'event',
+  INVITE = 'invite'
 }
 
 export interface NotificationType {

@@ -171,6 +171,12 @@ const translations = {
           "6": "S",
           "7": "S",
         }
+      },
+
+      contacts: {
+        your: 'Your contacts',
+        search_label: 'search for new contacts',
+        search_placeholder: 'type user credentials here'
       }
     }
   },

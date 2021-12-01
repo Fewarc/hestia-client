@@ -8,7 +8,7 @@ interface inputTypes {
   value: string,
   onChange: (e: any) => void, // pass the event object -> may switch to type later !! ?  !? ? !
   className?: string,
-  label?: string,
+  label?: string | JSX.Element | JSX.Element[],
   error?: boolean,
   errorMessage?: string | null,
   disabled?: string,
@@ -56,7 +56,7 @@ const Input: React.FC<inputTypes> = ({
   errorMessage,
   disabled,
   placeholder,
-  willDisplayError = true
+  willDisplayError = true,
 }) => {
   if(type === Config.INPUT_TYPE_NUMBER) {
     value = value.replace(/[^\d.-]/g, '');
