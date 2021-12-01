@@ -139,7 +139,10 @@ const translations = {
 
       account: {
         menu: {
-          calendar: "calendar"
+          account: 'account',
+          settings: 'settings',
+          calendar: 'calendar',
+          contacts: 'contacts'
         }
       },
 
@@ -160,13 +163,13 @@ const translations = {
           "12": "December",
         },
         days: {
-          "1": "Monday",
-          "2": "Tuesday",
-          "3": "Wednesday",
-          "4": "Thursday",
-          "5": "Friday",
-          "6": "Saturday",
-          "7": "Sunday",
+          "1": "M",
+          "2": "T",
+          "3": "W",
+          "4": "T",
+          "5": "F",
+          "6": "S",
+          "7": "S",
         }
       }
     }

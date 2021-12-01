@@ -1,8 +1,11 @@
-import { useLazyQuery } from "@apollo/client";
+import { ApolloError, useLazyQuery } from "@apollo/client";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { pushAlert } from "../actions/AlertsActions";
+import Config from "../constants/Config";
 import GET_USER_CALENDAR from "../graphql/queries/getUserCalendar";
 import { Event } from "../types/EventType";
 import { getDayNames, getEmptyDays } from "../utility/CalendarUtils";
@@ -22,9 +25,21 @@ const AccountClendar: React.FC<ClaendarInterface> = ({
   userId
 }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth());
   const [ getCalendar, { data, loading, error } ] = useLazyQuery(GET_USER_CALENDAR, { errorPolicy: 'all' });
+
+  useEffect(() => {
+    if(error) {
+      dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(error).message
+      }));
+      console.log(JSON.stringify(error, null, 2));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
 
   useEffect(() => { 
     if (!data) {
@@ -41,10 +56,10 @@ const AccountClendar: React.FC<ClaendarInterface> = ({
   const handleMonthChange = (increment: number): void => {
     if (month + increment > 11) {
       setMonth(0);
-      setYear(year - 1);
+      setYear(year + 1);
     } else {
       if (month + increment < 0) {
-        setMonth(12);
+        setMonth(11);
         setYear(year - 1);
       } else {
         setMonth(month + increment);
@@ -60,7 +75,7 @@ const AccountClendar: React.FC<ClaendarInterface> = ({
           onClick={() => handleMonthChange(-1)}
           children={<ChevronLeftIcon className={iconClass} />}
         />
-        <div className='flex flex-col'>
+        <div className='flex flex-col w-full'>
           <div className='flex justify-evenly'>
             <div className='flex items-center'>
               <Button 
@@ -79,20 +94,25 @@ const AccountClendar: React.FC<ClaendarInterface> = ({
           <div className='grid grid-cols-7 text-3xl text-gray-600 text-opacity-10 text-center font-black mt-8 mb-2'>
             {getDayNames(t).map(dayName => <div>{dayName}</div>)}
           </div>
+          {loading ? 
+          <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
+          {[ ...Array(35) ].map((day: number) => 
+            <div className='w-full h-full bg-gray-100 rounded-md animate-pulse'></div>
+          )}
+          </div> :
           <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
             {getEmptyDays(month, year).map(_empty => <div></div>)}
             {data?.getUserCalendar?.calendar[month].map((day: number) => 
               <CalendarDayTile 
                 day={day} 
-                event={data.getUserCalendar.events.find((event: Event) => {console.log(event);
-                 return (
+                event={data.getUserCalendar.events.find((event: Event) => (
                   event.year === year && 
                   event.month === month && 
                   event.day === day
-                )})}
+                ))}
               />
             )}
-          </div>
+          </div>}
         </div>
         <Button 
           type='transparent'

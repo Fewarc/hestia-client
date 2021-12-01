@@ -1,5 +1,6 @@
 import { ApolloError, useLazyQuery } from "@apollo/client";
 import classNames from "classnames";
+import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
@@ -35,15 +36,20 @@ const LogInForm: React.FC = () => {
       }));
     }
    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ loading, error]);
+  }, [loading, error]);
 
   useEffect(() => {
-    if(data?.logInUser?.login === userData.username) {
-      dispatch(userLogIn(data?.logInUser));
-      dispatch(clearErrorAlerts());
-      history.push('/');
-    }
+    if (data) {
+      const token = jwt_decode(data.logInUser) as any
+      const { user } = token;
 
+      if(user.login === userData.username) {
+        localStorage.setItem('token', data.logInUser);
+        dispatch(userLogIn(user));
+        dispatch(clearErrorAlerts());
+        history.push('/');
+      }
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 

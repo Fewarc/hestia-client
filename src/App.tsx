@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
 
 import LandingPage from './pages/LandingPage';
 import Navbar from './components/Navbar';
@@ -13,8 +14,19 @@ import Alerts from './components/Alerts';
 import AccountPage from './pages/AccountPage';
 import OffersCreationPage from './pages/OfferCreationPage';
 import Footer from './components/Footer';
+import { useDispatch } from 'react-redux';
+import { userLogIn } from './actions/UserActions';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const token = localStorage.getItem('token');
+  
+  if (token) {
+    const { user } = jwt_decode(token) as any;
+    dispatch(userLogIn(user));
+  }
+
   return (
     <Router>
       <Helmet>

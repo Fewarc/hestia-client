@@ -104,14 +104,29 @@ const OffersPage: React.FC = () => {
               </div>
             }
 
-            <div className='max-h-screen overflow-y-auto scrollbar-none'>
-              {offerData?.getOffers?.map((offer: any) => 
-                <OfferCard 
-                  offer={offer} 
-                  imageLink={thumbnailData?.getThumbnails?.find((thumbnail: any) => parseInt(offer.id) === thumbnail.offerId)?.imageLink}
-                />)
-              }
-            </div>
+            {(offersLoading || thumbnailLoading) ? 
+              <div className='max-h-screen overflow-y-auto scrollbar-none animate-pulse'>
+                {[ ...Array(6) ].map(_element => 
+                  <div className='w-full h-36 mt-2 border-2 border-gray-100 rounded-md flex'>
+                    <div className='w-52 h-full bg-gray-100'></div>
+                    <div className='flex-grow flex flex-col justify-evenly px-2'>
+                      <div className='h-6 w-64 rounded-full bg-gray-100'></div>
+                      <div className='h-4 w-48 rounded-full bg-gray-100'></div>
+                      <div className='h-4 w-52 rounded-full bg-gray-100'></div>
+                      <div className='h-4 w-36 rounded-full bg-gray-100'></div>
+                    </div>
+                  </div>
+                )}
+              </div> :
+              <div className='max-h-screen overflow-y-auto scrollbar-none'>
+                {offerData?.getOffers?.map((offer: any) => 
+                  <OfferCard 
+                    offer={offer} 
+                    imageLink={thumbnailData?.getThumbnails?.find((thumbnail: any) => parseInt(offer.id) === thumbnail.offerId)?.imageLink}
+                  />)
+                }
+              </div>
+            }
           </div>
 
         </div>

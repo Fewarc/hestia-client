@@ -1,4 +1,4 @@
-import { CalendarIcon } from "@heroicons/react/outline";
+import { CalendarIcon, CogIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,27 @@ const AccountPage: React.FC = () => {
 
   return (
     <div className='w-full h-full flex'>
-      <div className='flex flex-col py-48 px-20 shadow-md text-primary text-xl'>
+      <div className='flex flex-col py-48 px-12 shadow-md text-primary text-xl gap-y-4'>
+        <Button 
+          type='transparent'
+          onClick={() => history.push('/account')}
+          children={
+            <div className='flex items-center'>
+              <UserCircleIcon className={menuIconClass}/>
+              {t('account.menu.account')}
+            </div>
+          }
+        />
+        <Button 
+          type='transparent'
+          onClick={() => history.push('/account/settings')}
+          children={
+            <div className='flex items-center'>
+              <CogIcon className={menuIconClass}/>
+              {t('account.menu.settings')}
+            </div>
+          }
+        />
         <Button 
           type='transparent'
           onClick={() => history.push('/account/calendar')}
@@ -35,6 +55,16 @@ const AccountPage: React.FC = () => {
             <div className='flex items-center'>
               <CalendarIcon className={menuIconClass}/>
               {t('account.menu.calendar')}
+            </div>
+          }
+        />
+        <Button 
+          type='transparent'
+          onClick={() => history.push('/account/contacts')}
+          children={
+            <div className='flex items-center'>
+              <UsersIcon className={menuIconClass}/>
+              {t('account.menu.contacts')}
             </div>
           }
         />
