@@ -1,10 +1,11 @@
 import { gql } from "@apollo/client";
 
 const DELETE_NOTIFICATIONS_OF_TYPE = gql`
-  mutation DeleteAllNotifications($type: String!, $userId: Float!) {
-    deleteAllNotifications(type: $type, userId: $userId) {
+  mutation DeleteAllNotifications($type: String!, $targetId: Float!) {
+    deleteAllNotifications(type: $type, targetId: $targetId) {
       id
-      userId
+      senderId
+      targetId
       content
       type
       seen

@@ -36,7 +36,6 @@ const AccountContacts: React.FC<ContactsInterface> = ({
       setUserDidType(false);
     };
   }
-console.log(searchData);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
@@ -70,7 +69,8 @@ console.log(searchData);
       setUserDidType(true);
       findUsers({
         variables: {
-          searchValue: searchValue
+          searchValue: searchValue,
+          userId: userId
         }
       });
     }
@@ -87,11 +87,11 @@ console.log(searchData);
           <div className='text-2xl font-extralight'>
             {t('contacts.your')}
           </div>
-          <div className='flex-grow bg-red-600'>
-            contacts here
+          <div className='flex-grow'>
+            CONTACTS HERE
           </div>
           <div 
-            className={`transition duration-500 ease-in-out flex flex-col ${((searchOpen && !!searchValue.length) || userDidType) && 'flex-grosdw'}`} 
+            className={`transition duration-500 ease-in-out flex flex-col ${((searchOpen && !!searchValue.length) || userDidType) && 'flex-grosdw'}`} // TODO: delete(?)
             ref={node} 
             onClick={() => setSearchOpen(true)}
           >

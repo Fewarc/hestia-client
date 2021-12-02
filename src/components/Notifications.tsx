@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { CalendarIcon, BellIcon, ChatAlt2Icon } from "@heroicons/react/outline";
+import { CalendarIcon, BellIcon, ChatAlt2Icon, MailIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import Notification from "./Notification";
 import { useLazyQuery, useSubscription } from "@apollo/client";
@@ -20,7 +20,8 @@ const iconClass = classNames(
 interface notificationsObject {
   notifications: NotificationType[],
   messages: NotificationType[],
-  events: NotificationType[]
+  events: NotificationType[],
+  invites: NotificationType[]
 }
 
 const Notifications: React.FC<{ userId: string }> = ({
@@ -30,7 +31,7 @@ const Notifications: React.FC<{ userId: string }> = ({
   const dispatch = useDispatch();
   const [ getUserNotifications, { data: userNotifications } ] = useLazyQuery(GET_USER_NOTIFICATIONS, { errorPolicy: 'all' });
   const { data } = useSubscription(NEW_NOTIFICATION, { variables: { userId: parseInt(userId) } });
-  const { notifications, messages, events } = useSelector<notificationsObject, notificationsObject>(state => getNotifications(state));
+  const { notifications, messages, events, invites } = useSelector<notificationsObject, notificationsObject>(state => getNotifications(state));
 
   useEffect(() => {
     getUserNotifications({ variables: { userId: parseInt(userId) } });
@@ -41,10 +42,18 @@ const Notifications: React.FC<{ userId: string }> = ({
   useEffect(() => {
     if(data) dispatch(updateNotifications(data.newNotification));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+}, [data]);
 
   return (
     <div className='flex gap-x-3'>
+      <Notification
+        title={t('notifications.invites')}
+        notifications={invites}
+        icon={<MailIcon className={iconClass}/>} 
+        quantity={invites.length}
+        userId={parseInt(userId)}
+        invite
+      />
       <Notification
         title={t('notifications.events')}
         notifications={events}

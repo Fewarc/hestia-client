@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 const FIND_USERS = gql`
-  query FindUsers($searchValue: String!) {
-    findUsers(searchValue: $searchValue) {
+  query FindUsers($userId: Float!, $searchValue: String!) {
+    findUsers(userId: $userId, searchValue: $searchValue) {
       id
       login
       email

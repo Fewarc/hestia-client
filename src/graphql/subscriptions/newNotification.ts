@@ -4,9 +4,11 @@ const NEW_NOTIFICATION = gql`
   subscription Subscription($userId: Float!) {
     newNotification(userId: $userId) {
       id
-      userId
+      senderId
+      targetId
       content
       type
+      seen
     }
   }
 `;

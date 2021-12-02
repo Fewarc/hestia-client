@@ -1,5 +1,5 @@
 import { ApolloError, useMutation } from "@apollo/client";
-import { TrashIcon } from "@heroicons/react/outline";
+import { CheckIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 import { updateNotifications } from "../actions/NotificationsActions";
 import Config from "../constants/Config";
+import ACCEPT_INVITE from "../graphql/mutations/acceptInvite";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import DELETE_NOTIFICATIONS_OF_TYPE from "../graphql/mutations/deleteNotificationsOfType";
 import { NotificationType, typeOfNotification } from "../interfaces/NotificationInterface";
@@ -18,7 +19,8 @@ interface notificationType {
   notifications: NotificationType[],
   icon: JSX.Element,
   quantity: number,
-  userId: number
+  userId: number,
+  invite?: boolean
 }
 
 const badgeClass = classNames(
@@ -55,7 +57,8 @@ const Notification: React.FC<notificationType> = ({
   notifications,
   icon,
   quantity,
-  userId
+  userId,
+  invite = false
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -64,6 +67,7 @@ const Notification: React.FC<notificationType> = ({
   const dropNode = useRef<HTMLHeadingElement>(null);
   const [ deleteNotification, { loading: singleLoading, error: singleError, data: singleData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
   const [ deleteNotificationsOfType, { loading: allLoading, error: allError, data: allData } ] = useMutation(DELETE_NOTIFICATIONS_OF_TYPE, { errorPolicy: 'all' });
+  const [ acceptUserInvite, { error: acceptError, data: acceptData } ] = useMutation(ACCEPT_INVITE, { errorPolicy: 'all' });
   const notifiactionType: typeOfNotification = title.slice(0, -1) as typeOfNotification;
 
   useEffect(() => {
@@ -75,12 +79,18 @@ const Notification: React.FC<notificationType> = ({
       type: Config.ERROR_ALERT,
       message: new ApolloError(allError).message
     }));
+    if(acceptError) dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(acceptError).message
+    }));
+    console.log(JSON.stringify(acceptError, null, 2));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleError, allError]);
+  }, [singleError, allError, acceptError]);
 
   useEffect(() => {
     if(singleData) dispatch(updateNotifications(singleData.deleteNotification));
     if(allData) dispatch(updateNotifications(allData.deleteAllNotifications));
+    if(acceptData) dispatch(updateNotifications(acceptData.acceptInvite));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData, allData]);
 
@@ -112,6 +122,17 @@ const Notification: React.FC<notificationType> = ({
     });
   }
 
+  const acceptInvite = (notification: NotificationType): void => {
+    acceptUserInvite({
+      variables: {
+        targetId: notification.targetId,
+        userId: notification.senderId,
+        acceptInviteId: parseInt((notification.id).toString()),
+        content: notification.content
+      }
+    });
+  }
+
   return (
     <div>
       <Button 
@@ -137,7 +158,7 @@ const Notification: React.FC<notificationType> = ({
                     deleteNotificationsOfType({
                       variables: {
                         type: notifiactionType,
-                        userId: userId
+                        targetId: userId
                       }
                     })
                   }}
@@ -151,12 +172,27 @@ const Notification: React.FC<notificationType> = ({
                   <div className='flex-grow'>
                     {notification.content}
                   </div>
+                  {invite ? 
+                  <div className='invisible group-hover:visible flex'>
+                    <Button 
+                      type='transparent'
+                      onClick={() => acceptInvite(notification)}
+                      children={<CheckIcon className='w-5 h-5'/>}
+                      className='text-primary mr-2'
+                    />
+                    <Button 
+                      type='transparent'
+                      onClick={() => removeNotification(notification)}
+                      children={<XIcon className='w-5 h-5'/>}
+                      className='text-primary'
+                    />
+                  </div> : 
                   <Button 
                     type='transparent'              
                     onClick={() => removeNotification(notification)}
                     children={<TrashIcon className='w-4 h-4 text-primary'/>}
                     className='invisible group-hover:visible'
-                  />
+                  />}
                 </div>
               ))}
             </div>

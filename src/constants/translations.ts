@@ -25,17 +25,19 @@ const translations = {
         notifications: 'notifications',
         messages: 'messages',
         events: 'events',
+        invites: 'invites',
         clear_all: 'clear all',
         no_events: 'You have got no upcoming events',
         no_messages: 'You have got no messages',
-        no_notifications: 'You have got no notifications'
+        no_notifications: 'You have got no notifications',
+        no_invites: 'You have got no invites'
       },
 
       landing_page: {
         first_section: {
-          "main_header_text": "... for agents, for clients, for ",
-          "main_everyone": "everyone",
-          "main_paragraph_text": "Discover the easiest way to run your agancy or search for real estate of your dreams.",
+          main_header_text: "... for agents, for clients, for ",
+          main_everyone: "everyone",
+          main_paragraph_text: "Discover the easiest way to run your agancy or search for real estate of your dreams.",
         }
       },
 

@@ -10,5 +10,6 @@ export interface NotificationType {
   content: string,
   link?: string,
   id: number,
-  userId?: number
+  senderId?: number,
+  targetId?: number
 }

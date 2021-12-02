@@ -1,10 +1,11 @@
 import { gql } from "graphql-tag";
 
 const GET_USER_NOTIFICATIONS = gql`
-  query Query($userId: Float!) {
+  query GetUserNotifications($userId: Float!) {
     getUserNotifications(userId: $userId) {
       id
-      userId
+      senderId
+      targetId
       content
       type
       seen
