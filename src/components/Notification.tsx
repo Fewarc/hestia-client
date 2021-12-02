@@ -67,7 +67,7 @@ const Notification: React.FC<notificationType> = ({
   const dropNode = useRef<HTMLHeadingElement>(null);
   const [ deleteNotification, { loading: singleLoading, error: singleError, data: singleData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
   const [ deleteNotificationsOfType, { loading: allLoading, error: allError, data: allData } ] = useMutation(DELETE_NOTIFICATIONS_OF_TYPE, { errorPolicy: 'all' });
-  const [ acceptUserInvite, { error: acceptError, data: acceptData } ] = useMutation(ACCEPT_INVITE, { errorPolicy: 'all' });
+  const [ acceptUserInvite, { loading: acceptLoading, error: acceptError, data: acceptData } ] = useMutation(ACCEPT_INVITE, { errorPolicy: 'all' });
   const notifiactionType: typeOfNotification = title.slice(0, -1) as typeOfNotification;
 
   useEffect(() => {
@@ -83,7 +83,6 @@ const Notification: React.FC<notificationType> = ({
       type: Config.ERROR_ALERT,
       message: new ApolloError(acceptError).message
     }));
-    console.log(JSON.stringify(acceptError, null, 2));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleError, allError, acceptError]);
 
@@ -92,16 +91,12 @@ const Notification: React.FC<notificationType> = ({
     if(allData) dispatch(updateNotifications(allData.deleteAllNotifications));
     if(acceptData) dispatch(updateNotifications(acceptData.acceptInvite));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleData, allData]);
+  }, [singleData, allData, acceptData]);
 
   const handleClick = (e: any) => {
     if(!node.current) return;
     if(!node.current.contains(e.target)) setOpen(false);
   }
-
-  useEffect(() => {
-    console.log('notification node:', dropNode.current);
-  }, [dropNode]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
@@ -148,7 +143,7 @@ const Notification: React.FC<notificationType> = ({
       {open && (
         <div className={dropClass} ref={node}>
           <div className='relative' ref={dropNode}>
-            {(singleLoading || allLoading) && <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-5 -translate-y-5 opacity-100' dimensionsClass='w-10 h-10'/>}
+            {(singleLoading || allLoading || acceptLoading) && <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-5 -translate-y-5 opacity-100' dimensionsClass='w-10 h-10'/>}
             <div className={`${(singleLoading || allLoading) && 'opacity-20'}`}>
               <div className='flex justify-between'>
                 <div className='mb-2'>{title}</div>

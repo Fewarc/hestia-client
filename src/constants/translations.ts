@@ -178,7 +178,8 @@ const translations = {
       contacts: {
         your: 'Your contacts',
         search_label: 'search for new contacts',
-        search_placeholder: 'type user credentials here'
+        search_placeholder: 'type user credentials here',
+        cancel_invitation: 'cancel'
       }
     }
   },
