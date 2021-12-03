@@ -1,11 +1,12 @@
 import { ApolloError, useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { BackspaceIcon, PlusCircleIcon } from "@heroicons/react/outline";
+import { BackspaceIcon, MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/outline";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 import Config from "../constants/Config";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
+import REMOVE_CONTACT from "../graphql/mutations/removeContact";
 import SEND_INVITE from "../graphql/mutations/sendContactInvite";
 import FIND_USERS from "../graphql/queries/findUsers";
 import GET_CONTACTS from "../graphql/queries/getContacts";
@@ -30,14 +31,16 @@ const AccountContacts: React.FC<ContactsInterface> = ({
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [userDidType, setUserDidType] = useState<boolean>(false);
+  const [chatUser, setChatUser] = useState<UserType | null>(null);
   const [ findUsers, { data: searchData, loading: searchLoading, error: searchError } ] = useLazyQuery(FIND_USERS, { errorPolicy: 'all' });
   const [ sendInvite, { data: inviteData, error: inviteError } ] = useMutation(SEND_INVITE, { errorPolicy: 'all' });
+  const [ removeContact, { data: removeData, error: removeError, loading: removeLoading } ] = useMutation(REMOVE_CONTACT, { errorPolicy: 'all' });
   const [ deleteNotification, { error: deleteError, data: deleteData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
-  const { data: pendingData, refetch: refetchPending } = useQuery(GET_PENDING_INVITES, 
-    {variables: { userId: userId },
+  const { data: pendingData, refetch: refetchPending } = useQuery(GET_PENDING_INVITES, {
+    variables: { userId: userId },
     errorPolicy: 'all'
   });
-  const { data: contactsData, loading: contactsLoading, error: contactsError } = useQuery(GET_CONTACTS, {
+  const { data: contactsData, loading: contactsLoading, error: contactsError, refetch: refetchContacts } = useQuery(GET_CONTACTS, {
     variables: { userId: userId },
     errorPolicy: 'all'
   });
@@ -60,39 +63,31 @@ const AccountContacts: React.FC<ContactsInterface> = ({
   }, []);
 
   useEffect(() => {
+    refetchContacts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [removeData]);
+
+  useEffect(() => {
     refetchPending();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteData, inviteData]);
 
+  const handleError = (error: ApolloError | undefined) => {
+    if(error) {
+      dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(error).message
+      }));
+      console.log(JSON.stringify(error, null, 2));
+    }
+  }
+
   useEffect(() => {
-    if(searchError) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(searchError).message
-      }));
-      console.log(JSON.stringify(searchError, null, 2));
-    }
-    if(inviteError) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(inviteError).message
-      }));
-      console.log(JSON.stringify(inviteError, null, 2));
-    }
-    if(deleteError) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(deleteError).message
-      }));
-      console.log(JSON.stringify(deleteError, null, 2));
-    }
-    if(contactsError) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(contactsError).message
-      }));
-      console.log(JSON.stringify(contactsError, null, 2));
-    }
+    handleError(searchError);
+    handleError(inviteError);
+    handleError(deleteError);
+    handleError(contactsError);
+    handleError(searchError);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchError, inviteError, deleteError, contactsError]);
 
@@ -115,16 +110,38 @@ const AccountContacts: React.FC<ContactsInterface> = ({
       <div className='w-full h-full rounded-md shadow-md flex'>
         <div className='flex-grow'>
           {/* CHAT HERE */}
+          {`chat with: ${chatUser?.login}`}
         </div>
         <div className='w-96 rounded-r-md border-l border-gray-100 p-4 flex flex-col'>
-          <div className='text-2xl font-extralight'>
-            {t('contacts.your')}
+          <div className='text-2xl font-extralight px-1'>
+            <div className='flex items-center'>
+              <div>{t('contacts.your')}</div>
+              {contactsLoading && <Spinner dimensionsClass='w-5 h-5' borderClass='border' className='ml-2'/>}
+            </div>
           </div>
-          <div className='flex-grow flex flex-col'>
+          <div className='flex-grow flex flex-col items-start'>
             {contactsData?.getContacts?.map((contact: UserType) => 
-              <div className='rounded-md hover:bg-gray-50'>
-                @{contact.login}
-              </div>
+              <Button 
+                type='link'
+                onClick={() => setChatUser(contact)}
+                children={
+                  <div className='rounded-md hover:bg-gray-50 p-2 flex items-center justify-between group'> 
+                    @{contact.login}
+                    <Button 
+                      type='transparent'
+                      onClick={() => removeContact({
+                        variables: {
+                          userId: userId,
+                          contactId: contact.id
+                        }
+                      })}
+                      children={<MinusCircleIcon className='w-5 h-5' />}
+                      className='text-primary invisible group-hover:visible'
+                    />
+                  </div>
+                }
+                className='w-full text-left'
+              />
             )}
           </div>
           <div 
