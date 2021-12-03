@@ -1,6 +1,6 @@
 import { ApolloError, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { BackspaceIcon, MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/outline";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
@@ -27,10 +27,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const node = useRef<HTMLHeadingElement>(null);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [searchOpen, setSearchOpen] = useState<boolean>(false);
-  const [userDidType, setUserDidType] = useState<boolean>(false);
   const [chatUser, setChatUser] = useState<UserType | null>(null);
   const [ findUsers, { data: searchData, loading: searchLoading, error: searchError } ] = useLazyQuery(FIND_USERS, { errorPolicy: 'all' });
   const [ sendInvite, { data: inviteData, error: inviteError } ] = useMutation(SEND_INVITE, { errorPolicy: 'all' });
@@ -44,23 +41,6 @@ const AccountContacts: React.FC<ContactsInterface> = ({
     variables: { userId: userId },
     errorPolicy: 'all'
   });
-
-  const handleClick = (e: any): void => {
-    if(!node.current) return;
-    if(!node.current.contains(e.target)) {
-      setSearchOpen(false);
-      setUserDidType(false);
-    };
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     refetchContacts();
@@ -87,14 +67,13 @@ const AccountContacts: React.FC<ContactsInterface> = ({
     handleError(inviteError);
     handleError(deleteError);
     handleError(contactsError);
-    handleError(searchError);
+    handleError(removeError);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchError, inviteError, deleteError, contactsError]);
+  }, [searchError, inviteError, deleteError, contactsError, removeError]);
 
 
   useEffect(() => {
     if (searchValue.length && !searchLoading) {
-      setUserDidType(true);
       findUsers({
         variables: {
           searchValue: searchValue,
@@ -116,10 +95,10 @@ const AccountContacts: React.FC<ContactsInterface> = ({
           <div className='text-2xl font-extralight px-1'>
             <div className='flex items-center'>
               <div>{t('contacts.your')}</div>
-              {contactsLoading && <Spinner dimensionsClass='w-5 h-5' borderClass='border' className='ml-2'/>}
+              {(contactsLoading || removeLoading) && <Spinner dimensionsClass='w-5 h-5' borderClass='border' className='ml-2'/>}
             </div>
           </div>
-          <div className='flex-grow flex flex-col items-start'>
+          <div className='flex-grow flex flex-col items-start h-64 overflow-y-auto mb-4'>
             {contactsData?.getContacts?.map((contact: UserType) => 
               <Button 
                 type='link'
@@ -132,7 +111,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
                       onClick={() => removeContact({
                         variables: {
                           userId: userId,
-                          contactId: contact.id
+                          contactId: parseInt(contact.id.toString())
                         }
                       })}
                       children={<MinusCircleIcon className='w-5 h-5' />}
@@ -144,11 +123,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
               />
             )}
           </div>
-          <div 
-            className={`transition duration-500 ease-in-out flex flex-col ${((searchOpen && !!searchValue.length) || userDidType) && 'flex-grosdw'}`} // TODO: delete(?)
-            ref={node} 
-            onClick={() => setSearchOpen(true)}
-          >
+          <div className='flex flex-col border-t border-gray-100 pt-3'>
             <div className='flex items-center text-sm mb-0.5'>
               {t('contacts.search_label')}
               {searchLoading && <Spinner dimensionsClass='w-3 h-3' borderClass='border' className='ml-2'/>}
