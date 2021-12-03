@@ -179,7 +179,10 @@ const translations = {
         your: 'Your contacts',
         search_label: 'search for new contacts',
         search_placeholder: 'type user credentials here',
-        cancel_invitation: 'cancel'
+        cancel_invitation: 'cancel',
+        are_sure: 'Are you sure you want to remove this user contact?',
+        yes_remove: 'Yes, remove',
+        no_go_back: 'No, go back',
       }
     }
   },

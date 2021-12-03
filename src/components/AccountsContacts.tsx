@@ -14,6 +14,7 @@ import GET_PENDING_INVITES from "../graphql/queries/getPendingInvites";
 import { UserType } from "../interfaces/UserInterface";
 import Button from "./Button";
 import Input from "./Input";
+import Modal from "./Modal";
 import Spinner from "./Spinner";
 
 interface ContactsInterface {
@@ -41,9 +42,11 @@ const AccountContacts: React.FC<ContactsInterface> = ({
     variables: { userId: userId },
     errorPolicy: 'all'
   });
+  const [modal, setModal] = useState<{ open: boolean, userToRemove: UserType | null}>({ open: false, userToRemove: null });
 
   useEffect(() => {
     refetchContacts();
+    if (chatUser && (chatUser.id === removeData?.removeContact?.id)) setChatUser(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [removeData]);
 
@@ -86,6 +89,39 @@ const AccountContacts: React.FC<ContactsInterface> = ({
 
   return (
     <div className='w-full h-full p-10 pt-24'>
+      <Modal open={modal.open} onClickAway={() => setModal({ open: false, userToRemove: null })}>
+        <div className='p-3 flex flex-col gap-y-5'>
+          <div className='text-center text-xl'>{t('contacts.are_sure')}</div>
+          <div className='flex flex-col items-center'>
+            <div>{modal.userToRemove?.login}</div>
+            <div className='flex gap-x-3'>
+              <div>{modal.userToRemove?.firstName}</div>
+              <div>{modal.userToRemove?.lastName}</div>
+            </div>
+            <div>{modal.userToRemove?.email}</div>
+          </div>
+          <div className='flex justify-evenly mt-2'>
+            <Button 
+              type='primary'
+              onClick={() => setModal({ open: false, userToRemove: null })}
+              children={t('contacts.no_go_back')}
+            />
+            <Button 
+              type='filled'
+              onClick={() => {
+                setModal({ open: false, userToRemove: null });
+                removeContact({
+                  variables: {
+                    removeContactUserId: userId,
+                    contactId: parseInt(modal.userToRemove!.id.toString())
+                  }
+                });
+              }}
+              children={t('contacts.yes_remove')}
+            />
+          </div>
+        </div>
+      </Modal>
       <div className='w-full h-full rounded-md shadow-md flex'>
         <div className='flex-grow'>
           {/* CHAT HERE */}
@@ -108,12 +144,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
                     @{contact.login}
                     <Button 
                       type='transparent'
-                      onClick={() => removeContact({
-                        variables: {
-                          userId: userId,
-                          contactId: parseInt(contact.id.toString())
-                        }
-                      })}
+                      onClick={() => setModal({ open: true, userToRemove: contact })}
                       children={<MinusCircleIcon className='w-5 h-5' />}
                       className='text-primary invisible group-hover:visible'
                     />
