@@ -13,7 +13,7 @@ import { getUserNavbarData } from "../selectors/UserSelector";
 
 interface UserData {
   userId: string | undefined,
-  username: string | undefined
+  username: string
 }
 
 const menuIconClass = classNames(
@@ -24,7 +24,7 @@ const menuIconClass = classNames(
 const AccountPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { userId } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
+  const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
 
   return (
     <div className='w-full h-full flex'>
@@ -73,7 +73,7 @@ const AccountPage: React.FC = () => {
       <Container className='flex-grow max-w-9xl'>
           <Switch>
             <Route path='/account/calendar' render={() => <AccountClendar userId={parseInt(userId as string)}/>}/>
-            <Route path='/account/contacts' render={() => <AccountContacts userId={parseInt(userId as string)}/>}/>
+            <Route path='/account/contacts' render={() => <AccountContacts userId={parseInt(userId as string)} username={username}/>}/>
           </Switch>
       </Container>
     </div>

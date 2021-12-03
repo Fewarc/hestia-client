@@ -8,17 +8,21 @@ import Config from "../constants/Config";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import SEND_INVITE from "../graphql/mutations/sendContactInvite";
 import FIND_USERS from "../graphql/queries/findUsers";
+import GET_CONTACTS from "../graphql/queries/getContacts";
 import GET_PENDING_INVITES from "../graphql/queries/getPendingInvites";
+import { UserType } from "../interfaces/UserInterface";
 import Button from "./Button";
 import Input from "./Input";
 import Spinner from "./Spinner";
 
 interface ContactsInterface {
-  userId: number
+  userId: number,
+  username: string
 }
 
 const AccountContacts: React.FC<ContactsInterface> = ({
-  userId
+  userId,
+  username
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -30,17 +34,15 @@ const AccountContacts: React.FC<ContactsInterface> = ({
   const [ sendInvite, { data: inviteData, error: inviteError } ] = useMutation(SEND_INVITE, { errorPolicy: 'all' });
   const [ deleteNotification, { error: deleteError, data: deleteData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
   const { data: pendingData, refetch: refetchPending } = useQuery(GET_PENDING_INVITES, 
-    {variables: {
-      userId: userId
-    },
+    {variables: { userId: userId },
     errorPolicy: 'all'
-  },
-  );
-  // TODO: add get contacts
-  // const { data: contactsData, loading: contactsLoading, error: contactsError } = useQuery();
+  });
+  const { data: contactsData, loading: contactsLoading, error: contactsError } = useQuery(GET_CONTACTS, {
+    variables: { userId: userId },
+    errorPolicy: 'all'
+  });
 
-
-  const handleClick = (e: any) => {
+  const handleClick = (e: any): void => {
     if(!node.current) return;
     if(!node.current.contains(e.target)) {
       setSearchOpen(false);
@@ -84,8 +86,15 @@ const AccountContacts: React.FC<ContactsInterface> = ({
       }));
       console.log(JSON.stringify(deleteError, null, 2));
     }
+    if(contactsError) {
+      dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(contactsError).message
+      }));
+      console.log(JSON.stringify(contactsError, null, 2));
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchError, inviteError, deleteError]);
+  }, [searchError, inviteError, deleteError, contactsError]);
 
 
   useEffect(() => {
@@ -111,8 +120,12 @@ const AccountContacts: React.FC<ContactsInterface> = ({
           <div className='text-2xl font-extralight'>
             {t('contacts.your')}
           </div>
-          <div className='flex-grow'>
-            CONTACTS HERE
+          <div className='flex-grow flex flex-col'>
+            {contactsData?.getContacts?.map((contact: UserType) => 
+              <div className='rounded-md hover:bg-gray-50'>
+                @{contact.login}
+              </div>
+            )}
           </div>
           <div 
             className={`transition duration-500 ease-in-out flex flex-col ${((searchOpen && !!searchValue.length) || userDidType) && 'flex-grosdw'}`} // TODO: delete(?)
@@ -169,7 +182,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
                           variables: {
                             senderId: userId,
                             targetId: parseInt(user.id),
-                            inviteContent: `Invite from ${userId} to ${user.id}`
+                            inviteContent: `You have got new contacts invite from @${username}!`
                           }});
                         }}
                         children={<PlusCircleIcon className='w-5 h-5 mr-4'/>}
