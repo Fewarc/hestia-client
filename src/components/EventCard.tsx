@@ -1,7 +1,11 @@
+import { useQuery } from "@apollo/client";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import GET_USER_EVENTS from "../graphql/queries/getUserEvents";
+import { getUserNavbarData } from "../selectors/UserSelector";
 import { Event } from "../types/EventType";
 import Button from "./Button";
 import EventCreationForm from "./EventCreationForm";
@@ -15,34 +19,55 @@ interface EventCardInterface {
   position: number
 }
 
+interface UserData {
+  userId: string | undefined,
+  username: string | undefined
+}
+
 const EventCard: React.FC<EventCardInterface> = ({
   day,
   month,
   year,
-  events,
   position
 }) => {
   const { t } = useTranslation();
-  const [eventCreation, setEventCreation] = useState(false);
-
   const positionClass = classNames(
     {
       '-translate-x-full mr-2': ( position % 7 ) / 4 === 0 || Math.floor(( position % 7 ) / 4 ) >= 1,
       'translate-x-full right-0 ml-2': Math.floor(( position % 7 ) / 4 ) < 1 && ( position % 7 ) / 4 !== 0,
     }
   );
+  const [eventCreation, setEventCreation] = useState(false);
+  const { userId } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
+  const { data, error, loading, refetch: refetchEvents } = useQuery(GET_USER_EVENTS, {
+    variables: {
+      year: year,
+      month: month,
+      day: day + 1,
+      userId: userId
+    },
+    errorPolicy: 'all'
+  });
 
+  const handleEventsUpdate = (): void => {
+
+  }
+  console.log(data);
+  
+const events: Event[] = [];
   return (
     <div className={`absolute transform -translate-y-1/2 top-1/2 p-2 w-96 z-50 ${positionClass}`}>
       <div className='w-full h-full p-2 bg-white rounded-md shadow-md flex flex-col'>
         <div className='text-center'>{day}-{month}-{year}</div>
-        {events?.map((event: Event) => <UserEvent event={event}/>)}
+        {data?.getUserEvents?.map((event: Event) => <UserEvent event={event}/>)}
         {!events?.length && <div className='text-center text-gray-200 my-4'>{t('events.no_events')}</div>}
         {eventCreation ? 
         <EventCreationForm 
           day={day}
           month={month}
           year={year}
+          userId={userId}
+          // onEventsUpdate={}
         /> :
         <Button 
           type='transparent'

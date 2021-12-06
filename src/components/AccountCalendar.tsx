@@ -111,7 +111,7 @@ const AccountClendar: React.FC<CalendarInterface> = ({
                 events={data.getUserCalendar.events.filter((event: Event) => (
                   event.year === year && 
                   event.month === month && 
-                  event.day === day
+                  event.day === day + 1
                 ))}
               />
             )}

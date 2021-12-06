@@ -51,17 +51,18 @@ const CalendarDayTile: React.FC<CalendarDayInterface> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(events);
+  
+
   return (
     <div className={containerClass} onClick={() => setEventCardOpen(true)} ref={node}>
-      {events && 
-        <div className={`absolute top-0 left-2 ${opacityClass}`}>
-          {events.map((event: Event) => 
-            <div>
-              {event.eventName}
-            </div>
-          )}
-        </div>
-      }
+      <div className={`absolute top-0 left-2 ${opacityClass}`}>
+        {events?.map((event: Event, index: number) => 
+          <div key={index + event.eventName + ''}>
+            {event.eventName}
+          </div>
+        )}
+      </div>
       {eventCardOpen && 
         <EventCard 
           day={day}

@@ -10,7 +10,7 @@ const UserEvent: React.FC<EventInterface> = ({
 }) => {
   return (
     <div>
-      
+      {event.eventName}
     </div>
   );
 }
