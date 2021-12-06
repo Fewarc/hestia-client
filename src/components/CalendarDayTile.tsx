@@ -1,32 +1,39 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { Event } from "../types/EventType";
+import EventCard from "./EventCard";
 
 interface CalendarDayInterface {
   day: number,
-  events: Event[] | undefined
+  month: number,
+  year: number,
+  events: Event[] | undefined,
+  position: number
 }
+
+const containerClass = classNames(
+  'group',
+  'relative',
+  'rounded-md',
+  'cursor-pointer',
+  'border border-gray-600 border-opacity-20',
+  'hover:border-primary',
+);
+
+const opacityClass = classNames(
+  'text-gray-600',
+  'group-hover:text-primary',
+  'opacity-20',
+  'group-hover:opacity-100',
+);
 
 const CalendarDayTile: React.FC<CalendarDayInterface> = ({
   day,
-  events
+  month,
+  year,
+  events,
+  position
 }) => {
-  const containerClass = classNames(
-    'relative',
-    'rounded-md',
-    'cursor-pointer',
-    'border border-gray-600',
-    'hover:border-primary',
-    'text-gray-600',
-    'hover:text-primary',
-    'opacity-20',
-    'hover:opacity-100',
-    {
-      "border-primary": !!events?.length,
-      "text-primary": !!events?.length,
-      "opacity-40": !!events?.length
-    }
-  );
   const node = useRef<HTMLHeadingElement>(null);
   const [eventCardOpen, setEventCardOpen] = useState(false);
 
@@ -44,13 +51,10 @@ const CalendarDayTile: React.FC<CalendarDayInterface> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-console.log(events);
-
-
   return (
-    <div className={containerClass} onClick={() => setEventCardOpen(true)}>
+    <div className={containerClass} onClick={() => setEventCardOpen(true)} ref={node}>
       {events && 
-        <div className='absolute top-0 left-2'>
+        <div className={`absolute top-0 left-2 ${opacityClass}`}>
           {events.map((event: Event) => 
             <div>
               {event.eventName}
@@ -58,8 +62,16 @@ console.log(events);
           )}
         </div>
       }
-      {/* {eventCardOpen && <EventCard />} */}
-      <div className='absolute bottom-0 right-0 text-7xl font-extralight'>
+      {eventCardOpen && 
+        <EventCard 
+          day={day}
+          month={month}
+          year={year}
+          events={events} 
+          position={position}
+        />
+      }
+      <div className={`absolute bottom-0 right-0 text-7xl font-extralight ${opacityClass}`}>
         {day}
       </div>
     </div>

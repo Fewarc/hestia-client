@@ -101,10 +101,13 @@ const AccountClendar: React.FC<CalendarInterface> = ({
           )}
           </div> :
           <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
-            {getEmptyDays(month, year).map(_empty => <div></div>)}
-            {data?.getUserCalendar?.calendar[month].map((day: number) => 
+            {getEmptyDays(month, year).map(() => <div></div>)}
+            {data?.getUserCalendar?.calendar[month].map((day: number, index: number) => 
               <CalendarDayTile 
                 day={day} 
+                month={month}
+                year={year}
+                position={getEmptyDays(month, year).length + index + 1}
                 events={data.getUserCalendar.events.filter((event: Event) => (
                   event.year === year && 
                   event.month === month && 

@@ -175,6 +175,14 @@ const translations = {
         }
       },
 
+      events: {
+        add_event: 'add new event',
+        no_events: 'You have got no events planned for this day',
+        title: 'title',
+        description: 'description',
+        confirm_add_event: 'add event'
+      },
+
       contacts: {
         your: 'Your contacts',
         search_label: 'search for new contacts',
