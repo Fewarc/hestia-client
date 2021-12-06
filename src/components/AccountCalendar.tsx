@@ -96,7 +96,7 @@ const AccountClendar: React.FC<CalendarInterface> = ({
           </div>
           {loading ? 
           <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
-          {[ ...Array(35) ].map((day: number) => 
+          {[ ...Array(35) ].map(() => 
             <div className='w-full h-full bg-gray-100 rounded-md animate-pulse'></div>
           )}
           </div> :
@@ -105,7 +105,7 @@ const AccountClendar: React.FC<CalendarInterface> = ({
             {data?.getUserCalendar?.calendar[month].map((day: number) => 
               <CalendarDayTile 
                 day={day} 
-                event={data.getUserCalendar.events.find((event: Event) => (
+                events={data.getUserCalendar.events.filter((event: Event) => (
                   event.year === year && 
                   event.month === month && 
                   event.day === day
