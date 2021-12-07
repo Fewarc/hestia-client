@@ -180,7 +180,9 @@ const translations = {
         no_events: 'You have got no events planned for this day',
         title: 'title',
         description: 'description',
-        confirm_add_event: 'add event'
+        confirm_add_event: 'add event',
+        delete_event: 'delete event',
+        you: 'you'
       },
 
       contacts: {

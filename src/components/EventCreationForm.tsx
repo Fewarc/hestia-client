@@ -13,7 +13,8 @@ interface EventCreationInterface {
   day: number,
   month: number,
   year: number,
-  userId: string | undefined
+  userId: string | undefined,
+  onEventsUpdate: () => void
 }
 
 
@@ -21,7 +22,8 @@ const EventCreationForm: React.FC<EventCreationInterface> = ({
   day,
   month,
   year,
-  userId
+  userId,
+  onEventsUpdate
 }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState<string>('');
@@ -29,9 +31,9 @@ const EventCreationForm: React.FC<EventCreationInterface> = ({
   const dispatch = useDispatch();
   const [ createEvent, { data: eventData, loading: eventLoading, error: eventError } ] = useMutation(CREATE_NEW_EVENT, { errorPolicy: 'all' });
 
-  const handleClick = (): void => {
+  const handleClick = async (): Promise<void> => {
     if (!!title.length && !!description.length) {
-      createEvent({
+      await createEvent({
         variables: {
           eventName: title,
           eventDescription: description,
@@ -39,6 +41,7 @@ const EventCreationForm: React.FC<EventCreationInterface> = ({
           eventOccurance: new Date(year, month, day + 1)
         }
       });
+      onEventsUpdate();
     }
   } 
 
@@ -71,7 +74,7 @@ const EventCreationForm: React.FC<EventCreationInterface> = ({
           type='primary'
           onClick={() => handleClick()}
           children={t('events.confirm_add_event')}
-          className='my-2'
+          className='mt-2'
         />
       </div>
     </div>

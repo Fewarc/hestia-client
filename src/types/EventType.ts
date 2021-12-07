@@ -2,7 +2,7 @@ export type Event = {
   createdAt?: Date,
   eventDescription: string,
   eventName: string,
-  eventOcuranceDate: Date,
+  eventOccuranceDate: Date,
   id?: number,
   ownerId?: number,
   year: number,
