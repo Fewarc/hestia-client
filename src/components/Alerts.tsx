@@ -9,7 +9,7 @@ import Button from "./Button";
 
 const typesOfAlerts = {
   error: 'bg-error bg-opacity-30 border border-error text-error ',
-  warnign: 'bg-warning bg-opacity-30 border border-warning text-warning ',
+  warning: 'bg-warning bg-opacity-30 border border-warning text-warning ',
   info: 'bg-info bg-opacity-30 border border-info text-info '
 }
 

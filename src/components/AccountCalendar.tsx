@@ -1,4 +1,4 @@
-import { ApolloError, useLazyQuery } from "@apollo/client";
+import { ApolloError, useQuery } from "@apollo/client";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
@@ -28,7 +28,13 @@ const AccountClendar: React.FC<CalendarInterface> = ({
   const dispatch = useDispatch();
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth());
-  const [ getCalendar, { data, loading, error } ] = useLazyQuery(GET_USER_CALENDAR, { errorPolicy: 'all' });
+  const { data, loading, error, refetch: refetchCalendar } = useQuery(GET_USER_CALENDAR, {
+    variables: {
+      year: year,
+      userId: userId
+    },
+    errorPolicy: 'all'
+  });
 
   useEffect(() => {
     if(error) {
@@ -43,12 +49,7 @@ const AccountClendar: React.FC<CalendarInterface> = ({
 
   useEffect(() => { 
     if (!data) {
-      getCalendar({
-        variables: {
-          year: year,
-          userId: userId
-        }
-      })
+      refetchCalendar();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -113,6 +114,7 @@ const AccountClendar: React.FC<CalendarInterface> = ({
                   event.month === month && 
                   event.day === day + 1
                 ))}
+                calendarEventsUpdate={() => refetchCalendar()}
               />
             )}
           </div>}

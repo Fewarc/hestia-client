@@ -18,7 +18,8 @@ interface EventCardInterface {
   day: number,
   month: number,
   year: number,
-  position: number
+  position: number,
+  calendarEventsUpdate: () => void
 }
 
 interface UserData {
@@ -30,7 +31,8 @@ const EventCard: React.FC<EventCardInterface> = ({
   day,
   month,
   year,
-  position
+  position,
+  calendarEventsUpdate
 }) => {
   const { t } = useTranslation();
   const positionClass = classNames(
@@ -65,16 +67,24 @@ const EventCard: React.FC<EventCardInterface> = ({
 
   const handleEventsUpdate = (): void => {
     refetchEvents();
+    calendarEventsUpdate();
   }
 
   return (
     <div className={`absolute transform -translate-y-1/2 top-1/2 p-2 w-96 z-50 ${positionClass}`}>
       <div className='w-full h-full p-4 bg-white rounded-md shadow-md flex flex-col'>
         <div className='flex gap-x-2 w-full justify-center'>
-          <div className='text-center'>{day}-{month}-{year}</div>
+          <div className='text-center'>{day}-{month + 1}-{year}</div>
           {loading && <Spinner dimensionsClass='w-5 h-5' borderClass='border'/>}
         </div>
-        {data?.getUserEvents?.map((event: Event) => <UserEvent event={event} userId={userId} username={username}/>)}
+        {data?.getUserEvents?.map((event: Event) => 
+          <UserEvent 
+            event={event} 
+            userId={userId} 
+            username={username} 
+            onEventsUpdate={() => handleEventsUpdate()}
+          />
+        )}
         {!loading && !data?.getUserEvents?.length && <div className='text-center text-gray-200 my-4'>{t('events.no_events')}</div>}
         {eventCreation ? 
         <EventCreationForm 

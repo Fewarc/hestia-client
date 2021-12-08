@@ -186,7 +186,11 @@ const translations = {
         leave_event: 'leave event',
         invite_participants: 'invite participants',
         send_invites: 'send invites',
-        search_for: 'search for contacts to invite'
+        search_for: 'search for contacts to invite',
+        invites_sent: 'Invites has been sent!',
+        no_back: 'No, go back',
+        yes_delete: 'Yes, delete',
+        sure_delete: 'Are you sure you want to delete this event?'
       },
 
       contacts: {

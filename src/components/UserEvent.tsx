@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ApolloError, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { BackspaceIcon, ChevronDownIcon, PlusCircleIcon, UserAddIcon } from "@heroicons/react/outline";
 import React, { useEffect, useRef, useState } from "react";
@@ -5,8 +6,10 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 import Config from "../constants/Config";
+import DELETE_EVENT from "../graphql/mutations/deleteEvent";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import INVITE_FOR_EVENT from "../graphql/mutations/inviteUsersForEvent";
+import LEAVE_EVENT from "../graphql/mutations/leaveEvent";
 import FIND_USERS from "../graphql/queries/findUsers";
 import GET_PARTICIPANTS from "../graphql/queries/getEventParticipants";
 import GET_EVENT_INVITES from "../graphql/queries/getPendingEventInvites";
@@ -20,15 +23,18 @@ import Spinner from "./Spinner";
 interface EventInterface {
   event: Event,
   userId: string | undefined,
-  username: string | undefined
+  username: string | undefined,
+  onEventsUpdate: () => void
 }
 
 const UserEvent: React.FC<EventInterface> = ({
   event,
   userId,
-  username
+  username,
+  onEventsUpdate
 }) => {
-  const node = useRef<HTMLHeadingElement>(null);
+  const inviteNode = useRef<HTMLHeadingElement>(null);
+  const deleteNode = useRef<HTMLHeadingElement>(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [participantsOpen, setParticipantsOpen] = useState<boolean>(false);
@@ -37,6 +43,8 @@ const UserEvent: React.FC<EventInterface> = ({
   const [ findUsers, { data: searchData, loading: searchLoading, error: searchError } ] = useLazyQuery(FIND_USERS, { errorPolicy: 'all' });
   const [ deleteNotification, { error: deleteError, data: deleteData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
   const [ inviteForEvent, { data: inviteData, error: inviteError } ] = useMutation(INVITE_FOR_EVENT, { errorPolicy: 'all' });
+  const [ leaveEvent, { data: leaveData, error: leaveError } ] = useMutation(LEAVE_EVENT, { errorPolicy: 'all' });
+  const [ deleteEvent, { data: deleteEventData, error: deleteEventError } ] = useMutation(DELETE_EVENT, { errorPolicy: 'all' });
   const { data: pendingData, refetch: refetchPending } = useQuery(GET_EVENT_INVITES, {
     variables: { eventId: event.id },
     errorPolicy: 'all'
@@ -46,13 +54,15 @@ const UserEvent: React.FC<EventInterface> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const handleClick = (e: any): void => {
-    if(!node.current) return;
-    if(!node.current.contains(e.target)) {
+    if(!inviteNode.current || !deleteNode.current) return;
+    if(!inviteNode?.current.contains(e.target)) {
       setParticipantsOpen(false)
       setInviteModalOpen(false);
     };
+    if(!deleteNode?.current.contains(e.target)) {
+      setDeleteModalOpen(false);
+    };
   }
-console.log(pendingData);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
@@ -60,31 +70,53 @@ console.log(pendingData);
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     refetchPending();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteData, inviteData]);
+  }, [deleteData]);
+
+  useEffect(() => {
+    if(inviteData?.inviteUsersForEvent) {
+      dispatch(pushAlert({
+        type: Config.INFO_ALERT,
+        message: t('events.invites_sent')
+      }));
+    }
+  }, [inviteData]);
+
+  useEffect(() => {
+    if (deleteEventData?.deleteEvent || leaveData?.leaveEvent) {
+      onEventsUpdate()
+    }
+  }, [deleteEventData, leaveData]);
 
   const handleError = (error: ApolloError | undefined) => {
     if(error) {
       dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(error).message
+        type: Config.ERROR_ALERT,
+        message: new ApolloError(error).message
       }));
       console.log(JSON.stringify(error, null, 2));
     }
   }
 
   useEffect(() => {
+    if(inviteError) {
+      dispatch(pushAlert({
+        type: Config.WARNING_ALERT,
+        message: new ApolloError(inviteError).message
+      }));
+    }
+  }, [inviteError]);
+
+  useEffect(() => {
     handleError(searchError);
-    handleError(inviteError);
     handleError(deleteError);
     handleError(error);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchError, inviteError, deleteError, error]);
+    handleError(deleteEventError);
+    handleError(leaveError);
+  }, [searchError, deleteError, error, deleteEventError, leaveError]);
 
   useEffect(() => {
     if (searchValue.length && !searchLoading) {
@@ -95,7 +127,6 @@ console.log(pendingData);
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, searchLoading]);
 
   const handleEventClick = (): void => {
@@ -112,7 +143,7 @@ console.log(pendingData);
   }
 
   return (
-    <div ref={node}>
+    <div ref={inviteNode}>
       {inviteModalOpen && 
         <div className='absolute w-96 bg-white rounded-md shadow-xl -ml-6 p-2 z-50'>
           <div className='flex flex-col pt-3'>
@@ -160,8 +191,15 @@ console.log(pendingData);
                         }
                       /> :
                       <Checkbox 
-                        value={usersToInvite.some(toInvite => toInvite === user.id)}
-                        onClick={() => setUsersToInvite([ ...usersToInvite, user.id ])}
+                        value={usersToInvite.some(toInvite => toInvite === parseInt(user.id))}
+                        onClick={() => {
+                          if (usersToInvite.some(toInvite => toInvite === parseInt(user.id))) {
+                            setUsersToInvite([ ...usersToInvite.filter(userId => userId !== parseInt(user.id)) ]);
+                          } else {
+                            setUsersToInvite([ ...usersToInvite, parseInt(user.id) ]);
+                          }
+                        }
+                        }
                         className='w-3 h-3 mr-4'
                       />
                       }
@@ -173,13 +211,15 @@ console.log(pendingData);
           </div>
           <Button 
             type='transparent'
-            onClick={() => inviteForEvent({
+            onClick={() => {
+              inviteForEvent({
               variables: {
                 userIds: usersToInvite,
-                eventId: event.id,
-                content: `${Config.EVENT_INVITE_PREFIX}@${username} has invited you to participate in event: ${event.eventName} at ${event.day}-${event.month}-${event.year}`
-              }
-            })}
+                eventId: parseInt(event.id!.toString()),
+                content: `${Config.EVENT_INVITE_PREFIX}@${username} has invited you to participate in event: ${event.eventName} at ${event.day - 1}-${event.month + 1}-${event.year}`
+              }});
+              setInviteModalOpen(false);
+            }}
             children={
               <div className='flex items-center justify-center'>
                 <div>{t('events.send_invites')}</div>
@@ -188,6 +228,29 @@ console.log(pendingData);
             }
             className='w-full'
           />
+        </div>
+      }
+      {deleteModalOpen && 
+        <div className='absolute w-96 bg-white rounded-md shadow-xl -ml-6 p-6 text-center z-50' ref={deleteNode}>
+          {t('events.sure_delete')}
+          <div className='flex justify-evenly mt-4'>
+            <Button 
+              type='primary'
+              onClick={() => setDeleteModalOpen(false)}
+              children={t('events.no_back')}
+            />
+            <Button 
+              type='filled'
+              onClick={() => {
+                deleteEvent({
+                variables: {
+                  eventId: parseInt(event.id!.toString())
+                }});
+                setDeleteModalOpen(false);
+              }}
+              children={t('events.yes_delete')}
+            />
+          </div>
         </div>
       }
       <div className='flex group items-center rounded-md hover:bg-gray-100 hover:bg-opacity-50 p-2' onClick={() => handleEventClick()}>
@@ -222,7 +285,7 @@ console.log(pendingData);
                           (event.ownerId === parseInt(userId!) ?
                           <Button 
                             type='link'
-                            onClick={() => null}
+                            onClick={() => setDeleteModalOpen(true)}
                             children={
                               <div className='rounded-full text-primary border-2 border-primary font-bold text-xs px-1'>
                                 {t('events.delete_event')}
@@ -230,12 +293,17 @@ console.log(pendingData);
                           /> :
                           <Button 
                             type='link'
-                            onClick={() => null}
+                            onClick={() => leaveEvent({
+                              variables: {
+                                userId: userId,
+                                eventId: parseInt(event.id!.toString())
+                              }
+                            })}
                             children={
                               <div className='rounded-full text-primary border-2 border-primary font-bold text-xs px-1'>
                                 {t('events.leave_event')}
                               </div>}
-                          />) : // TODO: implement and test !!!!!!!!!!!!!!
+                          />) :
                           null
                         }
                         </div>
@@ -246,7 +314,8 @@ console.log(pendingData);
                 </div>
               </div>
             )}
-            <Button 
+            {userId === event.ownerId && 
+              <Button 
               type='transparent'
               onClick={() => setInviteModalOpen(true)}
               children={
@@ -256,7 +325,7 @@ console.log(pendingData);
                 </div>
               }
               className='w-full mt-4'
-            />
+            />}
           </div>
         }
       </div>

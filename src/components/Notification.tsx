@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 import { updateNotifications } from "../actions/NotificationsActions";
 import Config from "../constants/Config";
+import ACCEPT_EVENT_INVITE from "../graphql/mutations/acceptEventInvite";
 import ACCEPT_INVITE from "../graphql/mutations/acceptInvite";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import DELETE_NOTIFICATIONS_OF_TYPE from "../graphql/mutations/deleteNotificationsOfType";
@@ -68,6 +69,7 @@ const Notification: React.FC<notificationType> = ({
   const [ deleteNotification, { loading: singleLoading, error: singleError, data: singleData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
   const [ deleteNotificationsOfType, { loading: allLoading, error: allError, data: allData } ] = useMutation(DELETE_NOTIFICATIONS_OF_TYPE, { errorPolicy: 'all' });
   const [ acceptUserInvite, { loading: acceptLoading, error: acceptError, data: acceptData } ] = useMutation(ACCEPT_INVITE, { errorPolicy: 'all' });
+  const [ acceptEventInvite, { loading: eventLoading, error: eventError, data: eventData} ] = useMutation(ACCEPT_EVENT_INVITE, { errorPolicy: 'all' });
   const notifiactionType: typeOfNotification = title.slice(0, -1) as typeOfNotification;
 
   useEffect(() => {
@@ -83,6 +85,11 @@ const Notification: React.FC<notificationType> = ({
       type: Config.ERROR_ALERT,
       message: new ApolloError(acceptError).message
     }));
+    if(eventError) dispatch(pushAlert({
+      type: Config.ERROR_ALERT,
+      message: new ApolloError(eventError).message
+    }));
+    console.log(JSON.stringify(eventError, null, 2));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleError, allError, acceptError]);
 
@@ -90,8 +97,9 @@ const Notification: React.FC<notificationType> = ({
     if(singleData) dispatch(updateNotifications(singleData.deleteNotification));
     if(allData) dispatch(updateNotifications(allData.deleteAllNotifications));
     if(acceptData) dispatch(updateNotifications(acceptData.acceptInvite));
+    if(eventData) dispatch(updateNotifications(eventData.acceptEventInvite));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleData, allData, acceptData]);
+  }, [singleData, allData, acceptData, eventData]);
 
   const handleClick = (e: any) => {
     if(!node.current) return;
@@ -116,16 +124,33 @@ const Notification: React.FC<notificationType> = ({
       }
     });
   }
+console.log(eventData);
 
   const acceptInvite = (notification: NotificationType): void => {
-    acceptUserInvite({
-      variables: {
-        targetId: notification.targetId,
-        userId: notification.senderId,
-        acceptInviteId: parseInt((notification.id).toString()),
-        content: notification.content
-      }
-    });
+    const inviteType = notification.content.substring(0, notification.content.indexOf('/') + 1);
+
+    switch (inviteType) {
+      case Config.EVENT_INVITE_PREFIX:
+        acceptEventInvite({
+          variables: {
+            notificationId: parseInt((notification.id).toString()),
+            eventId: notification.senderId,
+            userId: userId
+          }
+        });
+        break;
+
+      case Config.CONTACTS_INVITE_PREFIX:
+        acceptUserInvite({
+          variables: {
+            targetId: notification.targetId,
+            userId: notification.senderId,
+            acceptInviteId: parseInt((notification.id).toString()),
+            content: notification.content
+          }
+        });
+        break;
+    }
   }
 
   return (
@@ -143,7 +168,7 @@ const Notification: React.FC<notificationType> = ({
       {open && (
         <div className={dropClass} ref={node}>
           <div className='relative' ref={dropNode}>
-            {(singleLoading || allLoading || acceptLoading) && <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-5 -translate-y-5 opacity-100' dimensionsClass='w-10 h-10'/>}
+            {(singleLoading || allLoading || acceptLoading || eventLoading) && <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-5 -translate-y-5 opacity-100' dimensionsClass='w-10 h-10'/>}
             <div className={`${(singleLoading || allLoading) && 'opacity-20'}`}>
               <div className='flex justify-between'>
                 <div className='mb-2'>{title}</div>
@@ -165,7 +190,7 @@ const Notification: React.FC<notificationType> = ({
               {notifications.map((notification, index) => (
                 <div className={`group flex items-center py-2 text-xs ${!!index && 'border-t border-gray-500 border-opacity-5'}`}>
                   <div className='flex-grow'>
-                    {notification.content}
+                    {notification.content.includes('/') ? notification.content.split('/')[1] : notification.content}
                   </div>
                   {invite ? 
                   <div className='invisible group-hover:visible flex'>

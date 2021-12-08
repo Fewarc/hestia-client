@@ -13,6 +13,8 @@ type NotificationAction =
 export default (notifications: NotificationType[] = NotificationsState, action: NotificationAction) => {
   switch (action.type) {
     case ActionTypes.UPDATE_NOTIFICATIONS: {
+      console.log(action.payload);
+      
       return [ ...action.payload ];
     }
 

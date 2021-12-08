@@ -8,7 +8,8 @@ interface CalendarDayInterface {
   month: number,
   year: number,
   events: Event[] | undefined,
-  position: number
+  position: number,
+  calendarEventsUpdate: () => void
 }
 
 const containerClass = classNames(
@@ -32,7 +33,8 @@ const CalendarDayTile: React.FC<CalendarDayInterface> = ({
   month,
   year,
   events,
-  position
+  position,
+  calendarEventsUpdate
 }) => {
   const node = useRef<HTMLHeadingElement>(null);
   const [eventCardOpen, setEventCardOpen] = useState(false);
@@ -66,6 +68,7 @@ const CalendarDayTile: React.FC<CalendarDayInterface> = ({
           month={month}
           year={year}
           position={position}
+          calendarEventsUpdate={() => calendarEventsUpdate()}
         />
       }
       <div className={`absolute bottom-0 right-0 text-7xl font-extralight ${opacityClass}`}>

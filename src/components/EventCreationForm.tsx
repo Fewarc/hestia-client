@@ -29,7 +29,7 @@ const EventCreationForm: React.FC<EventCreationInterface> = ({
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const dispatch = useDispatch();
-  const [ createEvent, { data: eventData, loading: eventLoading, error: eventError } ] = useMutation(CREATE_NEW_EVENT, { errorPolicy: 'all' });
+  const [ createEvent, { loading: eventLoading, error: eventError } ] = useMutation(CREATE_NEW_EVENT, { errorPolicy: 'all' });
 
   const handleClick = async (): Promise<void> => {
     if (!!title.length && !!description.length) {
