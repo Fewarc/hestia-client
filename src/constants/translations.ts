@@ -201,6 +201,8 @@ const translations = {
         are_sure: 'Are you sure you want to remove this user contact?',
         yes_remove: 'Yes, remove',
         no_go_back: 'No, go back',
+        chatting_with: 'Chatting with ',
+        you: 'You'
       }
     }
   },

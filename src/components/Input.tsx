@@ -14,6 +14,7 @@ interface inputTypes {
   disabled?: string,
   placeholder?: string,
   willDisplayError?: boolean,
+  onKeyDown?: (e: any) => void
 }
 
 const inputClass = classNames(
@@ -57,6 +58,7 @@ const Input: React.FC<inputTypes> = ({
   disabled,
   placeholder,
   willDisplayError = true,
+  onKeyDown
 }) => {
   if(type === Config.INPUT_TYPE_NUMBER) {
     value = value.replace(/[^\d.-]/g, '');
@@ -73,6 +75,7 @@ const Input: React.FC<inputTypes> = ({
         spellCheck={false}
         placeholder={placeholder}
         onChange={(e: any) => onChange(e)}
+        onKeyDown={(e: any) => onKeyDown && onKeyDown(e)}
       />
       {willDisplayError && <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || Config.ERROR_ALERT}</div>}
     </div>

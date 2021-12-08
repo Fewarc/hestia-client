@@ -21,12 +21,14 @@ module.exports = {
         "map": "40rem",
       },
       spacing: {
-        "76": "19rem"
+        "76": "19rem",
+        "192": "48rem"
       },
       maxWidth: {
         "xxs": "14rem",
         "8xl": "88rem",
-        "9xl": "96rem"
+        "9xl": "96rem",
+        "1/2": "50%"
       },
     },
     minWidth: {

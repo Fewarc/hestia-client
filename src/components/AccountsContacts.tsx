@@ -13,6 +13,7 @@ import GET_CONTACTS from "../graphql/queries/getContacts";
 import GET_PENDING_INVITES from "../graphql/queries/getPendingInvites";
 import { UserType } from "../interfaces/UserInterface";
 import Button from "./Button";
+import Chat from "./Chat";
 import Input from "./Input";
 import Modal from "./Modal";
 import Spinner from "./Spinner";
@@ -123,8 +124,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
       </Modal>
       <div className='w-full h-full rounded-md shadow-md flex'>
         <div className='flex-grow'>
-          {/* CHAT HERE */}
-          {`chat with: ${chatUser?.login}`}
+          {chatUser && <Chat userId={userId} chatUser={chatUser}/>}
         </div>
         <div className='w-96 rounded-r-md border-l border-gray-100 p-4 flex flex-col'>
           <div className='text-2xl font-extralight px-1'>

@@ -89,7 +89,6 @@ const Notification: React.FC<notificationType> = ({
       type: Config.ERROR_ALERT,
       message: new ApolloError(eventError).message
     }));
-    console.log(JSON.stringify(eventError, null, 2));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleError, allError, acceptError]);
 
@@ -124,7 +123,6 @@ const Notification: React.FC<notificationType> = ({
       }
     });
   }
-console.log(eventData);
 
   const acceptInvite = (notification: NotificationType): void => {
     const inviteType = notification.content.substring(0, notification.content.indexOf('/') + 1);

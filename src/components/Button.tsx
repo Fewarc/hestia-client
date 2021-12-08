@@ -7,7 +7,8 @@ interface buttonTypes {
   disabled?: boolean,
   className?: string,
   children?: JSX.Element | JSX.Element[] | string,
-  onClick: () => void
+  onClick: () => void,
+  onKeyDown?: (e: any) => void,
 }
 
 const buttonStyles = {
@@ -22,7 +23,7 @@ const getButtonStyles = (
   type: keyof typeof buttonStyles,
   size: string = 'md',
   disabled: boolean = false,
-  className?: string
+  className?: string,
 ) => classNames(
   "cursor-pointer",
   {
@@ -39,10 +40,11 @@ const Button: React.FC<buttonTypes> = ({
   disabled,
   className,
   children,
-  onClick
+  onClick,
+  onKeyDown
 }) => {
   return (
-    <button onClick={onClick} className={getButtonStyles(type, size, disabled, className)}>
+    <button onClick={onClick} onKeyDown={(e) => onKeyDown && onKeyDown(e)} className={getButtonStyles(type, size, disabled, className)}>
       {children}
     </button>
   );
