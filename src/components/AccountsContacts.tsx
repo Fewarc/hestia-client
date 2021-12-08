@@ -74,7 +74,6 @@ const AccountContacts: React.FC<ContactsInterface> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchError, inviteError, deleteError, contactsError, removeError]);
 
-
   useEffect(() => {
     if (searchValue.length && !searchLoading) {
       findUsers({
@@ -205,7 +204,7 @@ const AccountContacts: React.FC<ContactsInterface> = ({
                           variables: {
                             senderId: userId,
                             targetId: parseInt(user.id),
-                            inviteContent: `You have got new contacts invite from @${username}!`
+                            inviteContent: `${Config.CONTACTS_INVITE_PREFIX}You have got new contacts invite from @${username}!`
                           }});
                         }}
                         children={<PlusCircleIcon className='w-5 h-5 mr-4'/>}

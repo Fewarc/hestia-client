@@ -5,13 +5,15 @@ import { CheckIcon } from "@heroicons/react/outline";
 interface checkboxTypes {
   value: boolean,
   disabled?: boolean | undefined,
-  onClick: () => void 
+  onClick: () => void,
+  className?: string
 }
 
 const Checkbox: React.FC<checkboxTypes> = ({
   value,
   disabled = false,
-  onClick
+  onClick,
+  className
 }) => {
   const checkboxClass = classNames(
     'w-7 h-7',
@@ -24,7 +26,7 @@ const Checkbox: React.FC<checkboxTypes> = ({
   );
 
   return (
-    <button className={checkboxClass} onClick={onClick}>
+    <button className={`${checkboxClass} ${className}`} onClick={onClick}>
       {value && <CheckIcon className='w-full h-full text-white'/>}
     </button>
   );

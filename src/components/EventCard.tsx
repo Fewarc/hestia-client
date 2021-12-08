@@ -41,7 +41,7 @@ const EventCard: React.FC<EventCardInterface> = ({
   );
   const dispatch = useDispatch();
   const [eventCreation, setEventCreation] = useState(false);
-  const { userId } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
+  const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
   const { data, error, loading, refetch: refetchEvents } = useQuery(GET_USER_EVENTS, {
     variables: {
       year: year,
@@ -74,7 +74,7 @@ const EventCard: React.FC<EventCardInterface> = ({
           <div className='text-center'>{day}-{month}-{year}</div>
           {loading && <Spinner dimensionsClass='w-5 h-5' borderClass='border'/>}
         </div>
-        {data?.getUserEvents?.map((event: Event) => <UserEvent event={event} userId={userId}/>)}
+        {data?.getUserEvents?.map((event: Event) => <UserEvent event={event} userId={userId} username={username}/>)}
         {!loading && !data?.getUserEvents?.length && <div className='text-center text-gray-200 my-4'>{t('events.no_events')}</div>}
         {eventCreation ? 
         <EventCreationForm 

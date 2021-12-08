@@ -19,7 +19,10 @@ const Config = {
 
   INPUT_TYPE_NUMBER: 'numberInput',
 
-  NOT_APPLICABLE: 'not applicable'
+  NOT_APPLICABLE: 'not applicable',
+
+  EVENT_INVITE_PREFIX: 'EVENT_INVITE/',
+  CONTACTS_INVITE_PREFIX: 'CONTACTS_INVITE/',
 }
 
 export default Config;

@@ -182,7 +182,11 @@ const translations = {
         description: 'description',
         confirm_add_event: 'add event',
         delete_event: 'delete event',
-        you: 'you'
+        you: 'you',
+        leave_event: 'leave event',
+        invite_participants: 'invite participants',
+        send_invites: 'send invites',
+        search_for: 'search for contacts to invite'
       },
 
       contacts: {
