@@ -99,13 +99,12 @@ const Chat: React.FC<ChatProps> = ({
 
   return (
     <div className='w-full h-full flex flex-col justify-end max-w-6xl relative'>
-      <div className='max-h-192 max-w-full px-6 flex flex-col overflow-y-auto'>
+      <div className='max-h-192 max-w-full px-6 flex flex-col-reverse overflow-y-auto'>
         {messages?.map((message: Message, index: number) =>               
           <div className={`w-full flex text-white ${message.fromId === userId ? 'justify-end pl-6' : 'pr-6'}`}>
             <div className='max-w-1/2'>
               <div className={`text-sm text-gray-300 flex ${message.fromId === userId ? 'justify-end' : ''}`}>
-                {index === 0 && (message.fromId === userId ? t('contacts.you') : chatUser?.login)}
-                {!!index && message.fromId !== messages[index - 1].fromId ? (message.fromId === userId ? t('contacts.you') : chatUser?.login) : null}
+                {!!index && index + 1 < messages.length - 1 && message.fromId !== messages[index + 1].fromId ? (message.fromId === userId ? t('contacts.you') : chatUser?.login) : null}
               </div>
               <div className={`rounded-xl break-words px-3 py-1 mt-0.5 text-xl  ${message.fromId === userId ? 'bg-primary' : 'bg-gray-400'}`}>
                 {message.content}
