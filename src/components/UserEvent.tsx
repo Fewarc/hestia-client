@@ -10,7 +10,7 @@ import DELETE_EVENT from "../graphql/mutations/deleteEvent";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import INVITE_FOR_EVENT from "../graphql/mutations/inviteUsersForEvent";
 import LEAVE_EVENT from "../graphql/mutations/leaveEvent";
-import FIND_USERS from "../graphql/queries/findUsers";
+import FIND_USER_CONTACTS from "../graphql/queries/findUserContacts";
 import GET_PARTICIPANTS from "../graphql/queries/getEventParticipants";
 import GET_EVENT_INVITES from "../graphql/queries/getPendingEventInvites";
 import { UserType } from "../interfaces/UserInterface";
@@ -40,7 +40,7 @@ const UserEvent: React.FC<EventInterface> = ({
   const [participantsOpen, setParticipantsOpen] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [ getParticipants, { data, loading, error } ] = useLazyQuery(GET_PARTICIPANTS, { errorPolicy: 'all' });
-  const [ findUsers, { data: searchData, loading: searchLoading, error: searchError } ] = useLazyQuery(FIND_USERS, { errorPolicy: 'all' });
+  const [ findUserContacts, { data: searchData, loading: searchLoading, error: searchError } ] = useLazyQuery(FIND_USER_CONTACTS, { errorPolicy: 'all' });
   const [ deleteNotification, { error: deleteError, data: deleteData } ] = useMutation(DELETE_NOTIFICATION, { errorPolicy: 'all' });
   const [ inviteForEvent, { data: inviteData, error: inviteError } ] = useMutation(INVITE_FOR_EVENT, { errorPolicy: 'all' });
   const [ leaveEvent, { data: leaveData, error: leaveError } ] = useMutation(LEAVE_EVENT, { errorPolicy: 'all' });
@@ -95,7 +95,7 @@ const UserEvent: React.FC<EventInterface> = ({
     if(error) {
       dispatch(pushAlert({
         type: Config.ERROR_ALERT,
-        message: new ApolloError(error).message
+        message: error.message
       }));
       console.log(JSON.stringify(error, null, 2));
     }
@@ -120,7 +120,7 @@ const UserEvent: React.FC<EventInterface> = ({
 
   useEffect(() => {
     if (searchValue.length && !searchLoading) {
-      findUsers({
+      findUserContacts({
         variables: {
           searchValue: searchValue,
           userId: userId
@@ -169,7 +169,7 @@ const UserEvent: React.FC<EventInterface> = ({
             </div>
             {searchData && !!searchValue.length && 
               <div className='h-64 flex flex-col overflow-y-auto'>
-                {searchData.findUsers?.map((user: any, index: number) => 
+                {searchData.findUserContacts?.map((user: any, index: number) => 
                   <div className={`flex items-center justify-between text-xl py-2 ${index && 'border-t border-gray-100'}`}>
                     <div>@{user.login}</div>
                     <div>

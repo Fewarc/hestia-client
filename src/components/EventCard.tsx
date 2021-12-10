@@ -87,24 +87,25 @@ const EventCard: React.FC<EventCardInterface> = ({
         )}
         {!loading && !data?.getUserEvents?.length && <div className='text-center text-gray-200 my-4'>{t('events.no_events')}</div>}
         {eventCreation ? 
-        <EventCreationForm 
-          day={day}
-          month={month}
-          year={year}
-          userId={userId}
-          onEventsUpdate={() => handleEventsUpdate()}
-        /> :
-        <Button 
-          type='transparent'
-          onClick={() => setEventCreation(true)}
-          children={
-            <div className='flex items-center justify-center py-1'>
-              <div>{t('events.add_event')}</div>
-              <div><PlusCircleIcon className='w-5 h-5 text-primary ml-2'/></div>
-            </div>
-          }
-          className='rounded-md hover:bg-gray-100 w-full mt-2'
-        />}
+          <EventCreationForm 
+            day={day}
+            month={month}
+            year={year}
+            userId={userId}
+            onEventsUpdate={() => handleEventsUpdate()}
+          /> :
+          <Button 
+            type='transparent'
+            onClick={() => setEventCreation(true)}
+            children={
+              <div className='flex items-center justify-center py-1'>
+                <div>{t('events.add_event')}</div>
+                <div><PlusCircleIcon className='w-5 h-5 text-primary ml-2'/></div>
+              </div>
+            }
+            className='rounded-md hover:bg-gray-100 w-full mt-2'
+          />
+        }
       </div>
     </div>
   );
