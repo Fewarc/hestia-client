@@ -208,7 +208,8 @@ const translations = {
 
       notes: {
         save_note: 'save note',
-        note_saved: 'Note has been saved!'
+        note_saved: 'Note has been saved!',
+        filter_events: 'filter events'
       }
     }
   },

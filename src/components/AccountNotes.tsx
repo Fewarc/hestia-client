@@ -14,6 +14,7 @@ import { getUserNotes } from "../selectors/NotesSelector";
 import { Event } from '../types/EventType';
 import { Note } from "../types/NoteType";
 import Button from "./Button";
+import Input from "./Input";
 import Spinner from "./Spinner";
 import TextArea from "./TextArea";
 
@@ -42,6 +43,7 @@ const AccountNotes: React.FC<NotesInterface> = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [noteValue, setNoteValue] = useState<string>(''); 
+  const [filterValue, setFilterValue] = useState<string>(''); 
   const [event, setEvent] = useState<Event | null>(null);
   const notes = useSelector<Note[], Note[]>(state => getUserNotes(state));
   const events = useSelector<Event[], Event[]>(state => getUserEvents(state));
@@ -100,9 +102,17 @@ const AccountNotes: React.FC<NotesInterface> = ({
     <div className='w-full h-full p-10 pt-24'>
       <div className='w-full h-full rounded-md shadow-md flex'>
         <div className='border-r border-gray-100 w-72 flex flex-col p-2 relative h-full'>
+          <Input 
+            label={t('notes.filter_events')}
+            type='text'
+            value={filterValue}
+            onChange={(e) => setFilterValue(e.target.value)}
+            willDisplayError={false}
+            className='mb-4'
+          />
           {eventsLoading ? 
             <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' /> :
-            events?.map((event: Event) => 
+            events?.filter(event => event.eventName.includes(filterValue)).map((event: Event) => 
               <Button 
                 type='transparent'
                 onClick={() => {
