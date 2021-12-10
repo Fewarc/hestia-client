@@ -101,12 +101,12 @@ const AccountClendar: React.FC<CalendarInterface> = ({
             {getDayNames(t).map(dayName => <div>{dayName}</div>)}
           </div>
           {loading ? 
-          <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
+          <div className='flex-grow grid grid-cols-7 grid-rows-6 gap-2 mb-10'>
           {[ ...Array(35) ].map(() => 
             <div className='w-full h-full bg-gray-100 rounded-md animate-pulse'></div>
           )}
           </div> :
-          <div className='flex-grow grid grid-cols-7 grid-rows-5 gap-2 mb-10'>
+          <div className='flex-grow grid grid-cols-7 grid-rows-6 gap-2 mb-10'>
             {getEmptyDays(month, year).map(() => <div></div>)}
             {data?.getUserCalendar?.calendar[month].map((day: number, index: number) => 
               <CalendarDayTile 
