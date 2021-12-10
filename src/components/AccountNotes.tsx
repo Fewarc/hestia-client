@@ -91,10 +91,10 @@ const AccountNotes: React.FC<NotesInterface> = ({
         type: Config.INFO_ALERT,
         message: t('notes.note_saved')
       }));
+      dispatch(updateNotes(saveData.saveNote))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveData]);
-console.log(saveData);
 
   return (
     <div className='w-full h-full p-10 pt-24'>
@@ -122,6 +122,7 @@ console.log(saveData);
                 <div className='text-xl font-black'>{event?.eventName}</div>
                 <Button 
                   type='primary'
+                  disabled={noteValue === notes.find((note: Note) => note.eventId === parseInt(event!.id!.toString()))?.content}
                   onClick={() => saveNote({
                     variables: {
                       userId: parseInt(userId.toString()),

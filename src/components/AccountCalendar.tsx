@@ -37,6 +37,11 @@ const AccountClendar: React.FC<CalendarInterface> = ({
   });
 
   useEffect(() => {
+    refetchCalendar();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if(error) {
       dispatch(pushAlert({
         type: Config.ERROR_ALERT,
