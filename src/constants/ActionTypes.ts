@@ -17,7 +17,13 @@ const ActionTypes = {
   MARK_AS_SEEN: 'MARK_AS_SEEN',
 
   // messages actions
-  UPDATE_MESSAGES: 'UPDATE_MESSAGES'
+  UPDATE_MESSAGES: 'UPDATE_MESSAGES',
+
+  // events actions
+  UPDATE_EVENTS: 'UPDATE_EVENTS',
+
+  // notes actions
+  UPDATE_NOTES: 'UPADTE_NOTES'
 }
 
 export default ActionTypes;

@@ -144,7 +144,8 @@ const translations = {
           account: 'account',
           settings: 'settings',
           calendar: 'calendar',
-          contacts: 'contacts'
+          contacts: 'contacts',
+          notes: 'notes'
         }
       },
 
@@ -203,6 +204,10 @@ const translations = {
         no_go_back: 'No, go back',
         chatting_with: 'Chatting with ',
         you: 'You'
+      },
+
+      notes: {
+        save_note: 'save note'
       }
     }
   },

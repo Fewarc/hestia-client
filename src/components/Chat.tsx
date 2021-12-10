@@ -1,6 +1,5 @@
 import { ApolloError, useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { PaperAirplaneIcon } from "@heroicons/react/outline";
-import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,15 +20,6 @@ interface ChatProps {
   userId: number
 }
 
-const chatUserMesssage = classNames(
-  'bg-gray-200',
-);
-
-const userMessage = classNames(
-  'bg-primary',
-  'justify-items-end'
-);
-
 const Chat: React.FC<ChatProps> = ({
   chatUser,
   userId
@@ -43,8 +33,8 @@ const Chat: React.FC<ChatProps> = ({
       secondUser: parseInt(chatUser!.id.toString())
     }
   });
-  const [ getMessages, { data: messagesData, loading: messagesLoading, error: messageError } ] = useLazyQuery(FETCH_MESSAGES, { errorPolicy: 'all' });
-  const [ sendMessage, { data: sentData, error: sentError } ] = useMutation(SEND_MESSAGE, { errorPolicy: 'all' });
+  const [ getMessages, { data: messagesData, error: messageError } ] = useLazyQuery(FETCH_MESSAGES, { errorPolicy: 'all' });
+  const [ sendMessage, { error: sentError } ] = useMutation(SEND_MESSAGE, { errorPolicy: 'all' });
   const messages = useSelector<Message[], Message[]>(state => getChatMessages(state));
 
   useEffect(() => {
@@ -87,14 +77,16 @@ const Chat: React.FC<ChatProps> = ({
   }
 
   const handleSendMessage = () => {
-    sendMessage({
-      variables: {
-        toId: parseInt(chatUser!.id.toString()),
-        fromId: parseInt(userId!.toString()),
-        content: messageValue
-      }
-    });
-    setMessageValue('');
+    if (!!messageValue.length) {
+      sendMessage({
+        variables: {
+          toId: parseInt(chatUser!.id.toString()),
+          fromId: parseInt(userId!.toString()),
+          content: messageValue
+        }
+      });
+      setMessageValue('');
+    } 
   }
 
   return (

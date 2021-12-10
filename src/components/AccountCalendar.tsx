@@ -39,8 +39,8 @@ const AccountClendar: React.FC<CalendarInterface> = ({
   useEffect(() => {
     if(error) {
       dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(error).message
+        type: Config.ERROR_ALERT,
+        message: new ApolloError(error).message
       }));
       console.log(JSON.stringify(error, null, 2));
     }

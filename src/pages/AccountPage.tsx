@@ -1,4 +1,4 @@
-import { CalendarIcon, CogIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/outline";
+import { CalendarIcon, ClipboardListIcon, CogIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Switch, useHistory } from "react-router";
 import { Route } from "react-router-dom";
 import AccountClendar from "../components/AccountCalendar";
+import AccountNotes from "../components/AccountNotes";
 import AccountContacts from "../components/AccountsContacts";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -69,11 +70,22 @@ const AccountPage: React.FC = () => {
             </div>
           }
         />
+        <Button 
+          type='transparent'
+          onClick={() => history.push('/account/notes')}
+          children={
+            <div className='flex items-center'>
+              <ClipboardListIcon className={menuIconClass}/>
+              {t('account.menu.notes')}
+            </div>
+          }
+        />
       </div>
       <Container className='flex-grow max-w-9xl'>
           <Switch>
             <Route path='/account/calendar' render={() => <AccountClendar userId={parseInt(userId as string)}/>}/>
             <Route path='/account/contacts' render={() => <AccountContacts userId={parseInt(userId as string)} username={username}/>}/>
+            <Route path='/account/notes' render={() => <AccountNotes userId={parseInt(userId as string)} username={username}/>}/>
           </Switch>
       </Container>
     </div>

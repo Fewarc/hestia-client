@@ -3,10 +3,12 @@ import alerts from "./AlertsReducer";
 import user from "./UserReducer";
 import notifications from "./NotificationsReducer";
 import messages from "./MessageReducer"
+import events from "./EventsReducer"
 
 export default combineReducers({
   alerts,
   user,
   notifications,
-  messages
+  messages,
+  events
 });

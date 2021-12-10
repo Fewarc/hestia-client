@@ -1,7 +1,6 @@
 import ActionTypes from "../constants/ActionTypes";
 import { UserType } from "../interfaces/UserInterface";
 
-
 export const UserState: UserType | null = null;
 
 type UserAction = 
