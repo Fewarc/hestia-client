@@ -10,8 +10,11 @@ module.exports = {
         "light-gray": "#FAFAFA",
 
         "error": "#FF1100",
+        "error-bg": "#FFB7B2",
         "info": "#008cff",
-        "warning": "#ffb300"
+        "info-bg": "#B2DCFF",
+        "warning": "#ffb300",
+        "warning-bg": "#FFE8B2"
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],

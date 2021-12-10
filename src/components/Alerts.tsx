@@ -8,9 +8,9 @@ import { XIcon } from "@heroicons/react/solid";
 import Button from "./Button";
 
 const typesOfAlerts = {
-  error: 'bg-error bg-opacity-30 border border-error text-error ',
-  warning: 'bg-warning bg-opacity-30 border border-warning text-warning ',
-  info: 'bg-info bg-opacity-30 border border-info text-info '
+  error: 'bg-error bg-error-bg border border-error text-error ',
+  warning: 'bg-warning bg-warning-bg border border-warning text-warning ',
+  info: 'bg-info bg-info-bg border border-info text-info '
 }
 
 const alertClass = classNames(

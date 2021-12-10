@@ -207,7 +207,8 @@ const translations = {
       },
 
       notes: {
-        save_note: 'save note'
+        save_note: 'save note',
+        note_saved: 'Note has been saved!'
       }
     }
   },
