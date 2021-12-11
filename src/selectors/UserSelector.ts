@@ -10,6 +10,13 @@ export const getUsername = createSelector(
   }
 );
 
+export const getUserId = createSelector(
+  [getUser],
+  (user) => {
+    return user?.id;
+  }
+);
+
 export const isUserLoggedIn = createSelector(
   [getUser],
   (user) => {

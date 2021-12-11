@@ -102,7 +102,7 @@ const AccountClendar: React.FC<CalendarInterface> = ({
           </div>
           {loading ? 
           <div className='flex-grow grid grid-cols-7 grid-rows-6 gap-2 mb-10'>
-          {[ ...Array(35) ].map(() => 
+          {[ ...Array(42) ].map(() => 
             <div className='w-full h-full bg-gray-100 rounded-md animate-pulse'></div>
           )}
           </div> :

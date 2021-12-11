@@ -57,8 +57,6 @@ const OffersPage: React.FC = () => {
     refetch: refetchThumbnails 
   } = useQuery(GET_THUMBNAILS, { errorPolicy: 'all' });
 
-  console.log(offerData, thumbnailData);
-
   useEffect(() => {
     (async () => {
       await refetchOffers();

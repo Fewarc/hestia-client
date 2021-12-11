@@ -210,6 +210,37 @@ const translations = {
         save_note: 'save note',
         note_saved: 'Note has been saved!',
         filter_events: 'filter events'
+      },
+
+      blog: {
+        blog: 'Blog',
+        search_posts: 'Search for posts',
+        your_posts: 'Your posts',
+        add_post: 'write a post',
+        most_recent: 'Most recent posts',
+        most_upvoted: 'Most upvoted posts',
+      },
+
+      blog_creation: {
+        title: 'title',
+        description: 'description',
+        tags: 'add tags',
+        create_new_post: 'Create new post',
+        tag_values: {
+          question: 'question',
+          info: 'info',
+          ad: 'ad',
+          job: 'job',
+          industrial: 'industrial',
+          residential: 'residential',
+          disposal: 'disposal',
+          rental: 'rental',
+          legal: 'legal',
+          issue: 'issue',
+          investment: 'investment'
+        },
+        publish: 'publish post',
+        post_created: 'Post has been created!'
       }
     }
   },

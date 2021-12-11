@@ -16,6 +16,7 @@ import OffersCreationPage from './pages/OfferCreationPage';
 import Footer from './components/Footer';
 import { useDispatch } from 'react-redux';
 import { userLogIn } from './actions/UserActions';
+import BlogCreationPage from './pages/BlogCreationPage';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ const App: React.FC = () => {
         <Route path="/blog" component={BlogPage}/>
         <Route path="/account" component={AccountPage}/>
         <Route path="/new-offer" component={OffersCreationPage}/>
+        <Route path="/new-post" component={BlogCreationPage}/>
       </Switch>
       <Footer />
     </Router>
