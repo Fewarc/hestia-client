@@ -219,6 +219,8 @@ const translations = {
         add_post: 'write a post',
         most_recent: 'Most recent posts',
         most_upvoted: 'Most upvoted posts',
+        search_results: 'Search results:',
+        no_data: 'No data :('
       },
 
       blog_creation: {
