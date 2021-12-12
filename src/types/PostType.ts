@@ -6,5 +6,6 @@ export type Post = {
   replyToId: number | null,
   tags: string,
   upvotes: number,
-  postedAt: Date
+  postedAt: Date,
+  comments: Post[]
 }

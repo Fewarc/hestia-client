@@ -81,7 +81,6 @@ const BlogPage: React.FC = () => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
-console.log(postsData);
 
   return (
     <Container>
@@ -107,7 +106,7 @@ console.log(postsData);
           </div>
         </div>
         {!!searchValue.length ?
-        <div className="mb-10">
+        <div className="relative mb-10">
           <div className='flex flex-col text-2xl font-black mt-20 mb-6'>
             {t('blog.search_results')}
           </div>
@@ -122,6 +121,11 @@ console.log(postsData);
                 id={post.id}
               />
             )}
+            {!postsData?.findPost?.length && !postsLoading &&
+              <div className="w-full text-center text-3xl mt-40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-300">
+                {t('blog.no_data')}
+              </div>
+            }
             {postsLoading && [ ...Array(15) ].map(() => renderBlogCardSkeleton())}
           </div>
         </div> : 

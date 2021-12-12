@@ -220,7 +220,7 @@ const translations = {
         most_recent: 'Most recent posts',
         most_upvoted: 'Most upvoted posts',
         search_results: 'Search results:',
-        no_data: 'No data :('
+        no_data: 'Sorry, no data found :('
       },
 
       blog_creation: {
@@ -243,6 +243,15 @@ const translations = {
         },
         publish: 'publish post',
         post_created: 'Post has been created!'
+      },
+
+      post: {
+        posted_at: 'Posted: ',
+        reply: 'Reply',
+        upvotes: 'Upvotes',
+        your_reply: 'Your reply',
+        publish: 'publish',
+        close: 'close'
       }
     }
   },
