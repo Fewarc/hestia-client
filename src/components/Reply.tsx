@@ -47,6 +47,7 @@ const Reply: React.FC<ReplyProps> = ({
         }
       });
       onPublish && onPublish();
+      onClose && onClose();
     }
   }
 

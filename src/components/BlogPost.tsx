@@ -12,6 +12,7 @@ import Button from "./Button";
 import Container from "./Container";
 import Reply from "./Reply";
 import Spinner from "./Spinner";
+import Comment from "./Comment";
 
 const BlogPost: React.FC = () => {
   const { t } = useTranslation();
@@ -85,8 +86,14 @@ const BlogPost: React.FC = () => {
                   replyToId={postId}
                 />
               }
-              <div className="flex flex-col">
-                {comments?.map(comment => comment.description)}
+              <div className="flex flex-col mt-10">
+                {comments?.map(comment => 
+                  <Comment 
+                    postId={postId} 
+                    onReplyPublish={() => refetchPost()}
+                    comment={comment}
+                  />
+                )}
               </div>
             </div>
           )
