@@ -55,7 +55,7 @@ const Reply: React.FC<ReplyProps> = ({
   
 
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex flex-col ${className} ${loading && 'pointer-events-none animate-pulse'}`}>
       <div className="text-sm mb-2">
         {t('post.your_reply')}
       </div>
@@ -73,7 +73,7 @@ const Reply: React.FC<ReplyProps> = ({
           type='primary'
           onClick={() => handlePublish()}
           children={t('post.publish')}
-          disabled={!replyValue.length}
+          disabled={!replyValue.length || !userId}
         />
       </div>
     </div>
