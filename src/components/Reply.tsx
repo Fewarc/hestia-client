@@ -12,8 +12,8 @@ interface ReplyProps {
   postId: number,
   replyToId: number,
   className?: string,
-  onPublish?: () => void
-  onClose?: () => void
+  onPublish: () => void
+  onClose: () => void
 }
 
 const Reply: React.FC<ReplyProps> = ({
@@ -46,10 +46,16 @@ const Reply: React.FC<ReplyProps> = ({
           replyToId: parseInt(replyToId.toString())
         }
       });
-      onPublish && onPublish();
-      onClose && onClose();
     }
   }
+
+  useEffect(() => {
+    if (data?.createPost) {
+      onPublish();
+      onClose();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);  
 
   console.log(data);
   

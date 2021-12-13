@@ -1,21 +1,28 @@
-import { ArrowUpIcon, ReplyIcon } from "@heroicons/react/outline";
+import { ReplyIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Post } from "../types/PostType";
 import Button from "./Button";
 import Reply from "./Reply";
+import UpvoteButton from "./UpvoteButton";
 
 interface CommentProps {
   postId: number,
+  userId: number,
   comment: Post,
   onReplyPublish: () => void,
+  onUpvote: () => void,
+  userUpvotes: number[],
   allComments: Post[]
 }
 
 const Comment: React.FC<CommentProps> = ({
   postId,
+  userId,
   comment,
   onReplyPublish,
+  onUpvote,
+  userUpvotes,
   allComments
 }) => {
   const { t } = useTranslation();
@@ -34,10 +41,11 @@ const Comment: React.FC<CommentProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <div>{comment.upvotes}</div>
-            <Button 
-              type='transparent'
-              onClick={() => null}
-              children={<ArrowUpIcon className="w-5 h-5 text-primary mb-0.5" />}
+            <UpvoteButton 
+              postId={parseInt(comment.id.toString())}
+              userUpvotes={userUpvotes}
+              userId={parseInt(userId.toString())}
+              onClick={() => onUpvote()}
             />
           </div>
           <Button 
@@ -62,9 +70,12 @@ const Comment: React.FC<CommentProps> = ({
             {replies?.map(commentReply => 
               <Comment 
                 postId={postId}
+                userId={userId}
                 comment={commentReply}
                 allComments={allComments}
                 onReplyPublish={() => onReplyPublish()}
+                onUpvote={() => onUpvote()}
+                userUpvotes={userUpvotes}
               />
             )}
           </div>

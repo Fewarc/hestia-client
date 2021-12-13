@@ -1,10 +1,8 @@
-import { ApolloError, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
-import { pushAlert } from "../actions/AlertsActions";
-import Config from "../constants/Config";
 import GET_POST from "../graphql/queries/getPost";
 import { Post } from "../types/PostType";
 import Button from "./Button";
@@ -18,6 +16,7 @@ import GET_USER_UPVOTES from "../graphql/queries/getUserUpvotes";
 import { getUserId } from "../selectors/UserSelector";
 import UpvoteButton from "./UpvoteButton";
 import { ReplyIcon } from "@heroicons/react/outline";
+import { handleError } from "../utility/ErrorUtils";
 
 const BlogPost: React.FC = () => {
   const { t } = useTranslation();
@@ -31,7 +30,7 @@ const BlogPost: React.FC = () => {
     errorPolicy: 'all'
   });
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
-  const { data: upvotesData, refetch: refetchUpvotes } = useQuery(GET_USER_UPVOTES, {
+  const { data: upvotesData, loading: upvotesLoading, refetch: refetchUpvotes } = useQuery(GET_USER_UPVOTES, {
     variables: {
       userId: userId
     },
@@ -41,26 +40,20 @@ const BlogPost: React.FC = () => {
   const post: Post = postData?.getPost;
   const comments: Post[] = post?.comments;
 
-  const handleError = (error: ApolloError | undefined) => {
-    if(error) {
-      dispatch(pushAlert({
-        type: Config.ERROR_ALERT,
-        message: new ApolloError(error).message
-      }));
-      console.log(JSON.stringify(error, null, 2));
-    }
+  const handleUpvote = () => {
+    refetchUpvotes();
+    refetchPost();
   }
 
   useEffect(() => {
-    handleError(postError);
+    handleError(postError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postError]);
-console.log(userUpvotes);
 
   return (
     <Container>
       <div className="pt-32">
-        {postLoading ?
+        {(postLoading || upvotesLoading) ?
           <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> :
           (post && 
             <div className="flex flex-col">
@@ -80,10 +73,10 @@ console.log(userUpvotes);
                 <div className="flex items-center gap-2">
                   <div>{post.upvotes}</div>
                   <UpvoteButton 
-                    postId={postId}
+                    postId={parseInt(postId)}
                     userUpvotes={userUpvotes}
-                    userId={userId}
-                    onClick={() => refetchUpvotes()}
+                    userId={parseInt(userId.toString())}
+                    onClick={() => handleUpvote()}
                   />
                 </div>
                 <Button 
@@ -105,9 +98,12 @@ console.log(userUpvotes);
                 {comments?.filter(comment => comment.replyToId === parseInt(postId)).map(comment => 
                   <Comment 
                     postId={postId} 
+                    userId={userId}
                     onReplyPublish={() => refetchPost()}
                     comment={comment}
                     allComments={comments}
+                    userUpvotes={userUpvotes}
+                    onUpvote={() => handleUpvote()}
                   />
                 )}
               </div>
