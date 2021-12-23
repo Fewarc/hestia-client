@@ -252,6 +252,18 @@ const translations = {
         your_reply: 'Your reply',
         publish: 'publish',
         close: 'close'
+      },
+
+      account_info: {
+        not_completed: 'not completed',
+        first_name: 'First name',
+        last_name: 'Last name',
+        email: 'E-mail',
+        account_role: 'Role',
+        rating: 'Rating',
+        agency: 'Agency',
+        not_joined: 'not joined',
+        none: 'none',
       }
     }
   },

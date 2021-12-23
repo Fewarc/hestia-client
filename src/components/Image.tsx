@@ -4,19 +4,19 @@ const Image: React.FC<{
   file: any,
   className?: string
 }> = ({
-  file,
+  // file,
   className
 }) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>();
   const reader = new FileReader();
-  const url = reader.readAsDataURL(file);
+  // const url = reader.readAsDataURL(file);
   reader.onloadend = () => {
     setImage(reader.result);
   }
 
   return (
     <div className={className}>
-      <img src={image as string} />
+      <img alt='' src={image as string} />
     </div>
   );
 }
