@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Config from "../constants/Config";
 import { UserType } from "../interfaces/UserInterface";
 import { getUserData } from "../selectors/UserSelector";
+import { parseDate } from "../utility/DateUtils";
 
 const LabeledField: React.FC<{
   label: string,
@@ -28,7 +29,7 @@ const LabeledField: React.FC<{
     );
 }
 
-const AccoutnInfo: React.FC = () => {
+const AccountInfo: React.FC = () => {
   const { t } = useTranslation();
   const user = useSelector<UserType, UserType>(state => getUserData(state));
 
@@ -37,15 +38,18 @@ const AccoutnInfo: React.FC = () => {
 
   return (
     <div className='w-full h-full p-10 pt-24'>
-      <div className='w-full h-full rounded-md shadow-md flex flex-col p-8'>
+      <div className='w-full h-full rounded-md shadow-md flex flex-col p-6'>
         <div className='text-3xl font-bold border-b border-gray-100 pb-4'>
           @{user.login}
         </div>
-        <div className='h-full flex flex-col justify-evenly'>
+        <div className='h-full flex flex-col justify-between pt-6'>
           <div className="flex gap-32"> 
             <LabeledField  label={t('account_info.first_name')} content={user.firstName} />
             <LabeledField  label={t('account_info.last_name')} content={user.lastName} />
             <LabeledField  label={t('account_info.email')} content={user.email} />
+          </div>
+          <div className="flex gap-32"> 
+          <LabeledField  label={t('account_info.age')} content={user.age?.toString()} />
           </div>
           <div className="flex gap-32"> 
             <LabeledField  label={t('account_info.account_role')} content={user.role} />
@@ -56,10 +60,18 @@ const AccoutnInfo: React.FC = () => {
               </div>
             }
           </div>
+          <div className="flex gap-32"> 
+            <LabeledField  label={t('account_info.country')} content={user.countryCode} />
+            <LabeledField  label={t('account_info.coordinates')} content={user.coordinates} />
+          </div>
+          <div className="flex gap-32"> 
+            <LabeledField  label={t('account_info.created')} content={parseDate(user.createdAt)} />
+            <LabeledField  label={t('account_info.updated')} content={parseDate(user.updatedAt)} />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default AccoutnInfo;
+export default AccountInfo;

@@ -264,6 +264,11 @@ const translations = {
         agency: 'Agency',
         not_joined: 'not joined',
         none: 'none',
+        age: 'Age',
+        country: 'Country',
+        coordinates: 'Coordinates',
+        created: 'Joined',
+        updated: 'Last update'
       }
     }
   },
