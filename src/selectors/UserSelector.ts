@@ -30,3 +30,10 @@ export const getUserNavbarData = createSelector(
     return { userId: user?.id, username: user?.login }
   }
 );
+
+export const getUserData = createSelector(
+  [getUser],
+  (user) => {
+    return user;
+  }
+);
