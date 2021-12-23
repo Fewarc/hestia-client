@@ -269,6 +269,14 @@ const translations = {
         coordinates: 'Coordinates',
         created: 'Joined',
         updated: 'Last update'
+      },
+
+      account_settings: {
+        first_name: 'First name',
+        last_name: 'Last name',
+        email: 'E-mail',
+        age: 'Age',
+        save: 'Save'
       }
     }
   },

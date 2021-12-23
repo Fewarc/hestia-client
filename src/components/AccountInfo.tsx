@@ -33,9 +33,6 @@ const AccountInfo: React.FC = () => {
   const { t } = useTranslation();
   const user = useSelector<UserType, UserType>(state => getUserData(state));
 
-  console.log(user);
-  
-
   return (
     <div className='w-full h-full p-10 pt-24'>
       <div className='w-full h-full rounded-md shadow-md flex flex-col p-6'>

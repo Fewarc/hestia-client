@@ -66,22 +66,24 @@ const SpinnerInput: React.FC<inputTypes> = ({
   if(!disabled) value = value.replace(/[^\d.-]/g, '');
 
   return (
-    <div className={`w-full flex ${inputClass} ${className} ${disabled && disabledClass}`}>
+    <div className="flex flex-col w-full">
       {label && <div className={labelClass}>{label}</div>}
-      <input 
-        id={id}
-        type={type}
-        value={value}
-        className='outline-none w-40'
-        spellCheck={false}
-        placeholder={placeholder}
-        onChange={(e: any) => onChange(e)}
-      />
-      <div className='flex flex-col gap-y-1 justify-evenly ml-1 text-primary relative w-4'>
-        <ChevronUpIcon className='w-4 h-4 cursor-pointer absolute top-0' onClick={onIncrement}/>
-        <ChevronDownIcon className='w-4 h-4 cursor-pointer absolute bottom-0' onClick={onDecrement}/>
+      <div className={`w-full flex justify-between ${inputClass} ${className} ${disabled && disabledClass}`}>
+        <input 
+          id={id}
+          type={type}
+          value={value}
+          className='outline-none w-40'
+          spellCheck={false}
+          placeholder={placeholder}
+          onChange={(e: any) => onChange(e)}
+        />
+        <div className='flex flex-col gap-y-1 justify-evenly ml-1 text-primary relative w-4'>
+          <ChevronUpIcon className='w-4 h-4 cursor-pointer absolute top-0' onClick={onIncrement}/>
+          <ChevronDownIcon className='w-4 h-4 cursor-pointer absolute bottom-0' onClick={onDecrement}/>
+        </div>
+        {willDisplayError && <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || Config.ERROR_ALERT}</div>}
       </div>
-      {willDisplayError && <div className={`${error ? '' : 'invisible'} ${errorClass}`}>{errorMessage || Config.ERROR_ALERT}</div>}
     </div>
   );
 }
