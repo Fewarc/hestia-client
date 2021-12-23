@@ -8,3 +8,11 @@ export const userLogIn = (user: UserType) => {
     console.error(error);
   }
 }
+
+export const userLogOut = () => {
+  try {
+    return { type: ActionTypes.LOG_OUT_USER, payload: null }
+  } catch (error) {
+    console.error(error);
+  }
+}

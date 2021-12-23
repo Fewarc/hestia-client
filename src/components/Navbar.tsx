@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { getUserNavbarData, isUserLoggedIn } from "../selectors/UserSelector";
 import { normalizePath } from "../utility/PathUtils";
@@ -10,6 +10,7 @@ import HestiaLogo from "./HestiaLogo";
 import classNames from "classnames";
 import Notifications from "./Notifications";
 import DropdownMenu from "./DropdownMenu";
+import { userLogOut } from "../actions/UserActions";
 
 const buttons = [
   'blog',
@@ -30,11 +31,17 @@ interface UserData {
 }
 
 const Navbar: React.FC = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const history = useHistory();
   const isLoggedIn = useSelector<boolean, boolean>(state => isUserLoggedIn(state));
   // const username = useSelector<string, string>(state => getUsername(state));
   const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
+
+  const handleUserLogOut = () => {
+    dispatch(userLogOut());
+    history.push('/');
+  }
 
   return (
     <div className="fixed w-full bg-white z-50">
@@ -75,7 +82,7 @@ const Navbar: React.FC = () => {
                   />
                   <Button 
                     type='transparent'
-                    onClick={() => null}
+                    onClick={() => handleUserLogOut()}
                     children={t('navbar.log_out')}
                   />
                 </div>
