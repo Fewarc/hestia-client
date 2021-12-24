@@ -100,6 +100,7 @@ const AccountSettings: React.FC = () => {
                 userId: user.id,
                 firstName: updateValues.firstName,
                 lastName: updateValues.lastName,
+                email: updateValues.email,
                 age: parseInt(updateValues.age.toString())
               }
             })}

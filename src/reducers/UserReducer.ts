@@ -20,8 +20,6 @@ export default (user: UserType | null = null, action: UserAction) => {
     }
 
     case ActionTypes.UPDATE_USER: {
-      console.log(action.payload);
-      
       return action.payload;
     }
 
