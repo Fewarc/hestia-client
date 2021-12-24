@@ -1,6 +1,8 @@
 import { ArrowsExpandIcon, CashIcon, LocationMarkerIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React from "react";
+import { useHistory } from "react-router-dom";
+import Button from "./Button";
 
 interface OfferCardTypes {
   className?: string,
@@ -39,7 +41,10 @@ const OfferCard: React.FC<OfferCardTypes> = ({
   offer,
   imageLink
 }) => {
+  const history = useHistory();
+
   if(offer.price === 1200) return null;
+
   return (
     <div className={className}>
       <div className={cardClass}>
@@ -47,7 +52,13 @@ const OfferCard: React.FC<OfferCardTypes> = ({
           <img src={imageLink} alt='offer_image' className={imageClass}/>
         </div>
         <div className='flex-grow p-3 flex flex-col justify-evenly'>
-          <div className='font-black text-lg'>{offer.title}</div>
+          <div>
+            <Button 
+              type="transparent"
+              onClick={() => history.push(`/offer/${offer.id}`)}
+              children={<div className='font-black text-lg'>{offer.title}</div>}
+            />
+          </div>
           <div className={rowClass}><LocationMarkerIcon className={iconClass}/> {offer.address}</div>
           <div className={rowClass}><CashIcon className={iconClass} /> {offer.price}{offer.currency}</div>
           <div className={rowClass}><ArrowsExpandIcon className={iconClass} /> {offer.area}m<sup>2</sup></div>

@@ -88,7 +88,7 @@ const OffersPage: React.FC = () => {
       <div className={`flex-grow mt-20 ${addMargin && '-mr-28'}`}>
         <div className='max-w-7xl flex mx-auto'>
 
-          <div>CATEGORY</div>{/** MENU HERE */}
+          <div>CATEGORY MENU</div>{/** MENU HERE */}
 
           <div className={offerContainer}>
             {isLoggedIn && 
@@ -118,7 +118,7 @@ const OffersPage: React.FC = () => {
               </div> :
               <div className='max-h-screen overflow-y-auto scrollbar-none'>
                 {offerData?.getOffers?.map((offer: any) => 
-                  <OfferCard 
+                  <OfferCard
                     offer={offer} 
                     imageLink={thumbnailData?.getThumbnails?.find((thumbnail: any) => parseInt(offer.id) === thumbnail.offerId)?.imageLink}
                   />)
