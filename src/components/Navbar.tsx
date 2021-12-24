@@ -40,6 +40,7 @@ const Navbar: React.FC = () => {
 
   const handleUserLogOut = () => {
     dispatch(userLogOut());
+    localStorage.removeItem('token');
     history.push('/');
   }
 

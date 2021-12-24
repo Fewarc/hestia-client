@@ -16,3 +16,11 @@ export const userLogOut = () => {
     console.error(error);
   }
 }
+
+export const updateUser = (user: UserType) => {
+  try {
+    return { type: ActionTypes.UPDATE_USER, payload: user }
+  } catch (error) {
+    console.error(error);
+  }
+}

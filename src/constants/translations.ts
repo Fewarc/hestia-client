@@ -276,7 +276,8 @@ const translations = {
         last_name: 'Last name',
         email: 'E-mail',
         age: 'Age',
-        save: 'Save'
+        save: 'Save',
+        success: 'Account data updated successfully!'
       }
     }
   },

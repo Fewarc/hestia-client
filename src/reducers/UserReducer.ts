@@ -5,7 +5,8 @@ export const UserState: UserType | null = null;
 
 type UserAction = 
 { type: typeof ActionTypes.LOG_IN_USER, payload: UserType } |
-{ type: typeof ActionTypes.LOG_OUT_USER, payload: UserType }
+{ type: typeof ActionTypes.LOG_OUT_USER, payload: UserType } |
+{ type: typeof ActionTypes.UPDATE_USER, payload: UserType }
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (user: UserType | null = null, action: UserAction) => {
@@ -16,6 +17,12 @@ export default (user: UserType | null = null, action: UserAction) => {
 
     case ActionTypes.LOG_OUT_USER: {
       return UserState;
+    }
+
+    case ActionTypes.UPDATE_USER: {
+      console.log(action.payload);
+      
+      return action.payload;
     }
 
     default:
