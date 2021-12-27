@@ -278,6 +278,33 @@ const translations = {
         age: 'Age',
         save: 'Save',
         success: 'Account data updated successfully!'
+      },
+
+      offer: {
+        categories: {
+          COMMERCIAL: 'commercial',
+          AGRICULTURAL: 'agricultural',
+          RESIDENTIAL: 'residential',
+          INDUSTRIAL: 'industrial',
+          RAW_LAND: 'raw land',
+          SPECIAL_USE: 'special use'
+        },
+        types: {
+          RENT: 'Rent',
+          DISPOSAL: 'Disposal'
+        },
+        about: 'About this offer',
+        at: 'at',
+        per_month: 'per month',
+        is_negotiable: 'Price is negotiable',
+        not_negotiable: 'Price is not negotiable',
+        created_at: 'Offer created: ',
+        category: 'Category: ',
+        area: 'Area: ',
+        floors: 'floors',
+        rooms: 'rooms',
+        is_furnished: 'This real estate is furnished',
+        not_furnished: 'This real estate is not furnished'
       }
     }
   },

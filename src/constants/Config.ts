@@ -23,6 +23,8 @@ const Config = {
 
   EVENT_INVITE_PREFIX: 'EVENT_INVITE/',
   CONTACTS_INVITE_PREFIX: 'CONTACTS_INVITE/',
+
+  RENT: 'RENT'
 }
 
 export default Config;

@@ -40,10 +40,7 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   }
 
-  console.log(image);
-  console.log(images.length);
-  
-  
+  if (!images || !images.length) return null; 
 
   return (
     <div className={`flex justify-evenly h-96 ${className}`}>
