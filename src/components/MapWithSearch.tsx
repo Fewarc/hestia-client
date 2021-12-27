@@ -48,8 +48,8 @@ const MapWithSearch: React.FC<mapProps> = ({
   onSelect
 }) => {
   const { isLoaded, loadError } = useLoadScript({
-  googleMapsApiKey: apiKey,
-  libraries
+    googleMapsApiKey: apiKey,
+    libraries
   });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onMapCLick = useCallback((event) => onClick(event), []);
@@ -75,7 +75,7 @@ const MapWithSearch: React.FC<mapProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if(loadError) return <div>Load error</div>; // remove string
+  if (loadError) return <div>Load error</div>; // remove string
 
   return (
     <div className={`relative ${containerClassName}`}>

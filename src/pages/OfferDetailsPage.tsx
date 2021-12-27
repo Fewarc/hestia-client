@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import Container from "../components/Container";
+import StaticMap from "../components/StaticMap";
 import Config from "../constants/Config";
 import GET_OFFER_DETAILS from "../graphql/queries/getOfferDetails";
 import { parseDate } from "../utility/DateUtils";
@@ -59,6 +60,11 @@ const OfferDetailsPage: React.FC = () => {
           <div className="mt-4">
             {offer?.description}
           </div>
+          <StaticMap 
+            lat={offer.lat}
+            lng={offer.lng}
+            className="h-map w-full mb-16 mt-10"
+          />
           <div className="text-3xl font-bold mt-10 mb-4">
             {t('offer.about')}
           </div>
