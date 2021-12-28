@@ -17,7 +17,8 @@ interface placeSearchProps {
     lat: number,
     lng: number
   }) => void
-  className?: string
+  className?: string,
+  addressValue?: string | null
 }
 
 const comboBoxClass = classNames(
@@ -37,7 +38,8 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
   onFocus,
   onSelect,
   panTo,
-  className
+  className,
+  addressValue
 }) => {
   const location = ({ lat: () => 0, lng: () => 0 } as google.maps.LatLng);
   const {
@@ -83,7 +85,7 @@ const PlaceSearch: React.FC<placeSearchProps> = ({
   return (
     <div className={`relative ${className} ${!ready && 'opacity-20 pointer-events-none'}`}>
       <TextArea 
-        value={value}
+        value={addressValue || value}
         onChange={e => {
           setValue(e.target.value); 
           setOpen(true); 

@@ -35,6 +35,9 @@ interface mapProps {
     lng: number,
     address: string
   }) => void,
+  center?: { lat: number, lng: number } | null,
+  address?: string | null,
+  panToLocation?: boolean
 }
 
 const MapWithSearch: React.FC<mapProps> = ({
@@ -45,7 +48,10 @@ const MapWithSearch: React.FC<mapProps> = ({
   searchBarClassName,
   onChange,
   onFocus,
-  onSelect
+  onSelect,
+  center,
+  address,
+  panToLocation = true
 }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey,
@@ -65,7 +71,7 @@ const MapWithSearch: React.FC<mapProps> = ({
   }, []);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
+    panToLocation && navigator.geolocation.getCurrentPosition((position) => {
       panTo({
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -85,12 +91,13 @@ const MapWithSearch: React.FC<mapProps> = ({
         onChange={onChange}
         onFocus={onFocus}
         className={searchBarClassName}
+        addressValue={address}
       />
       {isLoaded ? 
         <GoogleMap 
           mapContainerStyle={mapContainerStyle}
           zoom={zoom}
-          center={mapCenter}
+          center={center || mapCenter}
           options={options}
           onClick={onMapCLick}
           onLoad={onMapLoad}

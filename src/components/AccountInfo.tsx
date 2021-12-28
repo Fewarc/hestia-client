@@ -58,8 +58,8 @@ const AccountInfo: React.FC = () => {
             }
           </div>
           <div className="flex gap-32"> 
-            <LabeledField  label={t('account_info.country')} content={user.countryCode} />
-            <LabeledField  label={t('account_info.coordinates')} content={user.coordinates} />
+            {/* <LabeledField  label={t('account_info.country')} content={user.countryCode} /> */}
+            <LabeledField  label={t('account_info.coordinates')} content={user.address} />
           </div>
           <div className="flex gap-32"> 
             <LabeledField  label={t('account_info.created')} content={parseDate(user.createdAt)} />

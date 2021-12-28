@@ -266,7 +266,7 @@ const translations = {
         none: 'none',
         age: 'Age',
         country: 'Country',
-        coordinates: 'Coordinates',
+        coordinates: 'Address',
         created: 'Joined',
         updated: 'Last update'
       },
@@ -277,7 +277,8 @@ const translations = {
         email: 'E-mail',
         age: 'Age',
         save: 'Save',
-        success: 'Account data updated successfully!'
+        success: 'Account data updated successfully!',
+        based: 'Based in'
       },
 
       offer: {
