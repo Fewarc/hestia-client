@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Switch, useHistory } from "react-router";
 import { Route } from "react-router-dom";
 import AccountClendar from "../components/AccountCalendar";
+import AccountClients from "../components/AccountClients";
 import AccountInfo from "../components/AccountInfo";
 import AccountNotes from "../components/AccountNotes";
 import AccountContacts from "../components/AccountsContacts";
@@ -114,8 +115,9 @@ const AccountPage: React.FC = () => {
             <Route path='/account/calendar' render={() => <AccountClendar userId={parseInt(userId as string)}/>}/>
             <Route path='/account/contacts' render={() => <AccountContacts userId={parseInt(userId as string)} username={username}/>}/>
             <Route path='/account/notes' render={() => <AccountNotes userId={parseInt(userId as string)} username={username}/>}/>
-            <Route exact path='/account' render={() => <AccountInfo/>}/>
-            <Route exact path='/account/settings' render={() => <AccountSettings/>}/>
+            <Route exact path='/account' render={() => <AccountInfo />}/>
+            <Route exact path='/account/settings' render={() => <AccountSettings />}/>
+            <Route exact path='/account/clients' render={() => <AccountClients />}/>
           </Switch>
       </Container>
     </div>

@@ -285,6 +285,11 @@ const translations = {
         agency_name: 'Agency name'
       },
 
+      account_clients: {
+        filter_clients: 'filter clients',
+        filter_contacts: 'filter contacts',
+      },
+
       offer: {
         categories: {
           COMMERCIAL: 'commercial',
