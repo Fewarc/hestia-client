@@ -30,6 +30,7 @@ const AccountSettings: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector<UserType, UserType>(state => getUserData(state));
+  const userRole = user.role.toUpperCase();
   const [ updateUserData, { data: updateData, loading: updateLoading, error: updateError } ] = useMutation(UPDATE_USER_DATA, { errorPolicy: 'all' });
   const [updateValues, setUpdateValues] = useState<updateValuesProps>({
     firstName: user.firstName, 
@@ -67,7 +68,7 @@ const AccountSettings: React.FC = () => {
       {updateLoading && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />}
       <div className='w-full h-full rounded-md shadow-md flex flex-col justify-between p-6'>
         <div className="flex flex-col justify-evenly">
-          <div className="flex gap-16">
+          {userRole !== Config.ROLE_AGENCY && <div className="flex gap-16">
             <Input 
               label={t('account_settings.first_name')}
               type='text'
@@ -82,8 +83,15 @@ const AccountSettings: React.FC = () => {
               onChange={(e) => setUpdateValues({ ...updateValues, lastName: e.target.value })}
               className="border-opacity-100"
             />
-          </div> 
+          </div>}
           <div className="flex gap-16">
+            {userRole === Config.ROLE_AGENCY && <Input 
+              label={t('account_settings.agency_name')}
+              type='text'
+              value={updateValues.firstName}
+              onChange={(e) => setUpdateValues({ ...updateValues, firstName: e.target.value })}
+              className="border-opacity-100"
+            />}
             <Input 
               label={t('account_settings.email')}
               type='text'
@@ -91,7 +99,7 @@ const AccountSettings: React.FC = () => {
               onChange={(e) => setUpdateValues({ ...updateValues, email: e.target.value })}
               className="border-opacity-100"
             />
-            <SpinnerInput 
+            {userRole !== Config.ROLE_AGENCY && <SpinnerInput 
               label={t('account_settings.age')}
               willDisplayError={false}
               type='number'
@@ -100,7 +108,7 @@ const AccountSettings: React.FC = () => {
               onIncrement={() => setUpdateValues({ ...updateValues, age: parseInt(updateValues.age.toString()) + 1 })}
               onDecrement={() => setUpdateValues({ ...updateValues, age: parseInt(updateValues.age.toString()) - 1 })}
               className="border-opacity-100"
-            />
+            />}
           </div>
           <div className="flex flex-col">
             <div>{t('account_settings.based')}</div>

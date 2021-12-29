@@ -37,3 +37,10 @@ export const getUserData = createSelector(
     return user;
   }
 );
+
+export const getUserRole = createSelector(
+  [getUser],
+  (user) => {
+    return user.role;
+  }
+);

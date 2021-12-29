@@ -1,4 +1,4 @@
-import { CalendarIcon, ClipboardListIcon, CogIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/outline";
+import { CalendarIcon, ClipboardListIcon, CogIcon, PresentationChartLineIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,8 @@ import AccountContacts from "../components/AccountsContacts";
 import AccountSettings from "../components/AccountSettings";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { getUserNavbarData } from "../selectors/UserSelector";
+import Config from "../constants/Config";
+import { getUserNavbarData, getUserRole } from "../selectors/UserSelector";
 
 interface UserData {
   userId: string | undefined,
@@ -28,6 +29,7 @@ const AccountPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { userId, username } = useSelector<UserData, UserData>(state => getUserNavbarData(state));
+  const userRole = useSelector<string, string>(state => getUserRole(state)).toUpperCase();
 
   return (
     <div className='w-full h-full flex'>
@@ -82,6 +84,30 @@ const AccountPage: React.FC = () => {
             </div>
           }
         />
+        {userRole === Config.ROLE_AGENT && 
+          <Button 
+            type='transparent'
+            onClick={() => history.push('/account/clients')}
+            children={
+              <div className='flex items-center'>
+                <UserGroupIcon className={menuIconClass}/>
+                {t('account.menu.clients')}
+              </div>
+            }
+          />
+        }
+        {userRole === Config.ROLE_AGENCY && 
+          <Button 
+            type='transparent'
+            onClick={() => history.push('/account/agency')}
+            children={
+              <div className='flex items-center'>
+                <PresentationChartLineIcon className={menuIconClass}/>
+                {t('account.menu.agency')}
+              </div>
+            }
+          />
+        }
       </div>
       <Container className='flex-grow max-w-9xl'>
           <Switch>

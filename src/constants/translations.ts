@@ -145,7 +145,9 @@ const translations = {
           settings: 'settings',
           calendar: 'calendar',
           contacts: 'contacts',
-          notes: 'notes'
+          notes: 'notes',
+          clients: 'clients',
+          agency: 'agency'
         }
       },
 
@@ -268,7 +270,8 @@ const translations = {
         country: 'Country',
         coordinates: 'Address',
         created: 'Joined',
-        updated: 'Last update'
+        updated: 'Last update',
+        agency_name: 'Agency name'
       },
 
       account_settings: {
@@ -278,7 +281,8 @@ const translations = {
         age: 'Age',
         save: 'Save',
         success: 'Account data updated successfully!',
-        based: 'Based in'
+        based: 'Based in',
+        agency_name: 'Agency name'
       },
 
       offer: {

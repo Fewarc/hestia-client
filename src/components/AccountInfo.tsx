@@ -41,13 +41,14 @@ const AccountInfo: React.FC = () => {
         </div>
         <div className='h-full flex flex-col justify-between pt-6'>
           <div className="flex gap-32"> 
-            <LabeledField  label={t('account_info.first_name')} content={user.firstName} />
-            <LabeledField  label={t('account_info.last_name')} content={user.lastName} />
+            {user.role.toUpperCase() !== Config.ROLE_AGENCY && <LabeledField  label={t('account_info.first_name')} content={user.firstName} />}
+            {user.role.toUpperCase() === Config.ROLE_AGENCY && <LabeledField  label={t('account_info.agency_name')} content={user.firstName} />}
+            {user.role.toUpperCase() !== Config.ROLE_AGENCY && <LabeledField  label={t('account_info.last_name')} content={user.lastName} />}
             <LabeledField  label={t('account_info.email')} content={user.email} />
           </div>
-          <div className="flex gap-32"> 
-          <LabeledField  label={t('account_info.age')} content={user.age?.toString()} />
-          </div>
+          {user.role.toUpperCase() !== Config.ROLE_AGENCY && <div className="flex gap-32"> 
+            <LabeledField  label={t('account_info.age')} content={user.age?.toString()} />
+          </div>}
           <div className="flex gap-32"> 
             <LabeledField  label={t('account_info.account_role')} content={user.role} />
             {user.role === Config.ACCOUNT_NAME_AGENT && 
