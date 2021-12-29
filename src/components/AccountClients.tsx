@@ -11,6 +11,7 @@ import { UserType } from "../interfaces/UserInterface";
 import { getUserData } from "../selectors/UserSelector";
 import { handleError } from "../utility/ErrorUtils";
 import Button from "./Button";
+import ClientMeetings from "./ClientMeetings";
 import Input from "./Input";
 import SaleLevel from "./SaleLevel";
 import Spinner from "./Spinner";
@@ -79,12 +80,15 @@ const AccountClients: React.FC = () => {
                   />
                   <Button 
                     type="transparent"
-                    onClick={() => removeClient({
-                      variables: {
-                        agentId: user.id,
-                        clientId: parseInt(client.id.toString())
-                      }
-                    })}
+                    onClick={() => {
+                      removeClient({
+                        variables: {
+                          agentId: user.id,
+                          clientId: parseInt(client.id.toString())
+                        }
+                      });
+                      setClient(null);
+                    }}
                     children={<UserRemoveIcon className="w-5 h-5" />}
                     className="text-primary invisible group-hover:visible"
                   />
@@ -103,7 +107,7 @@ const AccountClients: React.FC = () => {
             />
             {contactsLoading || addLoading ?
               <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' /> :
-              contacts?.filter((contact: UserType) => !clients.some((singleContact: UserType) => singleContact.id === contact.id))?.map((contact: UserType) => 
+              contacts?.filter((contact: UserType) => !clients?.some((singleContact: UserType) => singleContact.id === contact.id))?.map((contact: UserType) => 
                 <div className="group cursor-pointer">
                   <div className="flex justify-between">
                     <div>
@@ -126,8 +130,13 @@ const AccountClients: React.FC = () => {
             }
           </div>
         </div>
-        <div className='inline-block w-full'>
-          {!!client && <SaleLevel />}
+        <div className='inline-block w-full h-full'>
+          {!!client && 
+            <div className="flex h-full">
+              <SaleLevel client={client} agentId={user.id}/>
+              <ClientMeetings />
+            </div>
+          }
         </div>
       </div>
     </div>

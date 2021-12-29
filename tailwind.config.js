@@ -24,7 +24,8 @@ module.exports = {
         violet: colors.violet,
         stone: colors.stone,
         slate: colors.slate,
-        emerald: colors.emerald
+        emerald: colors.emerald,
+        cyan: colors.cyan
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],

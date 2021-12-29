@@ -286,8 +286,18 @@ const translations = {
       },
 
       account_clients: {
+        sale_level: 'Client sale level',
         filter_clients: 'filter clients',
         filter_contacts: 'filter contacts',
+        sale: {
+          "0": 'Awareness',
+          "1": 'Interest',
+          "2": 'Consideration',
+          "3": 'Intent',
+          "4": 'Evaluation',
+          "5": 'Purchase',
+        },
+        update: 'Update sale level'
       },
 
       offer: {
