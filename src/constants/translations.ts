@@ -297,7 +297,9 @@ const translations = {
           "4": 'Evaluation',
           "5": 'Purchase',
         },
-        update: 'Update sale level'
+        update: 'Update sale level',
+        past: 'Past events',
+        future: 'Future events'
       },
 
       offer: {

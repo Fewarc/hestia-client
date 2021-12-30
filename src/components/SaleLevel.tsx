@@ -31,7 +31,7 @@ const SaleLevel: React.FC<SalesLevelProps> = ({
       clientId: parseInt(client.id.toString())
     }
   });
-  const [ updateSale, { data: updateData, error: updateError, loading: updateLoading } ] = useMutation(UPDATE_SALE, { errorPolicy: 'all' });
+  const [ updateSale, { data: updateData, error: updateError } ] = useMutation(UPDATE_SALE, { errorPolicy: 'all' });
   const saleLevel: number = data?.getSaleLevel;  
   const [updateSaleLevel, setUpdateSaleLevel] = useState<number>(saleLevel);
 
@@ -66,7 +66,7 @@ const SaleLevel: React.FC<SalesLevelProps> = ({
                 type='link'
                 onClick={() => setUpdateSaleLevel(index)}
                 children={t(`account_clients.sale.${index}`)}
-                className={`rounded-lg border-4 text-center h-full w-full ${ updateSaleLevel === index ? 'text-3xl' : 'text-xl text-dark-gray text-opacity-10 hover:text-opacity-30'} transform duration-300 font-black ${borderColors[index]} ${bgColors[index]}`}
+                className={`rounded-lg border-2 text-center h-full w-full ${ updateSaleLevel === index ? 'text-3xl' : 'text-xl text-dark-gray text-opacity-10 hover:text-opacity-30'} transform duration-300 font-black ${borderColors[index]} ${bgColors[index]}`}
               />
               <div className="w-7/12">
                 {updateSaleLevel === index && 

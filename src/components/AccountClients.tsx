@@ -134,7 +134,7 @@ const AccountClients: React.FC = () => {
           {!!client && 
             <div className="flex h-full">
               <SaleLevel client={client} agentId={user.id}/>
-              <ClientMeetings />
+              <ClientMeetings client={client} agentId={user.id} />
             </div>
           }
         </div>
