@@ -326,7 +326,8 @@ const translations = {
         floors: 'floors',
         rooms: 'rooms',
         is_furnished: 'This real estate is furnished',
-        not_furnished: 'This real estate is not furnished'
+        not_furnished: 'This real estate is not furnished',
+        filters: 'Offer filters'
       }
     }
   },

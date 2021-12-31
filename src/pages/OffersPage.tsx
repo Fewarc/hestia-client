@@ -8,12 +8,13 @@ import { usePixelBreakpoint } from "../utility/Hooks";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { isUserLoggedIn } from "../selectors/UserSelector";
-import { ApolloError, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import GET_OFFERS from "../graphql/queries/getOffers";
-import { pushAlert } from "../actions/AlertsActions";
-import Config from "../constants/Config";
 import OfferCard from "../components/OfferCard";
 import GET_THUMBNAILS from "../graphql/queries/getThumbnails";
+import { handleError } from "../utility/ErrorUtils";
+import { offerFilters } from "../interfaces/OfferData";
+import OffersFilterMenu from "../components/OffersFilterMenu";
 
 const iconClass = classNames(
   'w-10',
@@ -44,6 +45,19 @@ const OffersPage: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const addMargin = usePixelBreakpoint(1400);
+  const [offerFilters, setOfferFilters] = useState<offerFilters>({
+    priceLow: null,
+    priceHigh: null,
+    areaLow: null,
+    areaHigh: null,
+    offerType: null,
+    category: null,
+    furnished: null,
+    floor: null,
+    numberOfRooms: null,
+    negotiable: null,
+    address: null
+  })
   const { 
     data: offerData, 
     loading: offersLoading, 
@@ -56,6 +70,7 @@ const OffersPage: React.FC = () => {
     error: thumbnailError, 
     refetch: refetchThumbnails 
   } = useQuery(GET_THUMBNAILS, { errorPolicy: 'all' });
+  
 
   useEffect(() => {
     (async () => {
@@ -66,20 +81,8 @@ const OffersPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if(offerError) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(offerError).message
-      }));
-      console.log(JSON.stringify(offerError, null, 2));
-    }
-    if(thumbnailError) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(thumbnailError).message
-      }));
-      console.log(JSON.stringify(thumbnailError, null, 2));
-    }
+    handleError(offerError, dispatch);
+    handleError(thumbnailError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offerError, thumbnailError]);
 
@@ -88,7 +91,7 @@ const OffersPage: React.FC = () => {
       <div className={`flex-grow mt-20 ${addMargin && '-mr-28'}`}>
         <div className='max-w-7xl flex mx-auto'>
 
-          <div>CATEGORY MENU</div>{/** MENU HERE */}
+          <OffersFilterMenu filters={offerFilters} setFilters={(filters: offerFilters) => setOfferFilters(filters)}/>
 
           <div className={offerContainer}>
             {isLoggedIn && 
