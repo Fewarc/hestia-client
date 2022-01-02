@@ -211,7 +211,9 @@ const translations = {
       notes: {
         save_note: 'save note',
         note_saved: 'Note has been saved!',
-        filter_events: 'filter events'
+        filter_events: 'filter events',
+        event_desc: 'Event description',
+        event_part: 'Event partcipants'
       },
 
       blog: {

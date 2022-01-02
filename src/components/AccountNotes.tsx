@@ -1,4 +1,4 @@
-import { ApolloError, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,10 +9,13 @@ import Config from "../constants/Config";
 import SAVE_NOTE from "../graphql/mutations/saveNote";
 import GET_ALL_NOTES from "../graphql/queries/getAllNotes";
 import GET_ALL_EVENTS from "../graphql/queries/getAllUserEvents";
+import GET_PARTICIPANTS from "../graphql/queries/getEventParticipants";
+import { UserType } from "../interfaces/UserInterface";
 import { getUserEvents } from "../selectors/EventsSelector";
 import { getUserNotes } from "../selectors/NotesSelector";
 import { Event } from '../types/EventType';
 import { Note } from "../types/NoteType";
+import { handleError } from "../utility/ErrorUtils";
 import Button from "./Button";
 import Input from "./Input";
 import Spinner from "./Spinner";
@@ -40,14 +43,16 @@ const AccountNotes: React.FC<NotesInterface> = ({
     errorPolicy: 'all'
   });
   const [ saveNote, { data: saveData, loading: saveLoading, error: saveError } ] = useMutation(SAVE_NOTE, { errorPolicy: 'all' });
+  const [getParticipants, { data: participantsData, error: participantsError, loading: participantsLoading } ] = useLazyQuery(GET_PARTICIPANTS, { errorPolicy: 'all' });
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [event, setEvent] = useState<Event | null>(null);
   const [noteValue, setNoteValue] = useState<string>(''); 
   const [filterValue, setFilterValue] = useState<string>(''); 
-  const [event, setEvent] = useState<Event | null>(null);
   const notes = useSelector<Note[], Note[]>(state => getUserNotes(state));
   const events = useSelector<Event[], Event[]>(state => getUserEvents(state));
-  
+  const participants = participantsData?.getEventParticipants;
+
   useEffect(() => {
     if (eventsData?.getAllUserEvents) {
       dispatch(updateEvents(eventsData?.getAllUserEvents));
@@ -56,27 +61,10 @@ const AccountNotes: React.FC<NotesInterface> = ({
   }, [eventsData]);
 
   useEffect(() => {
-    if(eventsError) {
-      dispatch(pushAlert({
-        type: Config.ERROR_ALERT,
-        message: new ApolloError(eventsError).message
-      }));
-      console.log(JSON.stringify(eventsError, null, 2));
-    }
-    if(notesError) {
-      dispatch(pushAlert({
-        type: Config.ERROR_ALERT,
-        message: new ApolloError(notesError).message
-      }));
-      console.log(JSON.stringify(notesError, null, 2));
-    }
-    if(saveError) {
-      dispatch(pushAlert({
-        type: Config.ERROR_ALERT,
-        message: new ApolloError(saveError).message
-      }));
-      console.log(JSON.stringify(saveError, null, 2));
-    }
+    handleError(eventsError, dispatch);
+    handleError(notesError, dispatch);
+    handleError(saveError, dispatch);
+    handleError(participantsError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventsError, notesError, saveError]);
 
@@ -97,6 +85,17 @@ const AccountNotes: React.FC<NotesInterface> = ({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveData]);
+
+  useEffect(() => {
+    if (event?.id) {
+      getParticipants({
+        variables: {
+          eventId: parseInt(event.id.toString())
+        }
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
 
   return (
     <div className='w-full h-full p-10 pt-24'>
@@ -126,7 +125,7 @@ const AccountNotes: React.FC<NotesInterface> = ({
           }
         </div>
         <div className='inline-block w-full'>
-          {event && 
+          {event && !participantsLoading && !!participantsData && 
             <div className='p-4'>
               <div className='flex items-center mb-4'>
                 <div className='text-xl font-black'>{event?.eventName}</div>
@@ -147,6 +146,24 @@ const AccountNotes: React.FC<NotesInterface> = ({
                   </div>}
                   className='ml-4'
                 />
+              </div>
+              <div className="flex flex-col mb-4">
+                <div className="mb-2">
+                  {t('notes.event_desc')}
+                </div>
+                <div>
+                  {event.eventDescription}
+                </div>
+                <div className="mb-2 mt-2">
+                  {t('notes.event_part')}
+                </div>
+                <div className="flex gap-4">
+                  {participants?.map((participant: UserType) => 
+                    <div>
+                      @{participant.login}
+                    </div>
+                  )}
+                </div>
               </div>
               <TextArea 
                 value={noteValue}
