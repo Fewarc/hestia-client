@@ -64,7 +64,22 @@ const OffersPage: React.FC = () => {
     loading: offersLoading, 
     error: offerError, 
     refetch: refetchOffers 
-  } = useQuery(GET_OFFERS, { errorPolicy: 'all' });
+  } = useQuery(GET_OFFERS, { 
+    variables: {
+      content: offerFilters.content,
+      priceLow: offerFilters.priceLow ? parseInt(offerFilters.priceLow?.toString()) : null,
+      priceHigh: offerFilters.priceHigh ? parseInt(offerFilters.priceHigh?.toString()) : null,
+      areaLow: offerFilters.areaLow ? parseInt(offerFilters.areaLow?.toString()) : null,
+      areaHigh: offerFilters.areaHigh ? parseInt(offerFilters.areaHigh?.toString()) : null,
+      offerType: offerFilters.offerType,
+      category: offerFilters.category,
+      furnished: offerFilters.furnished,
+      negotiable: offerFilters.negotiable,
+      numberOfRooms: parseInt(offerFilters.numberOfRooms?.toString() || '0'),
+      address: offerFilters.address
+    },
+    errorPolicy: 'all' 
+  });
   const { 
     data: thumbnailData, 
     loading: thumbnailLoading, 
