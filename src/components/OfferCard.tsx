@@ -48,7 +48,7 @@ const OfferCard: React.FC<OfferCardTypes> = ({
   return (
     <div className={className}>
       <div className={cardClass}>
-        <div className='h-50'>
+        <div>
           <img src={imageLink} alt='offer_image' className={imageClass}/>
         </div>
         <div className='flex-grow p-3 flex flex-col justify-evenly'>

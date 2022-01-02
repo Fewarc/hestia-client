@@ -122,7 +122,7 @@ const OffersPage: React.FC = () => {
 
             {(offersLoading || thumbnailLoading) ? 
               <div className='max-h-screen overflow-y-auto scrollbar-none animate-pulse'>
-                {[ ...Array(6) ].map(_element => 
+                {[ ...Array(6) ].map(() => 
                   <div className='w-full h-36 mt-2 border-2 border-gray-100 rounded-md flex'>
                     <div className='w-52 h-full bg-gray-100'></div>
                     <div className='flex-grow flex flex-col justify-evenly px-2'>
