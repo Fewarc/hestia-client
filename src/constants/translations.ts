@@ -256,7 +256,9 @@ const translations = {
         upvotes: 'Upvotes',
         your_reply: 'Your reply',
         publish: 'publish',
-        close: 'close'
+        close: 'close',
+        offer: 'This post is related to',
+        this_offer: 'this offer'
       },
 
       account_info: {
@@ -318,6 +320,9 @@ const translations = {
           RENT: 'Rent',
           DISPOSAL: 'Disposal'
         },
+        related_posts: 'Blog posts related to this offer',
+        no_posts: 'There are currently no blog posts related to this offer',
+        ask: 'Ask about this offer in a blog post',
         about: 'About this offer',
         at: 'at',
         per_month: 'per month',

@@ -3,13 +3,19 @@ import { ChevronRightIcon } from "@heroicons/react/solid";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import Badge from "../components/Badge";
+import BlogPostCard from "../components/BlogPostCard";
+import Button from "../components/Button";
 import Carousel from "../components/Carousel";
 import Container from "../components/Container";
 import Spinner from "../components/Spinner";
 import StaticMap from "../components/StaticMap";
 import Config from "../constants/Config";
 import GET_OFFER_DETAILS from "../graphql/queries/getOfferDetails";
+import GET_OFFER_POSTS from "../graphql/queries/getOfferRelatedPosts";
+import { Post } from "../types/PostType";
+import { extractTags } from "../utility/BlogUtils";
 import { parseDate } from "../utility/DateUtils";
 import { handleError } from "../utility/ErrorUtils";
 
@@ -31,6 +37,7 @@ const BulletPoint: React.FC<{
 const OfferDetailsPage: React.FC = () => {
   const match = useRouteMatch<any>();
   const { t } = useTranslation();
+  const history = useHistory();
   const dispatch = useDispatch();
   const { data: offerData, loading: offerLoading, error: offerError } = useQuery(GET_OFFER_DETAILS, {
     variables: {
@@ -38,17 +45,25 @@ const OfferDetailsPage: React.FC = () => {
     },
     errorPolicy: 'all'
   });
+  const { data: postsData, loading: postsLoading, error: postsError } = useQuery(GET_OFFER_POSTS, {
+    variables: {
+      offerId: parseInt(match.params.offerId)
+    },
+    errorPolicy: 'all'
+  });
   const offer = offerData?.getOfferDetails;
+  const posts = postsData?.getOfferRelatedPosts;
 
   useEffect(() => {
     handleError(offerError, dispatch);
+    handleError(postsError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offerError]);
+  }, [offerError, postsError]);
 
   return (
     <Container>
-      <div className="w-full h-screen relative">
-        {offerLoading ?
+      <div className="w-full min-h-screen relative">
+        {offerLoading || postsLoading ?
         <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> :
         <div className="pt-24">
           <Carousel 
@@ -98,6 +113,38 @@ const OfferDetailsPage: React.FC = () => {
                 content={`${t('offer.created_at')} ${parseDate(offer.createdAt)}`}
               />
             </div>
+          </div>
+          {!!posts?.length ? 
+            <div className="text-3xl font-bold mt-10 mb-4">
+              {t('offer.related_posts')}
+            </div> :
+            <div className="text-3xl font-bold mt-10 mb-4">
+              {t('offer.no_posts')}
+            </div>
+          }
+          <div className="grid grid-cols-5 gap-2 mb-10">
+            {posts?.map((post: Post) => 
+              <BlogPostCard
+                title={post.title}
+                description={post.description}
+                tags={extractTags(post.tags).map(tag => <Badge content={tag} />)}
+                upvotes={post.upvotes}
+                date={post.postedAt}
+                id={post.id}
+              />
+            )}
+            </div>
+          <div className="flex w-full justify-center mb-10">
+            <Button 
+              type="primary"
+              onClick={() => history.push({
+                pathname: '/new-post',
+                state: {
+                  relatedOffer: parseInt(offer.id)
+                }
+              })}
+              children={t('offer.ask')}
+            />
           </div>
         </div>}
       </div>

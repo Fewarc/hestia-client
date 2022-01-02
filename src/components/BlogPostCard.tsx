@@ -1,6 +1,7 @@
 import { ArrowUpIcon } from "@heroicons/react/outline";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { parseDate } from "../utility/DateUtils";
 
 interface BlogPostProps {
   title: string,
@@ -31,7 +32,7 @@ const BlogPostCard: React.FC<BlogPostProps> = ({
         {tags}
       </div>
       <div className="flex justify-between text-sm font-bold mt-4">
-        <div>{`${new Date(date).getDate()}-${new Date(date).getMonth()}-${new Date(date).getFullYear()}`}</div>
+        <div>{`${parseDate(date)}`}</div>
         <div className='flex'>{upvotes}<ArrowUpIcon className='w-5 h-5' /></div>
       </div>
     </div>

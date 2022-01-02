@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import GET_POST from "../graphql/queries/getPost";
 import { Post } from "../types/PostType";
 import Button from "./Button";
@@ -22,6 +22,7 @@ import { parseDate } from "../utility/DateUtils";
 const BlogPost: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const history = useHistory();
   const { params: { postId } = {} } = useRouteMatch<any>();
   const userId = useSelector<number, number>(state => getUserId(state));
   const { data: postData, error: postError, loading: postLoading, refetch: refetchPost } = useQuery(GET_POST, {
@@ -67,6 +68,15 @@ const BlogPost: React.FC = () => {
               <div className="mt-4 flex gap-3">
                 {extractTags(post.tags).map(tag => <Badge content={tag} />)}
               </div>
+              {post.relatedOffer && <div className="flex gap-2 mt-10">
+                <div>{t('post.offer')}</div>
+                <Button 
+                  type="transparent"
+                  onClick={() => history.push(`/offer/${post.relatedOffer}`)}
+                  children={t('post.this_offer')}
+                  className="underline"
+                />
+              </div>}
               <div className="flex items-center gap-10 mt-8 font-bold">
                 <div className="flex gap-2">
                   <div>

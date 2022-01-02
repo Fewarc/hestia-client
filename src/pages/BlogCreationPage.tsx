@@ -2,7 +2,7 @@ import { ApolloError, useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { pushAlert } from '../actions/AlertsActions';
 import Badge from '../components/Badge';
 import BlogPostCard from '../components/BlogPostCard';
@@ -17,6 +17,7 @@ import { getTagValues, parseTags } from '../utility/BlogUtils';
 
 const BlogCreationPage: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation<any>();
   const [title, setTitle] = useState<string>('Your posts title');
   const [description, setDescription] = useState<string>('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
   const [addedTags, setAddedTags] = useState<string[]>([]);
@@ -35,6 +36,7 @@ const BlogCreationPage: React.FC = () => {
       console.log(JSON.stringify(error, null, 2));
     }
   }
+console.log(location.state);
 
   useEffect(() => {
     handleError(createError);
@@ -103,7 +105,8 @@ const BlogCreationPage: React.FC = () => {
                 userId: userId,
                 content: description,
                 title: title,
-                tags: parseTags(addedTags)
+                tags: parseTags(addedTags),
+                relatedOffer: location.state?.relatedOffer ? location.state.relatedOffer : null
               }
             })}
             children={

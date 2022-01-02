@@ -13,6 +13,7 @@ const GET_POST = gql`
       upvotes
       tags
       postedAt
+      relatedOffer
       comments {
         id
         replyToId

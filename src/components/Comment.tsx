@@ -29,7 +29,6 @@ const Comment: React.FC<CommentProps> = ({
   const { t } = useTranslation();
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
   const replies = allComments.filter(singleComment => singleComment.replyToId === parseInt(comment.id.toString()));
-console.log(comment);
 
   return (
     <div className={`w-full ${(!!replies.length && comment.replyToId === parseInt(postId.toString())) && 'mb-8'}`}>

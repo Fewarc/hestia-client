@@ -8,5 +8,6 @@ export type Post = {
   tags: string,
   upvotes: number,
   postedAt: Date,
-  comments: Post[]
+  comments: Post[],
+  relatedOffer: number | null
 }

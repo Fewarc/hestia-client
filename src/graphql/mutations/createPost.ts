@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 const CREATE_POST = gql`
-  mutation CreatePost($tags: String!, $userId: Float!, $content: String!, $title: String!, $postId: Int, $replyToId: Int) {
-    createPost(tags: $tags, userId: $userId, content: $content, title: $title, postId: $postId, replyToId: $replyToId)
+  mutation Mutation($tags: String!, $userId: Float!, $content: String!, $title: String!, $relatedOffer: Int, $replyToId: Int, $postId: Int) {
+    createPost(tags: $tags, userId: $userId, content: $content, title: $title, relatedOffer: $relatedOffer, replyToId: $replyToId, postId: $postId)
   }
 `;
 
