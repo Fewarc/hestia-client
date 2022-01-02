@@ -328,6 +328,21 @@ const translations = {
         is_furnished: 'This real estate is furnished',
         not_furnished: 'This real estate is not furnished',
         filters: 'Offer filters'
+      },
+
+      offer_filters: {
+        search_title: 'Search by title',
+        search_address: 'Search by address',
+        price_low: 'Minimum price',
+        price_high: 'Maximum price',
+        area_low: 'Minimum area',
+        area_high: 'Maximum area',
+        category: 'Real estate category',
+        type: 'Offer type',
+        furnished: 'Furnished',
+        negotiable: 'Negotiable price',
+        floor: 'Floor',
+        numberOfRooms: 'Minimum rooms'
       }
     }
   },

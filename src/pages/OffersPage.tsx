@@ -46,6 +46,7 @@ const OffersPage: React.FC = () => {
   const { t } = useTranslation();
   const addMargin = usePixelBreakpoint(1400);
   const [offerFilters, setOfferFilters] = useState<offerFilters>({
+    content: '',
     priceLow: null,
     priceHigh: null,
     areaLow: null,
@@ -71,7 +72,6 @@ const OffersPage: React.FC = () => {
     refetch: refetchThumbnails 
   } = useQuery(GET_THUMBNAILS, { errorPolicy: 'all' });
   
-
   useEffect(() => {
     (async () => {
       await refetchOffers();

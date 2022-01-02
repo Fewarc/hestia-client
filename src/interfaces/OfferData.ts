@@ -19,6 +19,7 @@ export interface offerData {
 }
 
 export interface offerFilters {
+  content: string | null,
   priceLow: number | null,
   priceHigh: number | null,
   areaLow: number | null,
