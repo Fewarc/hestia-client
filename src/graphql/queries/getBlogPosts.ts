@@ -8,6 +8,7 @@ const GET_BLOG_POSTS = gql`
         id
         replyToId
         ownerId
+        ownerUsername
         title
         upvotes
         tags
@@ -17,6 +18,7 @@ const GET_BLOG_POSTS = gql`
         id
         replyToId
         ownerId
+        ownerUsername
         title
         description
         upvotes
@@ -27,6 +29,7 @@ const GET_BLOG_POSTS = gql`
         id
         replyToId
         ownerId
+        ownerUsername
         title
         description
         upvotes

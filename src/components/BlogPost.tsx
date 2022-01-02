@@ -17,6 +17,7 @@ import { getUserId } from "../selectors/UserSelector";
 import UpvoteButton from "./UpvoteButton";
 import { ReplyIcon } from "@heroicons/react/outline";
 import { handleError } from "../utility/ErrorUtils";
+import { parseDate } from "../utility/DateUtils";
 
 const BlogPost: React.FC = () => {
   const { t } = useTranslation();
@@ -67,8 +68,13 @@ const BlogPost: React.FC = () => {
                 {extractTags(post.tags).map(tag => <Badge content={tag} />)}
               </div>
               <div className="flex items-center gap-10 mt-8 font-bold">
-                <div>
-                  {`${t('post.posted_at')}${new Date(post.postedAt).getDate()}-${new Date(post.postedAt).getMonth()}-${new Date(post.postedAt).getFullYear()}`}
+                <div className="flex gap-2">
+                  <div>
+                    {`${t('post.posted_at')}${parseDate(post.postedAt)}`}
+                  </div>
+                  <div>
+                    {`${t('post.posted_by')}@${post.ownerUsername}`}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div>{post.upvotes}</div>

@@ -1,6 +1,7 @@
 import { AtSymbolIcon, LocationMarkerIcon, UserIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { UserType } from "../interfaces/UserInterface";
 import Button from "./Button";
 
@@ -24,20 +25,23 @@ const AgencyCard: React.FC<AgencyCardProps> = ({
   className,
   agency
 }) => {
+  const history = useHistory();
+
   if (!agency.firstName) return null;
+
   const imageLink: string = `https://avatars.dicebear.com/api/initials/${agency.firstName.replaceAll(' ', '.')}.svg`;
 
   return (
     <div className={className}>
       <div className="w-full flex my-2 rounded-md shadow-md">
-        <div className='h-40'>
+        <div className='h-44'>
           <img src={imageLink} alt='agency_image' className="h-full w-full max-w-xxs rounded-l-md"/>
         </div>
         <div className="flex-grow p-3 flex flex-col justify-evenly">
           <div>
             <Button 
               type='transparent'
-              onClick={() => null}
+              onClick={() => history.push(`/agency/${agency.id}`)}
               children={<div className="font-black text-lg">{agency.firstName}</div>}
             />
           </div>

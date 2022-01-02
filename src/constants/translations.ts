@@ -251,6 +251,7 @@ const translations = {
 
       post: {
         posted_at: 'Posted: ',
+        posted_by: ' by ',
         reply: 'Reply',
         upvotes: 'Upvotes',
         your_reply: 'Your reply',
@@ -345,6 +346,14 @@ const translations = {
         negotiable: 'Negotiable price',
         floor: 'Floor',
         numberOfRooms: 'Minimum rooms'
+      },
+
+      agencies: {
+        filter: 'Filter agencies',
+        username: 'Username: ',
+        contact: 'Contact: ',
+        based_at: 'Based at: ',
+        contact_via_mail: 'Contact via email'
       }
     }
   },

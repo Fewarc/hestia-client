@@ -19,6 +19,7 @@ import { userLogIn } from './actions/UserActions';
 import BlogCreationPage from './pages/BlogCreationPage';
 import BlogPost from './components/BlogPost';
 import OfferDetailsPage from './pages/OfferDetailsPage';
+import AgencyDetailsPage from './pages/AgencyDetailsPage';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const App: React.FC = () => {
         <Route path="/new-offer" component={OffersCreationPage}/>
         <Route path="/new-post" component={BlogCreationPage}/>
         <Route path="/offer/:offerId" component={OfferDetailsPage}/>
+        <Route path="/agency/:agencyId" component={AgencyDetailsPage}/>
       </Switch>
       <Footer />
     </Router>

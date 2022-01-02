@@ -1,7 +1,7 @@
 import React from "react";
 
 interface containerTypes {
-  children: JSX.Element | JSX.Element[],
+  children?: JSX.Element | JSX.Element[],
   className?: string | undefined
 }
 

@@ -2,6 +2,7 @@ import { ReplyIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Post } from "../types/PostType";
+import { parseDate } from "../utility/DateUtils";
 import Button from "./Button";
 import Reply from "./Reply";
 import UpvoteButton from "./UpvoteButton";
@@ -28,6 +29,7 @@ const Comment: React.FC<CommentProps> = ({
   const { t } = useTranslation();
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
   const replies = allComments.filter(singleComment => singleComment.replyToId === parseInt(comment.id.toString()));
+console.log(comment);
 
   return (
     <div className={`w-full ${(!!replies.length && comment.replyToId === parseInt(postId.toString())) && 'mb-8'}`}>
@@ -36,8 +38,13 @@ const Comment: React.FC<CommentProps> = ({
           {comment.description}
         </div>
         <div className="flex items-center gap-6 mt-2 text-xs font-font">
-          <div>
-            {`${t('post.posted_at')}${new Date(comment.postedAt).getDate()}-${new Date(comment.postedAt).getMonth()}-${new Date(comment.postedAt).getFullYear()}`}
+          <div className="flex gap-2">
+            <div>
+              {`${t('post.posted_at')}${parseDate(comment.postedAt)}`}
+            </div>
+            <div>
+              {`${t('post.posted_by')}@${comment.ownerUsername}`}
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <div>{comment.upvotes}</div>

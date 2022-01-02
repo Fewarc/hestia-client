@@ -55,10 +55,7 @@ const Reply: React.FC<ReplyProps> = ({
       onClose();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);  
-
-  console.log(data);
-  
+  }, [data]);
 
   return (
     <div className={`flex flex-col ${className} ${loading && 'pointer-events-none animate-pulse'}`}>

@@ -6,6 +6,7 @@ const FIND_POSTS = gql`
       id
       replyToId
       ownerId
+      ownerUsername
       title
       description
       upvotes

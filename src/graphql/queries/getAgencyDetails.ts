@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-const GET_AGENCIES = gql`
-  query GetAgencies($searchPhrase: String!) {
-    getAgencies(searchPhrase: $searchPhrase) {
+const GET_AGENCY_DETAILS = gql`
+  query GetAgencyDetails($agencyId: Float!) {
+    getAgencyDetails(agencyId: $agencyId) {
       id
       login
       email
@@ -22,4 +22,4 @@ const GET_AGENCIES = gql`
   }
 `;
 
-export default GET_AGENCIES;
+export default GET_AGENCY_DETAILS;

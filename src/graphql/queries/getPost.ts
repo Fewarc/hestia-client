@@ -7,6 +7,7 @@ const GET_POST = gql`
       replyToId
       postId
       ownerId
+      ownerUsername
       title
       description
       upvotes
@@ -17,6 +18,7 @@ const GET_POST = gql`
         replyToId
         postId
         ownerId
+        ownerUsername
         title
         description
         upvotes

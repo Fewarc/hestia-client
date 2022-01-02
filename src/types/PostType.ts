@@ -3,6 +3,7 @@ export type Post = {
   title: string,
   description: string,
   ownerId: number,
+  ownerUsername: number | null,
   replyToId: number | null,
   tags: string,
   upvotes: number,
