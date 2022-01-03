@@ -19,5 +19,6 @@ export interface UserType {
   rating: number,
   agencyId: number,
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date,
+  lastLogIn: Date
 }

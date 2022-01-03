@@ -1,17 +1,18 @@
-import { ApolloError, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CheckIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { pushAlert } from "../actions/AlertsActions";
 import { updateNotifications } from "../actions/NotificationsActions";
 import Config from "../constants/Config";
+import ACCEPT_AGENCY_INVITE from "../graphql/mutations/acceptAgencyInvite";
 import ACCEPT_EVENT_INVITE from "../graphql/mutations/acceptEventInvite";
 import ACCEPT_INVITE from "../graphql/mutations/acceptInvite";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import DELETE_NOTIFICATIONS_OF_TYPE from "../graphql/mutations/deleteNotificationsOfType";
 import { NotificationType, typeOfNotification } from "../interfaces/NotificationInterface";
+import { handleError } from "../utility/ErrorUtils";
 import Button from "./Button";
 import Spinner from "./Spinner";
 
@@ -70,35 +71,26 @@ const Notification: React.FC<notificationType> = ({
   const [ deleteNotificationsOfType, { loading: allLoading, error: allError, data: allData } ] = useMutation(DELETE_NOTIFICATIONS_OF_TYPE, { errorPolicy: 'all' });
   const [ acceptUserInvite, { loading: acceptLoading, error: acceptError, data: acceptData } ] = useMutation(ACCEPT_INVITE, { errorPolicy: 'all' });
   const [ acceptEventInvite, { loading: eventLoading, error: eventError, data: eventData} ] = useMutation(ACCEPT_EVENT_INVITE, { errorPolicy: 'all' });
+  const [ acceptAgencyInvite, { loading: agencyLoading, error: agencyError, data: agencyData} ] = useMutation(ACCEPT_AGENCY_INVITE, { errorPolicy: 'all' });
   const notifiactionType: typeOfNotification = title.slice(0, -1) as typeOfNotification;
 
   useEffect(() => {
-    if(singleError) dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(singleError).message
-    }));
-    if(allError) dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(allError).message
-    }));
-    if(acceptError) dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(acceptError).message
-    }));
-    if(eventError) dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(eventError).message
-    }));
+    handleError(singleError, dispatch);
+    handleError(allError, dispatch);
+    handleError(acceptError, dispatch);
+    handleError(eventError, dispatch);
+    handleError(agencyError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleError, allError, acceptError]);
+  }, [singleError, allError, acceptError, eventError, agencyError]);
 
   useEffect(() => {
     if(singleData) dispatch(updateNotifications(singleData.deleteNotification));
     if(allData) dispatch(updateNotifications(allData.deleteAllNotifications));
     if(acceptData) dispatch(updateNotifications(acceptData.acceptInvite));
     if(eventData) dispatch(updateNotifications(eventData.acceptEventInvite));
+    if(agencyData) dispatch(updateNotifications(agencyData.acceptAgencyInvite));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleData, allData, acceptData, eventData]);
+  }, [singleData, allData, acceptData, eventData, agencyData]);
 
   const handleClick = (e: any) => {
     if(!node.current) return;
@@ -148,6 +140,16 @@ const Notification: React.FC<notificationType> = ({
           }
         });
         break;
+
+      case Config.AGENCY_INVITE_PREFIX:
+        acceptAgencyInvite({
+          variables: {
+            notificationId: parseInt((notification.id).toString()),
+            agencyId: notification.senderId,
+            agentId: notification.targetId,
+          }
+        });
+        break;
     }
   }
 
@@ -166,7 +168,7 @@ const Notification: React.FC<notificationType> = ({
       {open && (
         <div className={dropClass} ref={node}>
           <div className='relative' ref={dropNode}>
-            {(singleLoading || allLoading || acceptLoading || eventLoading) && <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-5 -translate-y-5 opacity-100' dimensionsClass='w-10 h-10'/>}
+            {(singleLoading || allLoading || acceptLoading || eventLoading || agencyLoading) && <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-5 -translate-y-5 opacity-100' dimensionsClass='w-10 h-10'/>}
             <div className={`${(singleLoading || allLoading) && 'opacity-20'}`}>
               <div className='flex justify-between'>
                 <div className='mb-2'>{title}</div>

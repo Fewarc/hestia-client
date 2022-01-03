@@ -363,7 +363,12 @@ const translations = {
         username: 'Username: ',
         contact: 'Contact: ',
         based_at: 'Based at: ',
-        contact_via_mail: 'Contact via email'
+        contact_via_mail: 'Contact via email',
+        invited: 'User has been invited ',
+        total_clients: 'Total clients: ',
+        agent_sales: `Agent's sales`,
+        last_log_in: 'Last log in: ',
+        your_employees: 'Your employees'
       }
     }
   },

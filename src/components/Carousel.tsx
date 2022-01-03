@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import Image from "./Image";
 
 interface ImageObject {
   imageLink: string
