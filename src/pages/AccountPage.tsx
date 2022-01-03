@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Switch, useHistory } from "react-router";
 import { Route } from "react-router-dom";
+import AccountAgency from "../components/AccountAgency";
 import AccountClendar from "../components/AccountCalendar";
 import AccountClients from "../components/AccountClients";
 import AccountInfo from "../components/AccountInfo";
@@ -118,6 +119,7 @@ const AccountPage: React.FC = () => {
             <Route exact path='/account' render={() => <AccountInfo />}/>
             <Route exact path='/account/settings' render={() => <AccountSettings />}/>
             <Route exact path='/account/clients' render={() => <AccountClients />}/>
+            <Route exact path='/account/agency' render={() => <AccountAgency />}/>
           </Switch>
       </Container>
     </div>

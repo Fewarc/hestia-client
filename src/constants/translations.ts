@@ -307,6 +307,11 @@ const translations = {
         future: 'Future events'
       },
 
+      account_agency: {
+        add_agents: 'Add agent',
+        search_agents: 'Search for agents'
+      },
+
       offer: {
         categories: {
           COMMERCIAL: 'commercial',

@@ -35,7 +35,7 @@ const AgencyDetailsPage: React.FC = () => {
         <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> :
         <div className="pt-24">
           <div className="flex gap-10">
-            <div className='h-96 w-96'>
+            <div className='h-80 w-80'>
               <img src={imageLink} alt='agency_image' className="h-full w-full rounded-md"/>
             </div>
             <div className="flex flex-col justify-evenly">

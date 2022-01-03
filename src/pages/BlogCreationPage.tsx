@@ -36,7 +36,6 @@ const BlogCreationPage: React.FC = () => {
       console.log(JSON.stringify(error, null, 2));
     }
   }
-console.log(location.state);
 
   useEffect(() => {
     handleError(createError);
