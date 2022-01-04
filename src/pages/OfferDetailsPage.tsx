@@ -1,9 +1,11 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { UserIcon } from "@heroicons/react/outline";
 import { ChevronRightIcon } from "@heroicons/react/solid";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import AgencyCard from "../components/AgencyCard";
 import Badge from "../components/Badge";
 import BlogPostCard from "../components/BlogPostCard";
 import Button from "../components/Button";
@@ -12,6 +14,7 @@ import Container from "../components/Container";
 import Spinner from "../components/Spinner";
 import StaticMap from "../components/StaticMap";
 import Config from "../constants/Config";
+import GET_AGENCY_DETAILS from "../graphql/queries/getAgencyDetails";
 import GET_OFFER_DETAILS from "../graphql/queries/getOfferDetails";
 import GET_OFFER_POSTS from "../graphql/queries/getOfferRelatedPosts";
 import { Post } from "../types/PostType";
@@ -51,14 +54,38 @@ const OfferDetailsPage: React.FC = () => {
     },
     errorPolicy: 'all'
   });
+  const [ getAgency, { data: agencyData, error: agencyError } ] = useLazyQuery(GET_AGENCY_DETAILS, { errorPolicy: 'all' });
+  const [ getAgent, { data: agentData, error: agentError } ] = useLazyQuery(GET_AGENCY_DETAILS, { errorPolicy: 'all' });
   const offer = offerData?.getOfferDetails;
   const posts = postsData?.getOfferRelatedPosts;
+  const agency = agencyData?.getAgencyDetails;
+  const agent = agentData?.getAgencyDetails;
 
   useEffect(() => {
     handleError(offerError, dispatch);
     handleError(postsError, dispatch);
+    handleError(agencyError, dispatch);
+    handleError(agentError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offerError, postsError]);
+  }, [offerError, postsError, agencyError, agentError]);
+
+  useEffect(() => {
+    if (offer?.agencyId) {
+      getAgency({
+        variables: {
+          agencyId: offer.agencyId
+        }
+      });
+    }
+    if (offer?.agentId) {
+      getAgent({
+        variables: {
+          agencyId: offer.agentId
+        }
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offer]);
 
   return (
     <Container>
@@ -104,7 +131,7 @@ const OfferDetailsPage: React.FC = () => {
                 content={`${offer.floor} ${t('offer.floors')}`}
               />}
               {!!offer.numberOfRooms && <BulletPoint 
-                content={`${offer.numberOfRooms} ${t('offer.rooms')}`}
+                content={`${offer.numberOfRooms} ${offer.numberOfRooms === 1 ? t('offer.room') : t('offer.rooms')}`}
               />}
               <BulletPoint 
                 content={offer.furnished ? t('offer.is_furnished') : t('offer.not_furnished')}
@@ -114,6 +141,29 @@ const OfferDetailsPage: React.FC = () => {
               />
             </div>
           </div>
+          {!!agency && 
+            <div className="flex flex-col">
+              <div className="text-3xl font-bold mt-10 mb-4">{t('offer.agency')}</div>
+              <AgencyCard agency={agency} />
+            </div>
+          }
+          {!!agent &&
+            <div className="flex items-center mt-10 mb-4 gap-4">
+              <div className="text-3xl font-bold ">{t('offer.contact_via')}</div>
+              <Button 
+                type='transparent'
+                onClick={() => history.push('/account/contacts')}
+                children={
+                  <div className="flex items-center gap-2 text-3xl text-primary">
+                    <UserIcon className="text-primary w-8 h-8" />
+                    <div>{!!agent.firstName && agent.firstName}</div>
+                    <div>{!!agent.lastName && agent.lastName},</div>
+                    <div>@{agent.login}</div>
+                  </div>
+                }
+              />
+            </div>
+          }
           {!!posts?.length ? 
             <div className="text-3xl font-bold mt-10 mb-4">
               {t('offer.related_posts')}
@@ -133,7 +183,7 @@ const OfferDetailsPage: React.FC = () => {
                 id={post.id}
               />
             )}
-            </div>
+          </div>
           <div className="flex w-full justify-center mb-10">
             <Button 
               type="primary"
@@ -145,7 +195,7 @@ const OfferDetailsPage: React.FC = () => {
               })}
               children={t('offer.ask')}
             />
-          </div>
+          </div>    
         </div>}
       </div>
     </Container>

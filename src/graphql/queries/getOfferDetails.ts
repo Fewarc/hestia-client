@@ -16,6 +16,8 @@ const GET_OFFER_DETAILS = gql`
       currency
       negotiable
       address
+      agencyId
+      agentId
       offerType
       lat
       lng

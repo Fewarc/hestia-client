@@ -14,13 +14,15 @@ import { getCurrencies, getOfferCategories, getOfferTypes, isOfferDataValid } fr
 import { offerData } from "../interfaces/OfferData";
 import { useDropzone } from "react-dropzone";
 import { XIcon } from "@heroicons/react/outline";
-import { ApolloError, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import CREATE_NEW_OFFER from "../graphql/mutations/createNewOffer";
 import { useDispatch, useSelector } from "react-redux";
 import { pushAlert } from "../actions/AlertsActions";
 import Spinner from "../components/Spinner";
 import { useHistory } from "react-router";
-import { getUserNavbarData } from "../selectors/UserSelector";
+import { getUserData, getUserNavbarData } from "../selectors/UserSelector";
+import { UserType } from "../interfaces/UserInterface";
+import { handleError } from "../utility/ErrorUtils";
 
 interface UserData {
   userId: string,
@@ -30,6 +32,7 @@ interface UserData {
 const OffersCreationPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const user = useSelector<UserType, UserType>(state => getUserData(state));
   const [offerData, setOfferData] = useState<offerData>({
     title: '',
     userId: useSelector<UserData, UserData>(state => getUserNavbarData(state)).userId,
@@ -65,13 +68,7 @@ const OffersCreationPage: React.FC = () => {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
   useEffect(() => {
-    if(error) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(error).message
-      }));
-      console.log(JSON.stringify(error, null, 2));
-    }
+    handleError(error, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
@@ -108,7 +105,9 @@ const OffersCreationPage: React.FC = () => {
         address: offerData.address,
         lat: offerData.coordinates.lat,
         lng: offerData.coordinates.lng,
-        files: images
+        files: images,
+        agencyId: user.role.toLocaleUpperCase() === Config.ROLE_AGENCY ? parseInt(user.id.toString()) : (user.role.toLocaleUpperCase() === Config.ROLE_AGENT ? parseInt(user.agencyId.toString()) : null),
+        agentId: user.role.toLocaleUpperCase() === Config.ROLE_AGENT ? parseInt(user.id.toString()) : null
       }})
     }else {
       dispatch(pushAlert({
@@ -265,7 +264,6 @@ const OffersCreationPage: React.FC = () => {
         <div className='flex flex-col mb-2 mt-8 w-11/12'>
           <div className=''>{t('offer_creation_page.images')}</div>
         </div>
-        {/* MIGHT MOVE IMAGE UPLOAD TO A SEPARATE COMPONENT */}
         <div className={`mt-2 border-2 p-2 cursor-pointer border-primary rounded-md w-full relative text-opacity-50 ${!images.length && 'h-32'}`} {...getRootProps()}>
           <input {...getInputProps()} />
           <div className='w-full h-full grid grid-cols-5 gap-2'>

@@ -336,11 +336,14 @@ const translations = {
         created_at: 'Offer created: ',
         category: 'Category: ',
         area: 'Area: ',
-        floors: 'floors',
+        floors: 'floor',
         rooms: 'rooms',
+        room: 'room',
         is_furnished: 'This real estate is furnished',
         not_furnished: 'This real estate is not furnished',
-        filters: 'Offer filters'
+        filters: 'Offer filters',
+        agency: 'This offer is operated by',
+        contact_via: 'Contact via operating agent: '
       },
 
       offer_filters: {
