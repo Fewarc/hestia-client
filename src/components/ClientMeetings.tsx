@@ -45,7 +45,12 @@ const ClientMeetings: React.FC<ClientsMeetingsProps> = ({
         {pastEvents?.map((pastEvent: any) => 
           <Button 
             type="transparent"
-            onClick={() => history.push('/account/notes')}
+            onClick={() => history.push({
+              pathname: '/account/notes',
+              state: {
+                meeting: pastEvent.eventName
+              }
+            })}
             children={
               <div className="flex flex-col items-start">
                 <div>{pastEvent.eventName}</div>
@@ -62,7 +67,12 @@ const ClientMeetings: React.FC<ClientsMeetingsProps> = ({
         {futureEvents?.map((futureEvent: any, index: number) => 
           <Button 
             type="transparent"
-            onClick={() => history.push('/account/notes')}
+            onClick={() => history.push({
+              pathname: '/account/notes',
+              state: {
+                meeting: futureEvent.eventName
+              }
+            })}
             children={
               <div className="flex flex-col items-start">
                 <div>{futureEvent.eventName}</div>

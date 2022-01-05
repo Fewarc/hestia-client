@@ -152,7 +152,10 @@ const OfferDetailsPage: React.FC = () => {
               <div className="text-3xl font-bold ">{t('offer.contact_via')}</div>
               <Button 
                 type='transparent'
-                onClick={() => history.push('/account/contacts')}
+                onClick={() => {
+                  history.push('/account/contacts')
+                  document.body.scrollIntoView({behavior: "smooth"});
+                }}
                 children={
                   <div className="flex items-center gap-2 text-3xl text-primary">
                     <UserIcon className="text-primary w-8 h-8" />

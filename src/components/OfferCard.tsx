@@ -55,7 +55,10 @@ const OfferCard: React.FC<OfferCardTypes> = ({
           <div>
             <Button 
               type="transparent"
-              onClick={() => history.push(`/offer/${offer.id}`)}
+              onClick={() => {
+                history.push(`/offer/${offer.id}`);
+                document.body.scrollIntoView({behavior: "smooth"});
+              }}
               children={<div className='font-black text-lg'>{offer.title}</div>}
             />
           </div>

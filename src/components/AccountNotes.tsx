@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { pushAlert } from "../actions/AlertsActions";
 import { updateEvents } from "../actions/EventsActions";
 import { updateNotes } from "../actions/NotesActions";
@@ -46,12 +47,20 @@ const AccountNotes: React.FC<NotesInterface> = ({
   const [getParticipants, { data: participantsData, error: participantsError, loading: participantsLoading } ] = useLazyQuery(GET_PARTICIPANTS, { errorPolicy: 'all' });
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const location = useLocation<any>();
   const [event, setEvent] = useState<Event | null>(null);
   const [noteValue, setNoteValue] = useState<string>(''); 
   const [filterValue, setFilterValue] = useState<string>(''); 
   const notes = useSelector<Note[], Note[]>(state => getUserNotes(state));
   const events = useSelector<Event[], Event[]>(state => getUserEvents(state));
   const participants = participantsData?.getEventParticipants;
+
+  useEffect(() => {
+    if (events && !!location.state.meeting) {
+      setEvent(events.find((event: Event) => event.eventName === location.state.meeting) || null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events]);
 
   useEffect(() => {
     if (eventsData?.getAllUserEvents) {
