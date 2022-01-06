@@ -311,7 +311,24 @@ const translations = {
 
       account_agency: {
         add_agents: 'Add agent',
-        search_agents: 'Search for agents'
+        search_agents: 'Search for agents',
+        statistics: 'Agency statistics',
+        offers: 'Offers operated by agency',
+        meetings: "Agent's scheduled meetings",
+        messages: 'Total messages sent by agents',
+        agents: 'Agents employees',
+        clients: 'Clients served',
+        sale: 'Sale levels sum',
+        category: {
+          "0": 'Agricultural',
+          "1": 'Residential',
+          "2": 'Commercial',
+          "3": 'Industrial',
+          "4": 'Raw land',
+          "5": 'Special use',
+        },
+        offer_categories: 'Offers by category',
+        raport: 'Generate raport'
       },
 
       offer: {
@@ -407,6 +424,12 @@ const translations = {
         raw_land: 'raw land',
         special_use: 'special use',
         back: 'Go back'
+      },
+
+      raport: {
+        part_1: 'statistics as of',
+        total_clients: 'with total clients of:',
+        agents: 'Agency agent employees'
       }
     }
   },

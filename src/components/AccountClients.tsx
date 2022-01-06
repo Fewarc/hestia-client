@@ -77,18 +77,16 @@ const AccountClients: React.FC = () => {
             style={{
               width: '210mm',
               backgroundColor: 'white',
-              // border: '1px gray solid',
             }}
             className="border-t border-l border-r border-gray-200 px-12 py-4 mt-32"
           >
             <div className="w-full text-center text-xl font-bold mb-8 mt-8">{t('contract.title')}</div>
             <div><span className="font-bold">{t('contract.i')}</span> {t('contract.part_1')} {parseDate(new Date())} {t('contract.part_2')}</div>
-            <div 
-              className="mt-4">
-                {client?.firstName || renderBlankSpace(10)} {' '}
-                {client?.lastName || renderBlankSpace(10)} {' '} {t('contract.part_3')} {' '}
-                {client?.address || renderBlankSpace(25)} {t('contract.part_4')} {' '} 
-                {client?.email || renderBlankSpace(15)} {t('contract.part_5')}
+            <div className="mt-4">
+              {client?.firstName || renderBlankSpace(10)} {' '}
+              {client?.lastName || renderBlankSpace(10)} {' '} {t('contract.part_3')} {' '}
+              {client?.address || renderBlankSpace(25)} {t('contract.part_4')} {' '} 
+              {client?.email || renderBlankSpace(15)} {t('contract.part_5')}
             </div>
             <div className="my-8 text-xl font-bold">{t('contract.and')}</div>
             <div>

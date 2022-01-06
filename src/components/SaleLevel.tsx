@@ -20,7 +20,6 @@ interface SalesLevelProps {
 const borderColors = getBorderColors();
 const bgColors = getBgColors();
 
-
 const SaleLevel: React.FC<SalesLevelProps> = ({
   client,
   agentId,

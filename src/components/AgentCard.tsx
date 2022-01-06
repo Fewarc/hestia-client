@@ -47,7 +47,7 @@ const AgentCard: React.FC<AgentCardProps> = ({
         </div>
         <div className="flex flex-col gap-2 mt-2">
           <div>{t('agencies.last_log_in')}</div>
-          <div>{`${parseDate(agent.lastLogIn)} ${new Date(agent.lastLogIn).getHours()}:${new Date(agent.lastLogIn).getMinutes()}`}</div>
+          <div>{`${parseDate(agent.lastLogIn)} ${new Date(agent.lastLogIn).getHours()}:${new Date(agent.lastLogIn).getMinutes() < 10 ? `0${new Date(agent.lastLogIn).getMinutes()}` : new Date(agent.lastLogIn).getMinutes()}`}</div>
         </div>
       </div>
       <div className="flex flex-col gap-1">
