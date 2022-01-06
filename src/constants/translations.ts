@@ -17,7 +17,7 @@ const translations = {
         offers: "offers",
         agencies: "agencies",
         blog: "blog",
-        my_account: "my accout",
+        my_account: "my account",
         log_out: "log out"
       },
 
@@ -304,7 +304,9 @@ const translations = {
         },
         update: 'Update sale level',
         past: 'Past events',
-        future: 'Future events'
+        future: 'Future events',
+        contract: 'Generate contract',
+        download: 'Donwload pdf'
       },
 
       account_agency: {
@@ -372,6 +374,39 @@ const translations = {
         agent_sales: `Agent's sales`,
         last_log_in: 'Last log in: ',
         your_employees: 'Your employees'
+      },
+
+      contract: {
+        title: 'REAL ESTATE PURCHASE AGREEMENT',
+        i: 'I. The Parties.',
+        part_1: 'Ths Real Estate Purchase Agreement ("Agreement") made on',
+        part_2: '("Effective Date") between:',
+        part_3: '("Buyer") with an address of',
+        part_4: ', and contact email of',
+        part_5: 'who agrees to buy',
+        and: 'AND',
+        part_6: '("Seller") with an address of',
+        part_7: ', and contact email of',
+        part_8: 'representing',
+        based_at: 'based at',
+        part_9: ', who agrees to sell and convey real and personal property as described in Sections II and III. Buyer and Seller shall be colectively known as the "Parties"',
+        ii: 'II. Legal Descriptions.',
+        part_10: 'The real property category: (check one)',
+        address: 'Street Address:',
+        tax: 'Tax Parcel Information:',
+        other_desc: 'Other Description:',
+        iii: 'III. Personal Property. ',
+        part_11: 'In addition to the real property described in Section II, the Seller shall include the following personal property:',
+        buyers_signature: "Buyer's signature",
+        sellers_signature: "Seller's signature",
+        agents_signature: "Agent's signature",
+        agricultural: 'agricultural',
+        residential: 'residential',
+        commercial: 'commercial',
+        industrial: 'industrial',
+        raw_land: 'raw land',
+        special_use: 'special use',
+        back: 'Go back'
       }
     }
   },

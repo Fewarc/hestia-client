@@ -13,7 +13,8 @@ import Spinner from "./Spinner";
 
 interface SalesLevelProps {
   client: UserType,
-  agentId: number
+  agentId: number,
+  generateContract: () => void
 }
 
 const borderColors = getBorderColors();
@@ -22,7 +23,8 @@ const bgColors = getBgColors();
 
 const SaleLevel: React.FC<SalesLevelProps> = ({
   client,
-  agentId
+  agentId,
+  generateContract
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -80,7 +82,7 @@ const SaleLevel: React.FC<SalesLevelProps> = ({
               </div>
             </div>
           )}
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-4 gap-20">
             <Button 
               type="primary"
               onClick={() => updateSale({
@@ -92,6 +94,11 @@ const SaleLevel: React.FC<SalesLevelProps> = ({
               })}
               children={t('account_clients.update')}
               disabled={saleLevel === updateSaleLevel}
+            />
+            <Button 
+              type="filled"
+              onClick={() => generateContract()}
+              children={t('account_clients.contract')}
             />
           </div>
         </div>
