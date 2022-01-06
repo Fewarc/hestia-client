@@ -23,7 +23,7 @@ import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { getBgColors } from "../utility/ClientsUtils";
 import { parseDate } from "../utility/DateUtils";
 import { downloadPdf } from "../utility/pdfUtils";
-
+import { normalizePath } from "../utility/PathUtils";
 
 type AgentType = {
   agent: UserType,
@@ -71,6 +71,7 @@ const AccountAgency: React.FC = () => {
   const stats = statsData?.getAgencyStats;
   const data = stats?.saleLevels.map((level: number, index: number) => ({ name: t(`account_clients.sale.${index}`), value: level }));
   const categories = stats?.offerCategories.map((category: number, index: number) => ({ name: t(`account_agency.category.${index}`), value: category }));
+  const agencyAlias = `${normalizePath(agency.firstName)}`;
 
   useEffect(() => {
     handleError(agentsError, dispatch);
@@ -124,7 +125,7 @@ const AccountAgency: React.FC = () => {
       </Modal>
       {stats && <Modal open={raportOpen} onClickAway={() => setRaportOpen(false)} capWidth={false}>
         <div className="p-10 flex flex-col justify-center items-center gap-10 max-h-screen overflow-y-auto">
-          <div id='contract' 
+          <div id={`${agencyAlias}`}
             style={{
               width: '210mm',
               backgroundColor: 'white',
@@ -218,7 +219,7 @@ const AccountAgency: React.FC = () => {
           <div className="flex justify-center items-center mt-8 gap-20">
             <Button 
               type="primary"
-              onClick={() => downloadPdf()}
+              onClick={() => downloadPdf(`${agencyAlias}`)}
               children={t('account_clients.download')}
             />
             <Button 

@@ -123,7 +123,7 @@ const AccountClients: React.FC = () => {
           <div className="flex justify-center items-center mt-8 gap-20">
             <Button 
               type="primary"
-              onClick={() => downloadPdf()}
+              onClick={() => downloadPdf('contract')}
               children={t('account_clients.download')}
             />
             <Button 
