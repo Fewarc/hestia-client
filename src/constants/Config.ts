@@ -1,5 +1,5 @@
 const Config = {
-  hestia: 'hestia',
+  hestia: 'estate',
   
   ERROR_ALERT: 'error',
   WARNING_ALERT: 'warning',

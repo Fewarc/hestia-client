@@ -8,7 +8,6 @@ const ACCEPT_EVENT_INVITE = gql`
       targetId
       content
       type
-      seen
     }
   }
 `;

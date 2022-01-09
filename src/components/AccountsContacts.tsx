@@ -1,9 +1,8 @@
-import { ApolloError, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { BackspaceIcon, MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { pushAlert } from "../actions/AlertsActions";
 import Config from "../constants/Config";
 import DELETE_NOTIFICATION from "../graphql/mutations/deleteNotification";
 import REMOVE_CONTACT from "../graphql/mutations/removeContact";
@@ -12,6 +11,7 @@ import FIND_USERS from "../graphql/queries/findUsers";
 import GET_CONTACTS from "../graphql/queries/getContacts";
 import GET_PENDING_INVITES from "../graphql/queries/getPendingInvites";
 import { UserType } from "../interfaces/UserInterface";
+import { handleError } from "../utility/ErrorUtils";
 import Button from "./Button";
 import Chat from "./Chat";
 import Input from "./Input";
@@ -50,28 +50,19 @@ const AccountContacts: React.FC<ContactsInterface> = ({
     if (chatUser && (chatUser.id === removeData?.removeContact?.id)) setChatUser(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [removeData]);
+console.log(pendingData);
 
   useEffect(() => {
     refetchPending();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteData, inviteData]);
 
-  const handleError = (error: ApolloError | undefined) => {
-    if(error) {
-      dispatch(pushAlert({
-      type: Config.ERROR_ALERT,
-      message: new ApolloError(error).message
-      }));
-      console.log(JSON.stringify(error, null, 2));
-    }
-  }
-
   useEffect(() => {
-    handleError(searchError);
-    handleError(inviteError);
-    handleError(deleteError);
-    handleError(contactsError);
-    handleError(removeError);
+    handleError(searchError, dispatch);
+    handleError(inviteError, dispatch);
+    handleError(deleteError, dispatch);
+    handleError(contactsError, dispatch);
+    handleError(removeError, dispatch);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchError, inviteError, deleteError, contactsError, removeError]);
 

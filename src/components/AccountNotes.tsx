@@ -56,7 +56,7 @@ const AccountNotes: React.FC<NotesInterface> = ({
   const participants = participantsData?.getEventParticipants;
 
   useEffect(() => {
-    if (events && !!location.state.meeting) {
+    if (events && !!location?.state?.meeting) {
       setEvent(events.find((event: Event) => event.eventName === location.state.meeting) || null);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

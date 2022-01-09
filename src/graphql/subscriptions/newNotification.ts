@@ -1,14 +1,13 @@
 import gql from "graphql-tag";
 
 const NEW_NOTIFICATION = gql`
-  subscription Subscription($userId: Float!) {
+  subscription NewNotification($userId: Float!) {
     newNotification(userId: $userId) {
-      id
-      senderId
-      targetId
-      content
       type
-      seen
+      content
+      targetId
+      senderId
+      id
     }
   }
 `;

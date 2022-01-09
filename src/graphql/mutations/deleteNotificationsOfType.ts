@@ -8,7 +8,6 @@ const DELETE_NOTIFICATIONS_OF_TYPE = gql`
       targetId
       content
       type
-      seen
     }
   }
 `;
