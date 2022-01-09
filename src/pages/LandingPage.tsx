@@ -1,18 +1,21 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import Logo from "../components/Logo";
 import Config from "../constants/Config";
+import { isUserLoggedIn } from "../selectors/UserSelector";
 
 const LandingPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const userLoggedIn = useSelector<boolean, boolean>(state => isUserLoggedIn(state));
 
   return (
     <Container>
-      <div className="pt-44 flex">
+      <div className="pt-44 flex justify-center">
         <div className="flex flex-col">
           <div className="flex items-center font-pacifico text-8xl text-primary">
             <Logo size='200' color="primary" />
@@ -33,7 +36,7 @@ const LandingPage: React.FC = () => {
             />
             <Button 
               type="primary"
-              onClick={() => history.push('/log-in')}
+              onClick={() => history.push(`${userLoggedIn ? '/account' : '/log-in'}`)}
               children={t('landing_page.log_in')}
               className="border-4"
             />

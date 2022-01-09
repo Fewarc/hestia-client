@@ -65,7 +65,7 @@ const AccountSettings: React.FC = () => {
 
   return (
     <div className='w-full h-full p-10 pt-24 relative'>
-      {updateLoading && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />}
+      {updateLoading && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" />}
       <div className='w-full h-full rounded-md shadow-md flex flex-col justify-between p-6'>
         <div className="flex flex-col justify-evenly">
           {userRole !== Config.ROLE_AGENCY && <div className="flex gap-16">
