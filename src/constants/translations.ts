@@ -38,7 +38,12 @@ const translations = {
           main_header_text: "... for agents, for clients, for ",
           main_everyone: "everyone",
           main_paragraph_text: "Discover the easiest way to run your agancy or search for real estate of your dreams.",
-        }
+        },
+        join_now: 'Join now',
+        log_in: 'Log in',
+        blog: 'blog posts',
+        agencies: 'cooperating agencies',
+        offers: 'real estate offers'
       },
 
       sign_up_page: {
