@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const GET_BLOG_POSTS = gql`
-  query GetBlogPagePosts($userId: Float!) {
+  query GetBlogPagePosts($userId: Float) {
     getBlogPagePosts(userId: $userId) {
       userPosts {
         description

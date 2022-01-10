@@ -11,14 +11,16 @@ interface UpvoteButtonProps {
   userUpvotes: number[],
   postId: number,
   userId: number,
-  onClick: () => void
+  onClick: () => void,
+  sizeClass?: string
 }
 
 const UpvoteButton: React.FC<UpvoteButtonProps> = ({
   userUpvotes,
   postId,
   userId,
-  onClick
+  onClick,
+  sizeClass = 'w-5 h-5'
 }) => {
   const dispatch = useDispatch();
   const [ upvote, { data: upvoteData, error: upvoteError, loading: upvoteLoading } ] = useMutation(UPVOTE_POST, { errorPolicy: 'all' });
@@ -61,12 +63,12 @@ const UpvoteButton: React.FC<UpvoteButtonProps> = ({
         <Button 
           type='transparent'
           onClick={() => handleOnClick(true)}
-          children={<ArrowDownIcon className="w-7 h-7 text-primary mt-0.5" />}
+          children={<ArrowDownIcon className={`text-primary mt-0.5 ${sizeClass}`} />}
         /> :
         <Button 
           type='transparent'
           onClick={() => handleOnClick(false)}
-          children={<ArrowUpIcon className="w-7 h-7 text-primary mt-0.5" />}
+          children={<ArrowUpIcon className={`text-primary mt-0.5 ${sizeClass}`} />}
         />
       }
     </div>

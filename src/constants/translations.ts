@@ -56,7 +56,7 @@ const translations = {
           title: Config.ACCOUNT_NAME_USER,
           content: 'For people that want to browse through the offers more effectively or ask some questions on the blog.',
           button_text: 'register new user',
-          pros: 'browse offers;contact with agents;use chat;send documents'
+          pros: 'browse offers;contact with agents;use chat;ask blog questions'
         },
         agent: {
           title: Config.ACCOUNT_NAME_AGENT,

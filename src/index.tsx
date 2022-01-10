@@ -23,10 +23,15 @@ import { createUploadLink } from 'apollo-upload-client';
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
+  uri: 'wss://localhost:4000/graphql',
   options: {
     reconnect: true
   }
+});
+
+window.addEventListener('beforeunload', () => {
+  // @ts-ignore - the function is private in typescript
+  wsLink.subscriptionClient.close();
 });
 
 const uploadLink = createUploadLink({

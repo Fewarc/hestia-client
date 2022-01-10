@@ -93,6 +93,7 @@ const BlogPost: React.FC = () => {
                     userUpvotes={userUpvotes}
                     userId={parseInt(userId.toString())}
                     onClick={() => handleUpvote()}
+                    sizeClass="w-7 h-7"
                   />
                 </div>
                 <Button 

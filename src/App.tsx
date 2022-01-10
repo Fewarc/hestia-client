@@ -34,7 +34,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <Helmet>
-        <title>Hestia</title>
+        <title>e-state</title>
       </Helmet>
       <Navbar />
       <Alerts />

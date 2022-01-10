@@ -50,7 +50,6 @@ const AccountContacts: React.FC<ContactsInterface> = ({
     if (chatUser && (chatUser.id === removeData?.removeContact?.id)) setChatUser(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [removeData]);
-console.log(pendingData);
 
   useEffect(() => {
     refetchPending();

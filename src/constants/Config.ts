@@ -1,5 +1,5 @@
 const Config = {
-  hestia: 'estate',
+  hestia: 'e-state',
   
   ERROR_ALERT: 'error',
   WARNING_ALERT: 'warning',

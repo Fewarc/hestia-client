@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
@@ -103,7 +104,8 @@ const OffersPage: React.FC = () => {
 
   return (
     <div className='w-full min-h-screen flex'>
-      <div className={`flex-grow mt-20 ${addMargin && '-mr-28'}`}>
+      {/* ${addMargin && '-mr-28} */}
+      <div className={`flex-grow mt-20 ${false && '-mr-28'}`}> 
         <div className='max-w-7xl flex mx-auto'>
 
           <OffersFilterMenu filters={offerFilters} setFilters={(filters: offerFilters) => setOfferFilters(filters)}/>
@@ -134,7 +136,7 @@ const OffersPage: React.FC = () => {
                   </div>
                 )}
               </div> :
-              <div className='max-h-screen overflow-y-auto scrollbar-none'>
+              <div className='max-h-screen overflow-y-auto scrollbar-none my-4'>
                 {offerData?.getOffers?.map((offer: any) => 
                   <OfferCard
                     offer={offer} 
@@ -147,7 +149,7 @@ const OffersPage: React.FC = () => {
 
         </div>
       </div>
-      <div className='flex-grow-0 w-28'>
+      {/* <div className='flex-grow-0 w-28'>
         <div className='h-full shadow-md flex items-center justify-evenly w-14 float-right'>
           <Button 
             type='transparent'
@@ -155,8 +157,8 @@ const OffersPage: React.FC = () => {
             children={<ChevronLeftIcon className={`${iconClass} ${mapOpen && 'rotate-180'}`}/>}
           />
         </div>
-          {/* GOOGLE MAP HERE IF OPEN */}
-      </div>
+         
+      </div> */}
     </div>
   );
 }

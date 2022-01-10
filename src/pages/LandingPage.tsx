@@ -30,7 +30,7 @@ const LandingPage: React.FC = () => {
           <div className="flex items-center text-4xl mt-32 justify-evenly">
             <Button 
               type="primary"
-              onClick={() => history.push('/sign-up')}
+              onClick={() => history.push(`${userLoggedIn ? '/account' : '/sign-up'}`)}
               children={t('landing_page.join_now')}
               className="border-4"
             />

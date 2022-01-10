@@ -13,7 +13,7 @@ import Input from "../components/Input";
 import Config from "../constants/Config";
 import FIND_POSTS from "../graphql/queries/findPosts";
 import GET_BLOG_POSTS from "../graphql/queries/getBlogPosts";
-import { getUserId } from "../selectors/UserSelector";
+import { getUserId, isUserLoggedIn } from "../selectors/UserSelector";
 import { Post } from "../types/PostType";
 import { extractTags } from "../utility/BlogUtils";
 
@@ -41,10 +41,11 @@ const BlogPage: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const userId = useSelector<number, number>(state => getUserId(state));
+  const userLoggedId = useSelector<boolean, boolean>(state => isUserLoggedIn(state));
   const [searchValue, setSearchValue] = useState<string>('');
   const { data: postData, error: postError, loading: postLoading, refetch: refetchBlogPosts } = useQuery(GET_BLOG_POSTS, {
     variables: {
-      userId: userId
+      userId: userId || null
     },
     errorPolicy: 'all'
   });
@@ -166,7 +167,7 @@ const BlogPage: React.FC = () => {
               {postLoading && [ ...Array(5) ].map(() => renderBlogCardSkeleton())}
             </div>
           </div>
-          <div>
+          {userLoggedId && <div>
             <div className='flex flex-col text-2xl font-black mt-20 mb-6'>
               {t('blog.your_posts')}
             </div>
@@ -193,7 +194,7 @@ const BlogPage: React.FC = () => {
                 />
               )}
             </div>
-          </div>
+          </div>}
         </div>}
       </div>
     </Container>
